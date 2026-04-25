@@ -3,7 +3,7 @@
 
     <apiVersion>66.0</apiVersion>
 
-    <description>After-save Flow. Sends an immediate Critical Stage Progression email to five fixed stakeholders when Opp_Probability__c changes to 75 or 90. Checks Bypass_Flow custom permission before executing. Part of the Orbit Opportunities notification suite - notification 2 of 14. SAL-2. Deploy to sandbox only - never production.</description>
+    <description>SAL-2 Critical Stage Progression Alert. Sends an immediate Orbit Opportunity notification when Opp_Probability__c changes into 75 or 90. Uses Salesforce_Base_URL Custom Label for production-safe record links. Production deployment approved only through governed release process.</description>
 
     <environments>Default</environments>
 
@@ -209,7 +209,7 @@
     </textTemplates>
 
     <textTemplates>
-        <description>Email body for the Critical Stage Progression alert. Contains all 16 payload fields from SAL-2 PRD Section 3.1. Previous Probability uses $Record__Prior.Opp_Probability__c - the native after-save prior-value system variable; no helper field required. Record link uses Opportunity_ID_18__c (CASESAFEID formula, deployed 25 Apr 2026) per Memory Pack FR-06. Sandbox URL is hardcoded - move to Custom Label Salesforce_Base_URL before production promotion (OD-02). MVP: all 16 field rows render unconditionally; blank fields display an empty value. Conditional blank-row suppression is a future enhancement.</description>
+        <description>Email body for the Critical Stage Progression alert. Contains all 16 payload fields from SAL-2 PRD Section 3.1. Previous Probability uses $Record__Prior.Opp_Probability__c - the native after-save prior-value system variable; no helper field required. Record link uses Opportunity_ID_18__c (CASESAFEID formula, deployed 25 Apr 2026) per Memory Pack FR-06. Record link base URL uses Custom Label Salesforce_Base_URL (OD-02 resolved). MVP: all 16 field rows render unconditionally; blank fields display an empty value. Conditional blank-row suppression is a future enhancement.</description>
         <name>Email_Body</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>CRITICAL STAGE PROGRESSION ALERT
@@ -234,7 +234,7 @@ Date of Next Action:         {!Get_Opportunity_Detail.Date_of_next_specific_acti
 Person Responsible:          {!Get_Opportunity_Detail.Person_responsible_for_next_action__c}
 
 View record in Salesforce:
-https://astrum--astrumpar.sandbox.my.salesforce.com/{!Get_Opportunity_Detail.Opportunity_ID_18__c}
+{!$Label.Salesforce_Base_URL}/{!Get_Opportunity_Detail.Opportunity_ID_18__c}
 
 ---
 This is an automated notification from Salesforce.
