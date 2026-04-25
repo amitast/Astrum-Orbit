@@ -1,0 +1,15 @@
+{
+  "mcpServers": {
+    "salesforce": {
+      "type": "stdio",
+      "command": "npx",
+      "args": [
+        "-y",
+        "@salesforce/mcp",
+        "--orgs",
+        "amit.kumar@astrumcro.com.astrumpar",
+        "--allow-non-ga-tools"
+      ]
+    }
+  }
+}

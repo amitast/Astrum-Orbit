@@ -1,0 +1,39 @@
+﻿# Salesforce local state
+.sfdx/
+.sf/
+.localdevserver/
+
+# Node dependencies
+node_modules/
+
+# Environment and secrets
+.env
+.env.*
+*.key
+*.pem
+*.crt
+*.p12
+*.json.enc
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# VS Code local workspace noise
+.vscode/.ropeproject/
+.vscode/settings.local.json
+
+# Coverage and test output
+coverage/
+.nyc_output/
+
+# Temporary files
+tmp/
+temp/
+.cache/

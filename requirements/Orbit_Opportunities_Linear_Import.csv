@@ -1,0 +1,656 @@
+Team,Title,Description,Priority,Status,Project,Labels,Assignee,Estimate,Due Date
+Salesforce,[Orbit Notification] New Opportunity Created,"## Summary
+Build the Salesforce notification requirement as a Linear-managed delivery item.
+
+## Business requirement
+The source requirement states that a notification should be sent when a new Opportunity is created, but it also notes that not all new Opportunities should trigger an email and asks whether the trigger can be button-based.
+
+Recommended approach:
+- Do not build this as a blanket automatic email.
+- Build a user-controlled send action from the Opportunity record.
+- Optionally restrict use to open Opportunities only.
+- Optionally prevent resend unless an approved override exists.
+
+## Recommended Salesforce design
+- **Pattern:** Manual Quick Action or button-launched Screen Flow on Opportunity record
+- **Trigger/Event:** Manual user-initiated send from Opportunity record after the Opportunity has been created and saved
+- **Send timing:** Immediate on button click
+- **Recipients:** rfp.rfi@astrumcro.com
+- **Suggested email subject:** `New Opportunity Submitted for Proposal Support. {!Opportunity.Name}`
+
+## Required email content fields
+- Opportunity Name
+- Account
+- Amount
+- Stage
+- Close Date
+- Owner
+- Opportunity Type
+- Salesforce record link
+
+## Acceptance criteria
+- Given a saved qualifying Opportunity, when the user clicks the send action, then one email is sent to the configured recipient.
+- Given the same Opportunity, when the user attempts a second send, then the system either blocks or logs the resend based on the agreed resend rule.
+
+## Dependencies / open questions
+- Confirm whether resend is allowed and who can use it.
+- Confirm whether the action should include a review/confirm screen before send.
+- Add sent date/time and sending user to the Opportunity or notification log.
+
+## Delivery notes
+- This issue was derived from the approved Orbit Opportunities Salesforce notification requirements specification.
+- Confirm all Salesforce API names during build.
+- Confirm whether a reusable notification log / queue object is needed for digest-based notifications.
+",Medium,Backlog,Orbit Opportunities Notifications,"salesforce,orbit-notifications,manual-action,clarification-needed",,,
+Salesforce,[Orbit Notification] Critical Stage Progression Alert,"## Summary
+Build the Salesforce notification requirement as a Linear-managed delivery item.
+
+## Business requirement
+Send an immediate email when an Opportunity progresses into a critical probability band.
+
+Entry criteria:
+- Opportunity is updated.
+- Probability changes from any previous value to 75% or 90%.
+- Do not send if the value remains unchanged.
+- Do not send on creation unless the business explicitly confirms that initial creation counts as progression.
+
+## Recommended Salesforce design
+- **Pattern:** Record-Triggered Flow on Opportunity update
+- **Trigger/Event:** Automatic when Opportunity Probability changes into 75% or 90%
+- **Send timing:** Immediate
+- **Recipients:** rfp.rfi@astrumcro.com, jordi.picas@astrumcro.com, cristina.lopes@astrumcro.com, anthony.gibson@astrumcro.com, vania.araujo@astrumcro.com
+- **Suggested email subject:** `Critical Stage Progression. {!Opportunity.Name} moved to {!Opportunity.Probability}`
+
+## Required email content fields
+- Account Name
+- Opportunity Code
+- Opportunity Name
+- Previous Probability
+- New Probability
+- Stage
+- Service Fees
+- Close Date
+- Study Countries
+- Therapeutic Area
+- Indication
+- Entities Providing Services
+- Next Specific Action
+- Date of Next Specific Action
+- Person Responsible for Next Specific Action
+- Salesforce record link
+
+## Acceptance criteria
+- Given an Opportunity with Probability 50%, when Probability changes to 75%, then one email is sent immediately.
+- Given an Opportunity already at 75%, when it is saved without a Probability change, then no email is sent.
+- Given an Opportunity moving from 75% to 90%, then a new email is sent immediately.
+
+## Dependencies / open questions
+- Confirm API names for the subject-matter fields included in the email.
+- Confirm whether initial creation at 75% or 90% should trigger the alert.
+
+## Delivery notes
+- This issue was derived from the approved Orbit Opportunities Salesforce notification requirements specification.
+- Confirm all Salesforce API names during build.
+- Confirm whether a reusable notification log / queue object is needed for digest-based notifications.
+",High,Backlog,Orbit Opportunities Notifications,"salesforce,orbit-notifications,immediate-alert",,,
+Salesforce,[Orbit Notification] Opportunity Stalled Alert,"## Summary
+Build the Salesforce notification requirement as a Linear-managed delivery item.
+
+## Business requirement
+Surface open Opportunities that appear stalled so leadership can intervene.
+
+Recommended qualifying logic:
+- Opportunity is open and not Closed Won / Closed Lost.
+- Either Stage or Probability has not changed for at least 30 days, OR
+- There is no recent activity based on the agreed activity proxy.
+
+Recommended design decision:
+- Use Date of Next Specific Action as the activity proxy if standard activity data is not reliable.
+
+## Recommended Salesforce design
+- **Pattern:** Scheduled Flow with bi-weekly digest email
+- **Trigger/Event:** Automatic scheduled evaluation of open Opportunities with no movement or no recent activity proxy
+- **Send timing:** Bi-weekly digest
+- **Recipients:** tom.frearson@astrumcro.com, catherine.canales@astrumcro.com
+- **Suggested email subject:** `Bi-Weekly Stalled Opportunities Digest`
+
+## Required email content fields
+- Account Name
+- Opportunity Code
+- Opportunity Name
+- Service Fees
+- Amount
+- Stage
+- Days in current Stage/Probability state
+- Days since last activity or agreed activity proxy
+- Close Date
+- Salesforce record link
+
+## Acceptance criteria
+- Given an open Opportunity with no stage/probability movement for 31 days, when the digest runs, then the Opportunity appears in the digest.
+- Given an Opportunity updated before the next digest run, then it no longer appears in the digest.
+
+## Dependencies / open questions
+- Critical clarification required on the activity proxy: LastActivityDate, Date of Next Specific Action, or custom date.
+- May require field history tracking or helper fields to track last Stage / Probability movement.
+- Digest should avoid repeatedly surfacing unchanged items within the same cycle unless business wants repetition.
+
+## Delivery notes
+- This issue was derived from the approved Orbit Opportunities Salesforce notification requirements specification.
+- Confirm all Salesforce API names during build.
+- Confirm whether a reusable notification log / queue object is needed for digest-based notifications.
+",Medium,Backlog,Orbit Opportunities Notifications,"salesforce,orbit-notifications,scheduled-digest,clarification-needed",,,
+Salesforce,[Orbit Notification] Opportunity Close Date Risk Alert,"## Summary
+Build the Salesforce notification requirement as a Linear-managed delivery item.
+
+## Business requirement
+Flag open Opportunities whose planned close date is within 90 days but whose readiness indicators suggest execution risk.
+
+Recommended qualifying logic:
+- Opportunity is open.
+- Close Date is within the next 90 days from run date.
+- At least one of the following is true:
+  - Probability is 50% or less
+  - Stage is before Verbal Award
+  - Date of Next Specific Action is more than 7 days in the past
+  - Service Fees = 0
+
+The digest should show exactly which readiness rule(s) failed for each Opportunity.
+
+## Recommended Salesforce design
+- **Pattern:** Scheduled Flow with weekly digest email
+- **Trigger/Event:** Automatic scheduled evaluation of open Opportunities closing within 90 days with incomplete readiness indicators
+- **Send timing:** Weekly digest
+- **Recipients:** tom.frearson@astrumcro.com, catherine.canales@astrumcro.com
+- **Suggested email subject:** `Weekly Close Date Risk Digest`
+
+## Required email content fields
+- Account Name
+- Opportunity Code
+- Opportunity Name
+- Service Fees
+- Close Date
+- Next Specific Action
+- Person Responsible for Next Specific Action
+- Latest Activity Date
+- Salesforce record link
+
+## Acceptance criteria
+- Given an open Opportunity within 90 days of Close Date and Service Fees = 0, when the digest runs, then it appears with the failed rule identified.
+- Given an Opportunity beyond the 90-day window, then it does not appear even if other risks exist.
+
+## Dependencies / open questions
+- Confirm which Stage values are considered before Verbal Award.
+- Confirm whether Latest Activity Date should use LastActivityDate or another source field.
+
+## Delivery notes
+- This issue was derived from the approved Orbit Opportunities Salesforce notification requirements specification.
+- Confirm all Salesforce API names during build.
+- Confirm whether a reusable notification log / queue object is needed for digest-based notifications.
+",High,Backlog,Orbit Opportunities Notifications,"salesforce,orbit-notifications,scheduled-digest,clarification-needed",,,
+Salesforce,[Orbit Notification] Opportunity Amount Change Alert,"## Summary
+Build the Salesforce notification requirement as a Linear-managed delivery item.
+
+## Business requirement
+Detect material Opportunity amount changes and include them in a daily digest.
+
+Qualifying logic:
+- Prior Service Fees is not blank.
+- If prior Service Fees < 250,000 and not zero, absolute delta >= 100,000.
+- If prior Service Fees >= 250,000 and < 500,000, absolute delta >= 250,000.
+- If prior Service Fees >= 500,000, absolute delta >= 350,000.
+
+Use absolute delta for qualification but show the signed delta in the digest.
+
+## Recommended Salesforce design
+- **Pattern:** Record-Triggered Flow to capture qualifying Service Fees changes plus a daily digest sender
+- **Trigger/Event:** Automatic when Service Fees changes materially based on the prior amount bucket
+- **Send timing:** Daily digest
+- **Recipients:** tom.frearson@astrumcro.com
+- **Suggested email subject:** `Daily Opportunity Amount Change Digest`
+
+## Required email content fields
+- Account Name
+- Opportunity Code
+- Opportunity Name
+- Old Service Fees
+- New Service Fees
+- Delta
+- Stage
+- Close Date
+- Owner
+- Salesforce record link
+
+## Acceptance criteria
+- Given prior Service Fees of 200,000 and new Service Fees of 310,000, when the daily digest runs, then the Opportunity appears in the digest.
+- Given prior Service Fees of 300,000 and new Service Fees of 510,000, then the Opportunity appears in the digest.
+- Given prior Service Fees of 600,000 and new Service Fees of 850,000, then the Opportunity does not appear because the delta does not meet the configured threshold.
+
+## Dependencies / open questions
+- Confirm Service Fees field API name and currency handling.
+- Decide whether multiple same-day changes should be shown as separate rows or as one net change per day.
+- Requires notification queue or log object for digest staging.
+
+## Delivery notes
+- This issue was derived from the approved Orbit Opportunities Salesforce notification requirements specification.
+- Confirm all Salesforce API names during build.
+- Confirm whether a reusable notification log / queue object is needed for digest-based notifications.
+",Medium,Backlog,Orbit Opportunities Notifications,"salesforce,orbit-notifications,scheduled-digest,change-log",,,
+Salesforce,[Orbit Notification] Opportunity Close Date Change Alert,"## Summary
+Build the Salesforce notification requirement as a Linear-managed delivery item.
+
+## Business requirement
+Highlight potentially risky close date slippage and frequent close date churn.
+
+Recommended qualifying logic:
+- New Close Date is pushed out by more than 60 days compared with old Close Date, OR
+- Close Date has been pushed out 3 or more times within the last 90 days.
+
+This requirement cannot be delivered robustly as a simple email alert because it depends on historical counts.
+
+## Recommended Salesforce design
+- **Pattern:** Record-Triggered Flow to log close date changes plus a weekly digest sender
+- **Trigger/Event:** Automatic when Close Date changes
+- **Send timing:** Weekly digest
+- **Recipients:** tom.frearson@astrumcro.com, catherine.canales@astrumcro.com
+- **Suggested email subject:** `Weekly Close Date Change Digest`
+
+## Required email content fields
+- Account Name
+- Opportunity Code
+- Opportunity Name
+- Previous Close Date
+- New Close Date
+- Number of date changes in rolling 90 days
+- Stage
+- Service Fees
+- Salesforce record link
+
+## Acceptance criteria
+- Given an Opportunity whose Close Date slips by 70 days, when the weekly digest runs, then it appears in the digest.
+- Given an Opportunity with a third push-out inside 90 days, then it appears even if the latest slip is less than 60 days.
+
+## Dependencies / open questions
+- Confirm whether only push-outs count or all Close Date changes count.
+- Confirm whether pulling the Close Date in should also alert.
+- Requires persistent change logging beyond a simple email alert.
+
+## Delivery notes
+- This issue was derived from the approved Orbit Opportunities Salesforce notification requirements specification.
+- Confirm all Salesforce API names during build.
+- Confirm whether a reusable notification log / queue object is needed for digest-based notifications.
+",Medium,Backlog,Orbit Opportunities Notifications,"salesforce,orbit-notifications,scheduled-digest,change-log,clarification-needed",,,
+Salesforce,[Orbit Notification] Opportunity Probability / Forecast Category Change Alert,"## Summary
+Build the Salesforce notification requirement as a Linear-managed delivery item.
+
+## Business requirement
+Track meaningful forecast movement and surface it in a weekly digest.
+
+Recommended default logic until business confirms the final rule:
+- Any downward Probability movement, OR
+- Any backward Forecast Category movement, OR
+- Any Probability / Forecast Category change during the last 30 days of the fiscal quarter.
+
+The digest should show whether the change was Probability, Forecast Category, or both.
+
+## Recommended Salesforce design
+- **Pattern:** Record-Triggered Flow to log qualifying Probability / Forecast Category changes plus a weekly digest sender
+- **Trigger/Event:** Automatic when Probability or Forecast Category changes materially
+- **Send timing:** Weekly digest
+- **Recipients:** tom.frearson@astrumcro.com, catherine.canales@astrumcro.com
+- **Suggested email subject:** `Weekly Forecast Movement Digest`
+
+## Required email content fields
+- Account Name
+- Opportunity Code
+- Opportunity Name
+- Old Forecast Value or Category
+- New Forecast Value or Category
+- Service Fees
+- Close Date
+- Stage
+- Salesforce record link
+
+## Acceptance criteria
+- Given Probability drops from 75% to 50%, when the weekly digest runs, then the Opportunity appears in the digest.
+- Given Forecast Category moves from Commit to Best Case, then the Opportunity appears in the digest.
+
+## Dependencies / open questions
+- Business must define what counts as a material change.
+- Confirm exact Forecast Category values in use.
+- Confirm whether upward late-quarter changes should also alert.
+
+## Delivery notes
+- This issue was derived from the approved Orbit Opportunities Salesforce notification requirements specification.
+- Confirm all Salesforce API names during build.
+- Confirm whether a reusable notification log / queue object is needed for digest-based notifications.
+",Medium,Backlog,Orbit Opportunities Notifications,"salesforce,orbit-notifications,scheduled-digest,change-log,clarification-needed",,,
+Salesforce,[Orbit Notification] Opportunity Missing Key Data Alert,"## Summary
+Build the Salesforce notification requirement as a Linear-managed delivery item.
+
+## Business requirement
+Run a weekly data-quality check and notify owners plus leadership where key data is missing or inconsistent.
+
+Checks listed in scope include:
+- Service Fees = 0
+- Probability blank
+- Award Date blank when Stage is Verbal Award or Contract Agreed, or Probability is 75% or 90%
+- Next Specific Action blank
+- Date of Next Specific Action blank
+- Person Responsible for Next Action blank
+- Is Funding Available blank
+- Indication blank
+- Number of Enrolled Participants blank
+- Study Countries blank
+- Number of Sites blank
+- Protocol Title blank
+- If Stage = Closed Won, Close Date must equal Contract Signed Date
+- If Stage has been or is Closed Won / Closed Lost, fields must not change after closure
+- RFP Received Date must be in the same calendar year as Opportunity Created Date
+- If Stage = Closed Won or Closed Lost, Close Date must not be in a future year
+
+Strong recommendation:
+- Treat post-close field lock requirements as validation / record lock controls, not just notifications.
+
+## Recommended Salesforce design
+- **Pattern:** Scheduled Flow with weekly digest email, supported by validation rules or record controls where prevention is stronger than notification
+- **Trigger/Event:** Automatic scheduled evaluation of open and closed Opportunities against missing-data and data-integrity checks
+- **Send timing:** Weekly digest
+- **Recipients:** Opportunity Owner, tom.frearson@astrumcro.com
+- **Suggested email subject:** `Weekly Opportunity Data Quality Digest`
+
+## Required email content fields
+- Account Name
+- Opportunity Code
+- Opportunity Name
+- Description of missing fields or failed checks
+- Salesforce record link
+
+## Acceptance criteria
+- Given an open Opportunity missing Next Specific Action, when the weekly digest runs, then the Opportunity appears with the missing field listed.
+- Given a Closed Won Opportunity where Close Date does not match Contract Signed Date, then the issue is surfaced in the digest or blocked by a stronger preventative control.
+
+## Dependencies / open questions
+- Final field list and API mapping required.
+- Confirm Stage values for Verbal Award and Contract Agreed.
+- Decide which checks must be blocked via validation rather than only notified.
+
+## Delivery notes
+- This issue was derived from the approved Orbit Opportunities Salesforce notification requirements specification.
+- Confirm all Salesforce API names during build.
+- Confirm whether a reusable notification log / queue object is needed for digest-based notifications.
+",High,Backlog,Orbit Opportunities Notifications,"salesforce,orbit-notifications,scheduled-digest,data-quality,clarification-needed",,,
+Salesforce,[Orbit Notification] Opportunity Closed Won Notification,"## Summary
+Build the Salesforce notification requirement as a Linear-managed delivery item.
+
+## Business requirement
+Send an immediate Closed Won email when an Opportunity first becomes Closed Won.
+
+Key rules:
+- Fire only once when Stage first changes to Closed Won.
+- Determine recipients using the agreed Business Category + Service Fees matrix.
+- Include the mandatory fixed line:
+  'If not already performed, a handover call will be scheduled with the relevant stakeholders following this email.'
+
+Note:
+- Current source logic only explicitly covers Business Category values Phase I Unit and Phase I-NIS.
+- Any other Business Category needs a confirmed routing rule before build.
+
+## Recommended Salesforce design
+- **Pattern:** Record-Triggered Flow on Stage change to Closed Won
+- **Trigger/Event:** Automatic when Opportunity Stage changes to Closed Won
+- **Send timing:** Immediate
+- **Recipients:** Dynamic recipient matrix by Business Category and Service Fees threshold, plus Opportunity Owner
+- **Suggested email subject:** `Closed Won. {!Opportunity.Name}`
+
+## Required email content fields
+- Account Name
+- Opportunity Code
+- Opportunity Name
+- Business Category
+- Service Fees
+- Total Fees
+- Project Start Work
+- Project End Work
+- Study Countries
+- Phase
+- Therapeutic Area
+- Indication
+- Number of Enrolled Participants
+- Number of Sites
+- Entities Providing Services
+- Salesforce record link
+
+## Acceptance criteria
+- Given a qualifying Phase I Unit Opportunity under the configured threshold, when Stage changes to Closed Won, then the email is sent to the correct recipient matrix.
+- Given a qualifying Phase I-NIS Opportunity above the configured threshold, when Stage changes to Closed Won, then the expanded matrix is used.
+- Given an Opportunity already Closed Won, when it is edited without Stage changing from a non-won state, then no duplicate email is sent.
+
+## Dependencies / open questions
+- Confirm Business Category picklist values and thresholds.
+- Confirm whether Service Fees and Total Fees are separate fields and both must be shown.
+- Build and test recipient matrix logic before deployment.
+
+## Delivery notes
+- This issue was derived from the approved Orbit Opportunities Salesforce notification requirements specification.
+- Confirm all Salesforce API names during build.
+- Confirm whether a reusable notification log / queue object is needed for digest-based notifications.
+",High,Backlog,Orbit Opportunities Notifications,"salesforce,orbit-notifications,immediate-alert,recipient-matrix",,,
+Salesforce,[Orbit Notification] Opportunity Closed Lost Review Notification,"## Summary
+Build the Salesforce notification requirement as a Linear-managed delivery item.
+
+## Business requirement
+Send an immediate review email when an Opportunity first becomes Closed Lost.
+
+Key rules:
+- Fire only once when Stage first changes to Closed Lost.
+- Determine recipients using the agreed Business Category + Service Fees matrix.
+- Use the same recipient-matrix approach as the Closed Won notification unless business says otherwise.
+
+## Recommended Salesforce design
+- **Pattern:** Record-Triggered Flow on Stage change to Closed Lost
+- **Trigger/Event:** Automatic when Opportunity Stage changes to Closed Lost
+- **Send timing:** Immediate
+- **Recipients:** Dynamic recipient matrix by Business Category and Service Fees threshold, plus Opportunity Owner
+- **Suggested email subject:** `Closed Lost Review. {!Opportunity.Name}`
+
+## Required email content fields
+- Account Name
+- Opportunity Code
+- Opportunity Name
+- Service Fees
+- Lost Reason
+- Close Date
+- Description
+- Salesforce record link
+
+## Acceptance criteria
+- Given a Phase I Unit Opportunity over the configured threshold, when Stage changes to Closed Lost, then the correct recipient matrix is used.
+- Given a Phase I-NIS Opportunity below the configured threshold, when Stage changes to Closed Lost, then the correct recipient matrix is used.
+- Given an Opportunity already Closed Lost, when it is edited without a new Stage transition, then no duplicate email is sent.
+
+## Dependencies / open questions
+- Confirm Lost Reason field/API.
+- Confirm fallback recipient logic for Business Categories not covered in the current source matrix.
+
+## Delivery notes
+- This issue was derived from the approved Orbit Opportunities Salesforce notification requirements specification.
+- Confirm all Salesforce API names during build.
+- Confirm whether a reusable notification log / queue object is needed for digest-based notifications.
+",High,Backlog,Orbit Opportunities Notifications,"salesforce,orbit-notifications,immediate-alert,recipient-matrix",,,
+Salesforce,[Orbit Notification] Large Opportunity Aged in Stage Alert,"## Summary
+Build the Salesforce notification requirement as a Linear-managed delivery item.
+
+## Business requirement
+Escalate large Opportunities that have remained at 50% Probability or below for more than 3 months.
+
+Recommended qualifying logic:
+- Business Category = Phase I Unit and Service Fees > 250,000 and Probability <= 50% for more than 3 months, OR
+- Business Category = Phase I-NIS and Service Fees > 500,000 and Probability <= 50% for more than 3 months.
+
+Important:
+- If the real business intent is time in Stage rather than time at low Probability, that must be corrected before build.
+
+## Recommended Salesforce design
+- **Pattern:** Scheduled Flow with weekly digest email
+- **Trigger/Event:** Automatic scheduled evaluation of high-value Opportunities aged at low Probability for more than 3 months
+- **Send timing:** Weekly digest
+- **Recipients:** tom.frearson@astrumcro.com, catherine.canales@astrumcro.com, Opportunity Owner
+- **Suggested email subject:** `Weekly Large Opportunity Aged-in-Stage Digest`
+
+## Required email content fields
+- Account Name
+- Opportunity Code
+- Opportunity Name
+- Service Fees
+- Stage
+- Probability
+- Close Date
+- Salesforce record link
+
+## Acceptance criteria
+- Given a Phase I Unit Opportunity with Service Fees 260,000 at 50% for 95 days, when the digest runs, then it appears in the digest.
+- Given a Phase I-NIS Opportunity with Service Fees 450,000, then it does not appear even if aged.
+
+## Dependencies / open questions
+- Requires a robust way to track when the Opportunity entered the low-probability state.
+- Confirm whether the rule is truly time at low Probability or time in Stage.
+
+## Delivery notes
+- This issue was derived from the approved Orbit Opportunities Salesforce notification requirements specification.
+- Confirm all Salesforce API names during build.
+- Confirm whether a reusable notification log / queue object is needed for digest-based notifications.
+",Medium,Backlog,Orbit Opportunities Notifications,"salesforce,orbit-notifications,scheduled-digest,aging-logic",,,
+Salesforce,[Orbit Notification] No Recent Activity on Open Opportunity Alert,"## Summary
+Build the Salesforce notification requirement as a Linear-managed delivery item.
+
+## Business requirement
+Notify stakeholders when an open Opportunity has no logged call, email, meeting, or task activity for more than 30 days.
+
+Recommended source field:
+- Use LastActivityDate if the Salesforce activity model is trusted in this org.
+
+Note:
+- This overlaps with the Stalled Alert. Keep both only if the business wants two distinct monitoring lenses:
+  1. pipeline movement
+  2. logged activity
+
+## Recommended Salesforce design
+- **Pattern:** Scheduled Flow with weekly digest email
+- **Trigger/Event:** Automatic scheduled evaluation of open Opportunities with no recent activity for more than 30 days
+- **Send timing:** Weekly digest
+- **Recipients:** tom.frearson@astrumcro.com, catherine.canales@astrumcro.com, Opportunity Owner
+- **Suggested email subject:** `Weekly No Recent Activity Digest`
+
+## Required email content fields
+- Account Name
+- Opportunity Code
+- Opportunity Name
+- Service Fees
+- Stage
+- Probability
+- Last Activity Date
+- Close Date
+- Salesforce record link
+
+## Acceptance criteria
+- Given an open Opportunity with no logged activity for 31 days, when the weekly digest runs, then it appears in the digest.
+- Given a closed Opportunity, then it never appears in the digest.
+
+## Dependencies / open questions
+- Confirm whether emails captured by Outlook / EAC count towards recent activity.
+- Confirm whether LastActivityDate is reliable enough for this logic.
+
+## Delivery notes
+- This issue was derived from the approved Orbit Opportunities Salesforce notification requirements specification.
+- Confirm all Salesforce API names during build.
+- Confirm whether a reusable notification log / queue object is needed for digest-based notifications.
+",Medium,Backlog,Orbit Opportunities Notifications,"salesforce,orbit-notifications,scheduled-digest,activity-monitoring",,,
+Salesforce,[Orbit Notification] Project Code or Change Order Issue Alert,"## Summary
+Build the Salesforce notification requirement as a Linear-managed delivery item.
+
+## Business requirement
+Notify on Opportunity records with project code issues or Change Order classification.
+
+Qualifying logic:
+- Opportunity Code is blank, OR
+- Opportunity Code does not match format AAA####, meaning exactly three letters followed by four digits, OR
+- Business Type = Change Order
+
+Recommended implementation note:
+- If regex evaluation is difficult in Flow alone, use a helper formula or validation helper field.
+
+## Recommended Salesforce design
+- **Pattern:** Scheduled Flow with weekly digest email
+- **Trigger/Event:** Automatic scheduled evaluation of Opportunity Code quality and Change Order conditions
+- **Send timing:** Weekly digest
+- **Recipients:** tom.frearson@astrumcro.com
+- **Suggested email subject:** `Weekly Project Code / Change Order Digest`
+
+## Required email content fields
+- Account Name
+- Opportunity Code
+- Opportunity Name
+- Service Fees
+- Stage
+- Probability
+- Close Date
+- Salesforce record link
+
+## Acceptance criteria
+- Given Opportunity Code AB1234, when the digest runs, then the Opportunity appears because the code format is invalid.
+- Given Opportunity Code ABC1234, then it does not appear for code format alone.
+- Given Business Type = Change Order, then the Opportunity appears regardless of code quality.
+
+## Dependencies / open questions
+- Confirm exact Business Type picklist value for Change Order.
+- Confirm whether lowercase letters are allowed or code must be uppercase only.
+
+## Delivery notes
+- This issue was derived from the approved Orbit Opportunities Salesforce notification requirements specification.
+- Confirm all Salesforce API names during build.
+- Confirm whether a reusable notification log / queue object is needed for digest-based notifications.
+",Medium,Backlog,Orbit Opportunities Notifications,"salesforce,orbit-notifications,scheduled-digest,data-quality",,,
+Salesforce,[Orbit Notification] Quote Closed Won Notification,"## Summary
+Build the Salesforce notification requirement as a Linear-managed delivery item.
+
+## Business requirement
+The source row is ambiguous.
+
+Current ambiguity:
+- Requirement title references a Quote Closed Won notification.
+- Trigger wording references sending when the Opportunity is marked Closed Won.
+
+Do not build until the following are clarified:
+- Is the trigger Opportunity = Closed Won, Quote = Accepted, Primary Quote = true, or another Quote status event?
+- Which related Quote should be used if multiple Quotes exist?
+- Should the email link point to the Opportunity, the Quote, or both?
+
+## Recommended Salesforce design
+- **Pattern:** Record-Triggered Flow on Opportunity Closed Won plus related Quote retrieval, subject to confirmed quote-selection logic
+- **Trigger/Event:** Automatic on Opportunity Closed Won, but source requirement is ambiguous and must be clarified before build
+- **Send timing:** Immediate
+- **Recipients:** Same recipient matrix as Opportunity Closed Won unless business confirms otherwise
+- **Suggested email subject:** `Quote Closed Won. {!Quote.Name or Opportunity.Name}`
+
+## Required email content fields
+- Account Name
+- Opportunity Code
+- Quote Name
+- Business Category
+- Service Fees
+- Total Fees
+- Salesforce link
+
+## Acceptance criteria
+- After the quote trigger and quote-selection rule are confirmed, a qualifying Closed Won scenario sends exactly one email with the correct related Quote details.
+
+## Dependencies / open questions
+- Critical business clarification required before design and development.
+- Confirm whether the same recipient matrix as Closed Won applies.
+
+## Delivery notes
+- This issue was derived from the approved Orbit Opportunities Salesforce notification requirements specification.
+- Confirm all Salesforce API names during build.
+- Confirm whether a reusable notification log / queue object is needed for digest-based notifications.
+",Low,Backlog,Orbit Opportunities Notifications,"salesforce,orbit-notifications,immediate-alert,quote,clarification-needed",,,
