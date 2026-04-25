@@ -8,7 +8,7 @@
 | Programme | Astrum Orbit |
 | Workstream | Sales Cloud — Opportunity Notifications |
 | Author | Amit Kumar (Salesforce Admin) |
-| PRD Version | 1.0 |
+| PRD Version | 1.1 — Study_Countries__c removed from email payload (pre-production data-quality correction, 25 Apr 2026) |
 | Date | 25 April 2026 |
 | Status | Ready for active build — one open decision (OQ-1) defaults safely without blocking build |
 | Schema Authority | Astrum__Objects_Fields_1.xlsx; live org query 25 April 2026 |
@@ -91,7 +91,7 @@ All custom fields validated against live sandbox org `astrum--astrumpar` on 25 A
 | Stage | `StageName` | Picklist | Confirmed — standard | |
 | Service Fees | `Service_Fees__c` | Currency(18,0) | Confirmed — custom | EUR-denominated. Display as zero if value is 0; omit only if null |
 | Close Date | `CloseDate` | Date | Confirmed — standard | |
-| Study Countries | `Study_Countries__c` | Picklist (Multi-Select) | Confirmed — custom | Renders as semicolon-separated values in Flow email |
+| ~~Study Countries~~ | ~~`Study_Countries__c`~~ | ~~Picklist (Multi-Select)~~ | **Removed — v1.1** | Originally included per Linear SAL-2 requirements. Removed before production smoke test per Astrum Orbit data-quality guardrail. Picklist values not cleaned or approved for notification use. Deferred to future revision after cleanup and stakeholder sign-off. See Section 3.4. |
 | Therapeutic Area | `Therapeutic_Area__c` | Picklist | Confirmed — custom | Single-select |
 | Indication | `Indication__c` | Long Text Area(32000) | Confirmed — custom | May be lengthy; omit row if blank |
 | Entities Providing Services | `Entities_Providing_Services__c` | Picklist (Multi-Select) | Confirmed — custom | Renders as semicolon-separated values in Flow email |
@@ -119,6 +119,7 @@ All custom fields validated against live sandbox org `astrum--astrumpar` on 25 A
 |---|---|---|
 | Standard Probability | `Probability` | Prohibited by programme Memory Pack FR-07 NEVER guardrail |
 | Probability formula | `Probability__c` | Computed read-only formula referencing standard Probability. Not suitable as a trigger field; not included in email payload |
+| Study Countries | `Study_Countries__c` | Originally included from Linear SAL-2 requirements (PRD v1.0). Removed before production smoke test (v1.1) per Astrum Orbit data-quality guardrail: picklist values are not cleaned and not approved for use in notification email payloads. The Memory Pack guardrail overrides the Linear issue requirement on this point. Can be reinstated only after explicit picklist cleanup and stakeholder approval. |
 
 > **Note on `Probability__c`:** This formula field overrides the standard `Probability` for Change Order opportunities in Proposal in Progress / Proposal Sent / Bid Defence stages (returns 75). It is a display/reporting aid and plays no role in SAL-2 trigger logic or email content.
 
@@ -207,7 +208,6 @@ Stage:                      {!Get_Opportunity_Detail.StageName}
 Service Fees:               {!Get_Opportunity_Detail.Service_Fees__c}
 Close Date:                 {!Get_Opportunity_Detail.CloseDate}
 
-Study Countries:            {!Get_Opportunity_Detail.Study_Countries__c}
 Therapeutic Area:           {!Get_Opportunity_Detail.Therapeutic_Area__c}
 Indication:                 {!Get_Opportunity_Detail.Indication__c}
 Entities Providing Services:{!Get_Opportunity_Detail.Entities_Providing_Services__c}
@@ -234,7 +234,7 @@ Please do not reply to this email.
 | `Date_of_next_specific_action__c` | Omit the label and value row. |
 | `Person_responsible_for_next_action__c` | Omit the label and value row. |
 | `Service_Fees__c` | Display as zero if the field value is 0. Omit only if null. |
-| `Study_Countries__c` | Omit the label and value row if blank. If populated, renders as semicolon-separated picklist values. |
+| ~~`Study_Countries__c`~~ | **Removed from payload — v1.1.** See Section 3.4. |
 | `Entities_Providing_Services__c` | Omit the label and value row if blank. If populated, renders as semicolon-separated picklist values. |
 | `{!$Record__Prior.Opp_Probability__c}` | If prior value is blank (edge case: record moved from a non-probability state), display as `—` or omit. |
 
@@ -303,7 +303,7 @@ The prior-value approach is sufficient for the MVP. A sent-flag Boolean field is
 [Send Email: Send_Critical_Stage_Alert]
     To: 5 fixed recipients
     Subject: Critical Stage Progression. {Name} moved to {Opp_Probability__c}%
-    Body: all 16 payload fields (see Section 6)
+    Body: all 15 payload fields (see Section 6 — Study_Countries__c removed v1.1)
     [Fault Path → End: Send_Fault]
         │
         ▼

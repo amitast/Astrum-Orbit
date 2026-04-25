@@ -209,7 +209,7 @@
     </textTemplates>
 
     <textTemplates>
-        <description>Email body for the Critical Stage Progression alert. Contains all 16 payload fields from SAL-2 PRD Section 3.1. Previous Probability uses $Record__Prior.Opp_Probability__c - the native after-save prior-value system variable; no helper field required. Record link uses Opportunity_ID_18__c (CASESAFEID formula, deployed 25 Apr 2026) per Memory Pack FR-06. Record link base URL uses Custom Label Salesforce_Base_URL (OD-02 resolved). MVP: all 16 field rows render unconditionally; blank fields display an empty value. Conditional blank-row suppression is a future enhancement.</description>
+        <description>Email body for the Critical Stage Progression alert. Contains 15 payload fields from SAL-2 PRD Section 3.1 (v1.1). Study_Countries__c removed pre-production per Astrum Orbit data-quality guardrail — picklist not cleaned or approved for notification use. Previous Probability uses $Record__Prior.Opp_Probability__c - the native after-save prior-value system variable; no helper field required. Record link uses Opportunity_ID_18__c (CASESAFEID formula, deployed 25 Apr 2026) per Memory Pack FR-06. Record link base URL uses Custom Label Salesforce_Base_URL (OD-02 resolved).</description>
         <name>Email_Body</name>
         <isViewedAsPlainText>true</isViewedAsPlainText>
         <text>CRITICAL STAGE PROGRESSION ALERT
@@ -224,7 +224,6 @@ Stage:                       {!Get_Opportunity_Detail.StageName}
 Service Fees:                {!Get_Opportunity_Detail.Service_Fees__c}
 Close Date:                  {!Get_Opportunity_Detail.CloseDate}
 
-Study Countries:             {!Get_Opportunity_Detail.Study_Countries__c}
 Therapeutic Area:            {!Get_Opportunity_Detail.Therapeutic_Area__c}
 Indication:                  {!Get_Opportunity_Detail.Indication__c}
 Entities Providing Services: {!Get_Opportunity_Detail.Entities_Providing_Services__c}

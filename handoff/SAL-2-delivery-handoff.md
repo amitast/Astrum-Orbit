@@ -39,7 +39,7 @@ This is notification 2 of 14 in the Orbit Opportunities suite and is part of the
 | Does not fire on re-save with no probability change | DELIVERED |
 | Does not fire on creation (default — OQ-1) | DELIVERED |
 | Sends to all five fixed recipients | DELIVERED |
-| Carries all 16 PRD payload fields | DELIVERED |
+| Carries all 15 PRD payload fields (Study_Countries__c removed v1.1 — data-quality guardrail) | DELIVERED |
 | Previous probability shown in email body | DELIVERED |
 | Clickable Salesforce record link | DELIVERED |
 
@@ -129,7 +129,6 @@ Stage:                       {StageName}
 Service Fees:                {Service_Fees__c}
 Close Date:                  {CloseDate}
 
-Study Countries:             {Study_Countries__c}
 Therapeutic Area:            {Therapeutic_Area__c}
 Indication:                  {Indication__c}
 Entities Providing Services: {Entities_Providing_Services__c}
@@ -152,7 +151,7 @@ Please do not reply to this email.
 
 ### Blank field handling (MVP)
 
-All 16 field rows render unconditionally. A blank field renders as an empty value beside the label. Conditional blank-row suppression is documented as a future enhancement in the PRD.
+All 15 field rows render unconditionally (Study_Countries__c removed v1.1). A blank field renders as an empty value beside the label. Conditional blank-row suppression is documented as a future enhancement in the PRD.
 
 ---
 
@@ -162,7 +161,7 @@ All 16 field rows render unconditionally. A blank field renders as an empty valu
 |---|---|---|---|
 | Standard Probability | `Probability` | Percent (standard) | **Programme-prohibited.** Memory Pack FR-07 NEVER guardrail: "Do not reference the standard Probability field in any Flow condition, formula, or email body." This field is managed by Salesforce and can be overridden by stage transitions, creating ambiguity. `Opp_Probability__c` is the sole authoritative field. |
 | Probability formula | `Probability__c` | Formula (Percent) | Display/reporting field only. Returns 75 for Change Order opps in certain stages; otherwise returns standard Probability. Not suitable as a trigger field and not included in email payload. |
-| Study Countries | `Study_Countries__c` | Picklist (Multi-Select) | **Included in SAL-2** per Linear issue requirements. Note for future notifications: this field was explicitly excluded from SAL-10 due to data quality risk. Inclusion must be confirmed per SAL issue — it is confirmed for SAL-2. |
+| Study Countries | `Study_Countries__c` | Picklist (Multi-Select) | **Removed from SAL-2 payload (v1.1, 25 Apr 2026).** Originally included per Linear issue requirements (PRD v1.0). Removed before production smoke test per Astrum Orbit data-quality guardrail — picklist values not cleaned or approved for notification use. Memory Pack guardrail overrides the Linear requirement. Can be reinstated after explicit picklist cleanup and stakeholder approval. |
 | Opportunity Owner | `OwnerId` | Lookup | Not in the SAL-2 recipient specification. Can be added as a recipient if business requests it. |
 | Total Fees | `Total_Fees__c` | Formula (Currency) | Not requested in SAL-2 Linear issue payload. In scope for other notifications (e.g. SAL-9). |
 
@@ -279,9 +278,9 @@ Full evidence: `validation/SAL-2-UAT-evidence.md`
 
 | Ref | Limitation | Impact | Future fix |
 |---|---|---|---|
-| L-01 | **Blank field rows are unconditional (MVP).** All 16 payload rows render regardless of whether the field has a value. A blank field shows a label with an empty value. | Cosmetic — emails with many blank fields have empty rows. | Conditional blank-row suppression via Decision elements before each row. Logged as future enhancement. |
+| L-01 | **Blank field rows are unconditional (MVP).** All 15 payload rows render regardless of whether the field has a value. A blank field shows a label with an empty value. | Cosmetic — emails with many blank fields have empty rows. | Conditional blank-row suppression via Decision elements before each row. Logged as future enhancement. |
 | L-02 | **Sandbox URL hardcoded in email body.** The record link uses `https://astrum--astrumpar.sandbox.my.salesforce.com/`. If promoted to production without change, the link will break. | Blocker for production | Externalise to Custom Label `Salesforce_Base_URL` before production deploy (OD-02). |
-| L-03 | **Study Countries renders as semicolons.** `Study_Countries__c` is a multi-select picklist. Salesforce Flow renders multi-select values as semicolon-separated strings. | Readability — minor | No change possible without text manipulation. Documented for recipients. |
+| L-03 | ~~**Study Countries renders as semicolons.**~~ **Resolved — field removed from payload (v1.1).** `Study_Countries__c` was removed before production smoke test per Astrum Orbit data-quality guardrail. No longer applicable. | N/A — field removed | Reinstate only after picklist cleanup and stakeholder approval. |
 | L-04 | **Creation trigger excluded by default (OQ-1).** A new Opportunity created directly at 75% or 90% does not fire the alert. | Commercial — unlikely edge case in practice | Change `<recordTriggerType>Update</recordTriggerType>` to `CreateAndUpdate` after explicit business sign-off. |
 | L-05 | **Email delivery not verifiable via SOQL.** The `emailSimple` core action sends via the org email relay and does not create `EmailMessage` records. Flow execution evidence is via debug log timing, not delivery receipt. | Operational — email delivery depends on org email deliverability settings | Verify sandbox deliverability setting is `All Email` in Setup > Deliverability before go-live. |
 
