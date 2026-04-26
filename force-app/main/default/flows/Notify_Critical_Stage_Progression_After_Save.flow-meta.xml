@@ -1,0 +1,254 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+
+    <apiVersion>66.0</apiVersion>
+
+    <description>SAL-2 Critical Stage Progression Alert. Sends an immediate Orbit Opportunity notification when Opp_Probability__c changes into 75 or 90. Uses Salesforce_Base_URL Custom Label for production-safe record links. Production deployment approved only through governed release process.</description>
+
+    <environments>Default</environments>
+
+    <interviewLabel>Notify Critical Stage Progression After Save {!$Flow.CurrentDateTime}</interviewLabel>
+
+    <label>Notify Critical Stage Progression After Save</label>
+
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+
+    <processType>AutoLaunchedFlow</processType>
+
+    <!-- DefaultMode = User context. Never SystemModeWithoutSharing. Memory Pack FR-09. -->
+    <runInMode>DefaultMode</runInMode>
+
+    <!-- START: entry criteria (1 OR 2) AND 3
+         1: Opp_Probability__c = 75
+         2: Opp_Probability__c = 90
+         3: Opp_Probability__c IsChanged
+         Trigger: Update only (creation excluded per OQ-1 default).
+         Standard Probability field never referenced - Memory Pack FR-07 NEVER. -->
+    <start>
+        <locationX>176</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Bypass_Permission</targetReference>
+        </connector>
+        <filterLogic>(1 OR 2) AND 3</filterLogic>
+        <filters>
+            <field>Opp_Probability__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>75</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Opp_Probability__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>90</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <!-- IsChanged prevents re-send when value is unchanged between saves -->
+            <field>Opp_Probability__c</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Opportunity</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+
+    <status>Active</status>
+
+    <!-- ELEMENT 1: Check_Bypass_Permission (Decision)
+         First element inside the Flow - CLAUDE.md hard rule.
+         Exits without sending if running user holds Bypass_Flow custom permission. -->
+    <decisions>
+        <description>Exits the Flow without sending if the running user holds the Bypass_Flow custom permission. Prevents unintended sends during data loads and integration runs. Required as the first element inside every record-triggered Flow - CLAUDE.md hard rule.</description>
+        <label>Check Bypass Permission</label>
+        <locationX>176</locationX>
+        <locationY>120</locationY>
+        <name>Check_Bypass_Permission</name>
+        <defaultConnector>
+            <targetReference>Get_Opportunity_Detail</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Proceed</defaultConnectorLabel>
+        <rules>
+            <name>Bypassed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Permission.Bypass_Flow</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Bypassed</label>
+            <!-- No connector - Flow terminates. Opportunity save completes normally. -->
+        </rules>
+    </decisions>
+
+    <!-- ELEMENT 2: Get_Opportunity_Detail (Get Records)
+         Retrieves full Opportunity record so cross-object and custom fields
+         are reliably available for the email body. storeOutputAutomatically
+         creates the Get_Opportunity_Detail sObject variable. Account.Name
+         is resolved by the Flow runtime through the AccountId relationship. -->
+    <recordLookups>
+        <description>Retrieves the Opportunity record with cross-object Account.Name and all custom fields needed for the email body. Required because cross-object fields are not always reliably available directly on the trigger record in after-save context. Fields accessed as Get_Opportunity_Detail.FieldApiName in text templates.</description>
+        <label>Get Opportunity Detail</label>
+        <locationX>176</locationX>
+        <locationY>240</locationY>
+        <name>Get_Opportunity_Detail</name>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Send_Critical_Stage_Alert</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Opportunity</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+
+    <!-- ELEMENT 3: Send_Critical_Stage_Alert (Action: emailSimple)
+         Five fixed recipients, plain text, emailSimple core action.
+         Fault path captures error without rethrowing - email failure must not
+         roll back the Opportunity DML (after-save flow guarantee).
+         No connector on success - Flow terminates after send. -->
+    <actionCalls>
+        <description>Sends the Critical Stage Progression alert to all five fixed recipients when Opp_Probability__c has moved into 75 or 90 from any other value on an update. Plain-text email via emailSimple core action. Fault path captures error message without rethrowing - email failure must not roll back the Opportunity DML. No connector on success - Flow terminates normally after send.</description>
+        <label>Send Critical Stage Alert</label>
+        <locationX>176</locationX>
+        <locationY>360</locationY>
+        <name>Send_Critical_Stage_Alert</name>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <faultConnector>
+            <targetReference>Handle_Send_Fault</targetReference>
+        </faultConnector>
+        <inputParameters>
+            <!-- Five fixed recipients per SAL-2 Linear issue. No dynamic routing matrix. -->
+            <name>emailAddresses</name>
+            <value>
+                <stringValue>rfp.rfi@astrumcro.com,jordi.picas@astrumcro.com,cristina.lopes@astrumcro.com,anthony.gibson@astrumcro.com,vania.araujo@astrumcro.com</stringValue>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <!-- Subject uses Opp_Probability__c not standard Probability - FR-07 guardrail. -->
+            <name>emailSubject</name>
+            <value>
+                <elementReference>Email_Subject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <!-- Body: all 16 payload fields from PRD Section 3.1. -->
+            <name>emailBody</name>
+            <value>
+                <elementReference>Email_Body</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputParameters>
+        <!-- No connector - Flow terminates normally after successful send. -->
+    </actionCalls>
+
+    <!-- ELEMENT 4: Handle_Send_Fault (Assignment)
+         Named fault terminal for Send_Critical_Stage_Alert.
+         Captures $Flow.FaultMessage for debug log visibility.
+         Does not rethrow. No connector - Flow terminates here. -->
+    <assignments>
+        <description>Fault terminal for the Send Critical Stage Alert action. Captures the fault message into the FaultMessage variable for debugging via Flow Interview debug logs. Does not rethrow the fault - an after-save Flow email failure must not roll back the Opportunity DML. The Opportunity save completes normally when this path is taken. No connector - Flow terminates after capturing the fault message.</description>
+        <label>Handle Send Fault</label>
+        <locationX>440</locationX>
+        <locationY>480</locationY>
+        <name>Handle_Send_Fault</name>
+        <assignmentItems>
+            <assignToReference>FaultMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </assignmentItems>
+        <!-- No connector - Flow terminates here after capturing fault. -->
+    </assignments>
+
+    <!-- TEXT TEMPLATES -->
+
+    <textTemplates>
+        <description>Email subject for the Critical Stage Progression alert. Opp_Probability__c renders the picklist stored value (e.g. 75 or 90) with a literal percent suffix. Uses Opp_Probability__c (custom picklist field) not the standard Probability field - Memory Pack FR-07 NEVER guardrail.</description>
+        <name>Email_Subject</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Critical Stage Progression. {!Get_Opportunity_Detail.Name} moved to {!Get_Opportunity_Detail.Opp_Probability__c}%</text>
+    </textTemplates>
+
+    <textTemplates>
+        <description>Email body for the Critical Stage Progression alert. Contains 15 payload fields from SAL-2 PRD Section 3.1 (v1.1). Study_Countries__c removed pre-production per Astrum Orbit data-quality guardrail — picklist not cleaned or approved for notification use. Previous Probability uses $Record__Prior.Opp_Probability__c - the native after-save prior-value system variable; no helper field required. Record link uses Opportunity_ID_18__c (CASESAFEID formula, deployed 25 Apr 2026) per Memory Pack FR-06. Record link base URL uses Custom Label Salesforce_Base_URL (OD-02 resolved).</description>
+        <name>Email_Body</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>CRITICAL STAGE PROGRESSION ALERT
+
+Account:                     {!Get_Opportunity_Detail.Account.Name}
+Opportunity:                 {!Get_Opportunity_Detail.Name}
+Opportunity Code:            {!Get_Opportunity_Detail.Opportunity_Code__c}
+
+Previous Probability:        {!$Record__Prior.Opp_Probability__c}%
+New Probability:             {!Get_Opportunity_Detail.Opp_Probability__c}%
+Stage:                       {!Get_Opportunity_Detail.StageName}
+Service Fees:                {!Get_Opportunity_Detail.Service_Fees__c}
+Close Date:                  {!Get_Opportunity_Detail.CloseDate}
+
+Therapeutic Area:            {!Get_Opportunity_Detail.Therapeutic_Area__c}
+Indication:                  {!Get_Opportunity_Detail.Indication__c}
+Entities Providing Services: {!Get_Opportunity_Detail.Entities_Providing_Services__c}
+
+Next Specific Action:        {!Get_Opportunity_Detail.Next_specific_action__c}
+Date of Next Action:         {!Get_Opportunity_Detail.Date_of_next_specific_action__c}
+Person Responsible:          {!Get_Opportunity_Detail.Person_responsible_for_next_action__c}
+
+View record in Salesforce:
+{!$Label.Salesforce_Base_URL}/{!Get_Opportunity_Detail.Opportunity_ID_18__c}
+
+---
+This is an automated notification from Salesforce.
+Please do not reply to this email.</text>
+    </textTemplates>
+
+    <!-- VARIABLES -->
+
+    <variables>
+        <description>Stores the fault message if the Send Critical Stage Alert action fails. Written by the Handle_Send_Fault assignment element. Visible in Flow Interview debug logs for post-failure investigation. Does not affect Flow execution outcome or the Opportunity record save.</description>
+        <name>FaultMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+</Flow>
