@@ -10,25 +10,27 @@
 | Author | Amit Kumar (Salesforce Admin) |
 | PRD Version | 1.1 — Study_Countries__c removed from email payload (pre-production data-quality correction, 25 Apr 2026) |
 | Date | 25 April 2026 |
-| Status | Ready for active build — one open decision (OQ-1) defaults safely without blocking build |
+| Status | Production deployed and smoke test passed. Awaiting Linear closure and merge to main. |
 | Schema Authority | Astrum__Objects_Fields_1.xlsx; live org query 25 April 2026 |
 | Org | astrum--astrumpar.sandbox.my.salesforce.com |
 
 ---
 
-## Build Status
+## Deployment Status
 
-> **READY FOR ACTIVE FLOW BUILD**
+> **LIVE IN PRODUCTION**
 >
-> All field API names confirmed against live sandbox. Recipient list fully specified. Trigger field and picklist values confirmed. One open decision (OQ-1 — creation trigger) has a safe default that does not block build or testing. No business sign-off blockers equivalent to SAL-10 BD5.
+> SAL-2 has been deployed to Astrum production (`astrum.my.salesforce.com`). The Flow is active, `Salesforce_Base_URL` and `Bypass_Flow` are present in production, `Study_Countries__c` has been removed from the email payload (data-quality guardrail, PRD v1.1), and production smoke testing on 2026-04-25 confirmed email delivery to all five recipients.
 >
-> | Category | Permitted |
-> |---|---|
-> | Safe work | All — PRD, schema validation, Flow XML, email template, test cases |
-> | Flow activation | Permitted in sandbox after test suite passes |
-> | Production deployment | Never — sandbox and scratch orgs only per CLAUDE.md hard rule |
->
-> OQ-1 (initial creation at 75% / 90%) defaults to **exclude creation** — trigger is set to updated records only. Business must explicitly confirm if creation should also trigger the alert before this default is changed.
+> | Milestone | Date | Status |
+> |---|---|---|
+> | Sandbox build and activation | 25 Apr 2026 | COMPLETE |
+> | UAT — all 13 test cases pass | 25 Apr 2026 | COMPLETE |
+> | Production validation (check-only) | 25 Apr 2026T19:52:49Z | COMPLETE |
+> | Production deployment (quick deploy) | 25 Apr 2026T20:10:47Z | COMPLETE |
+> | Production smoke test | 25 Apr 2026T21:18:22Z | PASS |
+> | Linear closure | Awaiting approval | PENDING |
+> | Merge to main | Awaiting approval | PENDING |
 
 ---
 

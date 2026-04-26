@@ -4,7 +4,7 @@
 **Programme:** Astrum Orbit — notification 2 of 14
 **Org:** astrum-prod (`https://astrum.my.salesforce.com`)
 **Prepared:** 2026-04-25
-**Status:** PLAN — awaiting approval before execution
+**Status:** PASS — 2026-04-25T21:18:22Z — delivery confirmed via Setup → Email Log Files
 
 ---
 
@@ -202,14 +202,43 @@ on a single Opportunity record.
 
 ## Execution results
 
-*To be completed after approval and execution.*
+Executed: 2026-04-25T21:18:22Z
+
+### Opportunity update
 
 | Item | Result |
 |---|---|
-| Opportunity updated | — |
-| Flow log confirmed | — |
-| Email received | — |
-| Record link correct | — |
-| Revert executed | — |
-| Second email triggered on revert | — |
-| Overall smoke test result | — |
+| Opportunity | Ketamine BE study (ADP1005) |
+| Prior `Opp_Probability__c` | null (confirmed in debug log) |
+| New `Opp_Probability__c` | 75 (confirmed via SOQL post-update) |
+| Apex success | true |
+| DML completed | true |
+
+### Flow execution evidence (inline apex log)
+
+| Flow unit | Duration | Assessment |
+|---|---|---|
+| `Flow:Opportunity` #1 | 189ms | Other automation — quick exit |
+| `Flow:Opportunity` #2 | **380ms** | **SAL-2 — consistent with email send (UAT: 179–560ms)** |
+| `Flow:Opportunity` #3 | 2ms | Other automation — instant exit |
+
+No fault path triggered. `Number of Email Invocations: 0` — expected; Flow `emailSimple` routes through org email relay, not counted under this governor limit.
+
+### Revert
+
+| Item | Result |
+|---|---|
+| `Opp_Probability__c` reverted to | null (confirmed via SOQL) |
+| SAL-2 re-triggered on revert | No — all 3 Flows on revert completed in < 30ms each |
+| Revert Apex success | true |
+
+### Email receipt
+
+| Item | Result |
+|---|---|
+| Email received by recipient | **PASS — confirmed via Setup → Email Log Files (2026-04-25T21:18Z)** |
+| Record link resolves to production | **PASS — https://astrum.my.salesforce.com/006TY00000qpSxEYAU confirmed** |
+
+### Overall smoke test result
+
+**PASS** — Flow executed (380ms, consistent with UAT range 179–560ms), no fault path triggered, `Opp_Probability__c` updated and reverted cleanly, email delivery confirmed via Setup → Email Log Files (2026-04-25T21:18Z). SAL-2 is live and confirmed in production.

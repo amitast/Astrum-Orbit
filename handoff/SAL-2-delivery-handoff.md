@@ -10,16 +10,17 @@
 | Prepared by | Amit Kumar (Salesforce Admin) |
 | Date | 25 April 2026 |
 | Sandbox org | astrum--astrumpar.sandbox.my.salesforce.com |
-| Production deployment | **Not performed** |
-| Overall status | Sandbox-validated. Awaiting production deployment approval. |
+| Production deployment | **COMPLETE — 2026-04-25T20:10:47Z** |
+| Production smoke test | **PASS — 2026-04-25T21:18:22Z** |
+| Overall status | **Live in production. Smoke test passed. Awaiting Linear close and merge approval.** |
 
 ---
 
 ## 1. Executive Summary
 
-The SAL-2 Critical Stage Progression Alert has been designed, built, deployed to sandbox, and fully UAT-tested. The Flow fires immediately when an Opportunity's `Opp_Probability__c` picklist field is updated to `75` or `90` from any other value, and sends a plain-text email to five fixed stakeholders with the full commercial context required to react quickly.
+The SAL-2 Critical Stage Progression Alert has been designed, built, deployed to sandbox, fully UAT-tested, deployed to production, and smoke-tested. The Flow fires immediately when an Opportunity's `Opp_Probability__c` picklist field is updated to `75` or `90` from any other value, and sends a plain-text email to five fixed stakeholders with the full commercial context required to react quickly.
 
-All 13 SAL-2 test cases pass (HP-01–06, IDEM-01–04, BYP-01–02, CRE-01). The Flow is Active in the sandbox org. No production deployment has been performed. Production promotion requires explicit approval and resolution of open decision OD-02 (sandbox URL externalisation).
+All 13 SAL-2 test cases pass (HP-01–06, IDEM-01–04, BYP-01–02, CRE-01). The Flow is Active in production as v2 (`301TY00000rVQPaYAO`). Production smoke test passed on 2026-04-25 — email delivery confirmed via Setup → Email Log Files.
 
 This is notification 2 of 14 in the Orbit Opportunities suite and is part of the first build wave alongside SAL-9 (Closed Won) and SAL-10 (Closed Lost).
 
@@ -47,15 +48,27 @@ This is notification 2 of 14 in the Orbit Opportunities suite and is part of the
 
 ## 3. Metadata Components Changed
 
-All components deployed to sandbox `astrum--astrumpar.sandbox.my.salesforce.com`. Nothing deployed to production.
+### Sandbox
 
 | Component | Type | API Name | Action | Date |
 |---|---|---|---|---|
 | Notify Critical Stage Progression After Save | Flow (AutoLaunchedFlow, After Save) | `Notify_Critical_Stage_Progression_After_Save` | Created — Active | 25 Apr 2026 |
-| Bypass Flow | Custom Permission | `Bypass_Flow` | Pre-existing (deployed as infrastructure) | 25 Apr 2026 |
-| Opportunity ID 18 | Formula Field on Opportunity | `Opportunity_ID_18__c` | Pre-existing (deployed as infrastructure) | 25 Apr 2026 |
+| Bypass Flow | Custom Permission | `Bypass_Flow` | Deployed as infrastructure | 25 Apr 2026 |
+| Opportunity ID 18 | Formula Field on Opportunity | `Opportunity_ID_18__c` | Deployed as infrastructure | 25 Apr 2026 |
 
-**No new custom objects, fields, or validation rules were created for SAL-2.** Both infrastructure components (`Bypass_Flow` and `Opportunity_ID_18__c`) were pre-deployed and are shared across all 14 notifications.
+### Production — `astrum-prod` (astrum.my.salesforce.com)
+
+Deployed via manifest `manifest/package-sal-2-production.xml`. All three components created in production on 2026-04-25.
+
+| Component | Type | API Name | Production ID | Date |
+|---|---|---|---|---|
+| Notify Critical Stage Progression After Save | Flow (AutoLaunchedFlow, After Save) | `Notify_Critical_Stage_Progression_After_Save` | `301TY00000rVQPaYAO` (v2, Active) | 25 Apr 2026 |
+| Bypass Flow | Custom Permission | `Bypass_Flow` | Created in production | 25 Apr 2026 |
+| Salesforce Base URL | Custom Label | `Salesforce_Base_URL` | `101TY00000rVYYOYA4` | 25 Apr 2026 |
+
+`Salesforce_Base_URL` = `https://astrum.my.salesforce.com`. This is shared Orbit infrastructure — all subsequent notifications (SAL-9, SAL-10, etc.) reference it directly; do not re-deploy.
+
+**No new custom objects, fields, or validation rules were created for SAL-2.**
 
 ### Source artefacts
 
@@ -63,8 +76,12 @@ All components deployed to sandbox `astrum--astrumpar.sandbox.my.salesforce.com`
 |---|---|
 | PRD | `PRDS/SAL-2-critical-stage-progression-alert.md` |
 | Flow XML | `force-app/main/default/flows/Notify_Critical_Stage_Progression_After_Save.flow-meta.xml` |
+| Custom Label | `force-app/main/default/labels/CustomLabels.labels-meta.xml` |
+| Production manifest | `manifest/package-sal-2-production.xml` |
+| Production validation output | `validation/SAL-2-production-validation-output.md` |
+| Production smoke test | `validation/SAL-2-production-smoke-check.md` |
 | Git branch | `feature/SAL-2-critical-stage-progression-alert` |
-| Commit | `dfd2599` |
+| Production deploy commit | `1c5f252` |
 
 ---
 
