@@ -223,9 +223,18 @@ Smoke A and D: Executed in prior session 26 Apr 2026 (commit `47d57a4`); records
 
 emailSimple faulted on all 4 paths due to unverified sandbox domain. **Email delivery is expected to work in production.** Confirmation required via production smoke test after deployment.
 
-### Idempotency — PENDING
+### Idempotency — COMPLETE (26 Apr 2026)
 
-Not yet run via anonymous Apex. Required before production.
+| ID | Scenario | Result | Record ID |
+|---|---|---|---|
+| IDEM-01 | Re-save Closed Won (Description change only) | PASS — Flow blocked (< 5ms, Email Invocations: 0) | 006UD00000HufGQYAZ |
+| IDEM-02 | Move Closed Won → Proposal In Progress | PASS — Flow blocked (< 1ms, Email Invocations: 0) | 006UD00000HufGQYAZ |
+
+### Silent exit — COMPLETE (26 Apr 2026)
+
+| ID | Scenario | Result | Record ID |
+|---|---|---|---|
+| SE-01 | S&PS → Closed Won | PASS — Flow entered (~21ms), exited at Check_Business_Category, no emailSimple reached, Email Invocations: 0 | 006UD00000Hue4EYAR |
 
 ### Bypass — PENDING (manual test required)
 
@@ -278,7 +287,7 @@ These fields are **not** in the SAL-9 email payload — they are Closed Won admi
 | RG-1 | **A-05 re-trigger behaviour** — confirmed acceptable for MVP (re-trigger = new qualifying event) | Commercial / BD Lead | **CONFIRMED — 26 Apr 2026** |
 | RG-2 | **S&PS and other category exclusions** — confirmed out of scope for SAL-9 | Commercial / BD Lead | **CONFIRMED — 26 Apr 2026** |
 | BLK-03 / RG-3 | **Bypass_Flow test** — manual test evidence documented on Linear SAL-9 | Salesforce Admin | **OPEN** |
-| RG-4 | **Sandbox completion tests** — IDEM-01, IDEM-02, SE-01 pass. Scripts at `af8af2d`. | Salesforce Admin | OPEN |
+| RG-4 | **Sandbox completion tests** — IDEM-01, IDEM-02, SE-01 pass. Scripts at `af8af2d`. Evidence on Linear SAL-9 (comment c93cda23). | Salesforce Admin | **CLOSED — 26 Apr 2026** |
 | RG-5 | **Production infrastructure** — confirm `Bypass_Flow`, `Opportunity_ID_18__c`, `Salesforce_Base_URL` are deployed in production | Salesforce Admin | OPEN |
 | RG-6 | **Production email deliverability** — confirm org deliverability setting is `All Email` | Salesforce Admin | OPEN |
 | PRE-05 | Explicit approval from business owner / programme lead | Programme Lead | Pending |

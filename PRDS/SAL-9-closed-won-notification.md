@@ -34,7 +34,7 @@
 > | RG-1: A-05 re-trigger acceptance | 26 Apr 2026 | CONFIRMED — re-trigger on Closed Won → other → Closed Won is acceptable for MVP |
 > | RG-2: S&PS and other categories out of scope | 26 Apr 2026 | CONFIRMED — S&PS, All Other Projects (Phase I-NIS), Phase I Clinical Conduct Portugal, Site & Patient Services excluded from SAL-9 |
 > | BLK-03 / RG-3: Bypass_Flow permission test | PENDING — manual | OPEN |
-> | RG-4: Sandbox completion tests (IDEM, SE) | PENDING | OPEN |
+> | RG-4: Sandbox completion tests (IDEM, SE) | 26 Apr 2026 | CLOSED — IDEM-01, IDEM-02, SE-01 all PASS |
 > | RG-5: Production infrastructure confirmed | PENDING | OPEN |
 > | RG-6: Production email deliverability confirmed | PENDING | OPEN |
 > | Production deployment | Not started | BLOCKED |
@@ -309,7 +309,7 @@ All gates must be closed and recorded in writing on the SAL-9 Linear issue befor
 | RG-1 | **A-05: Re-trigger behaviour.** Confirmed acceptable for MVP — re-trigger on Closed Won → other → Closed Won is treated as a new qualifying event. | Stakeholder decision | Commercial / BD Lead | **CONFIRMED — 26 Apr 2026** |
 | RG-2 | **S&PS and other category exclusions.** Confirmed that S&PS, All Other Projects (Phase I-NIS), Phase I Clinical Conduct Portugal, and Site & Patient Services (CRP & MissionTEC) are explicitly out of scope for SAL-9. | Stakeholder sign-off | Commercial / BD Lead | **CONFIRMED — 26 Apr 2026** |
 | BLK-03 / RG-3 | **Bypass_Flow permission test.** Manual test: assign Bypass_Flow permission to a test user, trigger the flow, confirm no email fires and Opportunity saves normally. Evidence to be documented on the Linear issue. Instructions posted on Linear SAL-9 (comment d85f7232). | Manual test | Salesforce Admin | OPEN |
-| RG-4 | **Sandbox completion tests.** IDEM-01, IDEM-02, and SE-01 pass in sandbox. Scripts committed at `af8af2d`. | Admin test | Salesforce Admin | OPEN |
+| RG-4 | **Sandbox completion tests.** IDEM-01, IDEM-02, and SE-01 pass in sandbox. Scripts committed at `af8af2d`. Evidence on Linear SAL-9 (comment c93cda23). | Admin test | Salesforce Admin | **CLOSED — 26 Apr 2026** |
 | RG-5 | **Production infrastructure.** `Bypass_Flow`, `Opportunity_ID_18__c`, and `Salesforce_Base_URL` confirmed deployed in production org. | Verification | Salesforce Admin | OPEN |
 | RG-6 | **Production email deliverability.** Production org deliverability setting confirmed as `All Email`. | Verification | Salesforce Admin | OPEN |
 
@@ -330,12 +330,12 @@ All tests must be run in the sandbox `astrum--astrumpar` with the Flow in an act
 | SM-C | Phase I-NIS | €300,000 | Send_Closed_Won_Phase_I_NIS_Low | PASS — 26 Apr 2026 | 006UD00000HuPOZYA3 |
 | SM-D | Phase I-NIS | €600,000 | Send_Closed_Won_Phase_I_NIS_High | PASS — flow executed, emailSimple faulted (sandbox domain), handled | Not retained |
 
-### 10.2 Idempotency (required before production)
+### 10.2 Idempotency (COMPLETED 26 Apr 2026)
 
-| ID | Scenario | Expected result |
-|---|---|---|
-| IDEM-01 | Edit already-Closed-Won Opportunity (change Description only) | No email — IsChanged = false blocks Flow |
-| IDEM-02 | Move Opportunity from Closed Won to another stage | No email — StageName ≠ 'Closed Won' blocks Flow |
+| ID | Scenario | Expected result | Result | Record ID |
+|---|---|---|---|---|
+| IDEM-01 | Edit already-Closed-Won Opportunity (change Description only) | No email — IsChanged = false blocks Flow | PASS | 006UD00000HufGQYAZ |
+| IDEM-02 | Move Opportunity from Closed Won to another stage | No email — StageName ≠ 'Closed Won' blocks Flow | PASS | 006UD00000HufGQYAZ |
 
 ### 10.3 Bypass (PENDING — manual test required)
 
@@ -344,12 +344,12 @@ All tests must be run in the sandbox `astrum--astrumpar` with the Flow in an act
 | BYP-01 | Assign Bypass_Flow permission to test user; trigger Closed Won transition | No email — flow exits at Check_Bypass_Permission |
 | BYP-02 | Remove Bypass_Flow permission; repeat trigger | Email fires normally |
 
-### 10.4 Silent exit — other Business Categories (PENDING — written confirmation required)
+### 10.4 Silent exit — other Business Categories
 
-| ID | Scenario | Expected result |
-|---|---|---|
-| SE-01 | S&PS Opportunity transitions to Closed Won | No email, no error, Opportunity saves normally |
-| SE-02 | Blank Business_Category__c Opportunity transitions to Closed Won | No email, no error, Opportunity saves normally |
+| ID | Scenario | Expected result | Result | Record ID |
+|---|---|---|---|---|
+| SE-01 | S&PS Opportunity transitions to Closed Won | No email, no error, Opportunity saves normally | PASS — 26 Apr 2026 | 006UD00000Hue4EYAR |
+| SE-02 | Blank Business_Category__c Opportunity transitions to Closed Won | No email, no error, Opportunity saves normally | Not run — low priority; S&PS confirms routing logic |
 
 ### 10.5 Exit criteria for production activation
 
