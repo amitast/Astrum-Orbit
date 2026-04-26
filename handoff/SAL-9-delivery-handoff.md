@@ -10,8 +10,8 @@
 | Prepared by | Amit Kumar (Salesforce Admin) |
 | Date | 26 April 2026 |
 | Sandbox org | astrum--astrumpar.sandbox.my.salesforce.com |
-| Production deployment | **NOT DEPLOYED — 3 blockers open** |
-| Overall status | **Sandbox Active. 4/4 routing paths smoke-tested. Production deployment blocked pending stakeholder decisions and manual test.** |
+| Production deployment | **NOT DEPLOYED — RG-3 through RG-6 open** |
+| Overall status | **Sandbox Active. 4/4 routing paths smoke-tested. RG-1 and RG-2 confirmed 26 Apr 2026. Production deployment pending RG-3 through RG-6.** |
 
 ---
 
@@ -21,7 +21,7 @@ The SAL-9 Closed Won Notification has been designed, built, deployed to sandbox 
 
 All 4 routing scenarios (Phase I Unit Low/High, Phase I-NIS Low/High) were smoke-tested on 26 Apr 2026 via anonymous Apex. The Opportunity DML succeeded in all cases. emailSimple faulted on all paths due to the unverified `astrumcro.com` domain in sandbox — this is expected behaviour. The fault connector captured the error without rethrowing, and the Opportunity saves completed normally. Email delivery is expected to work in production.
 
-Production deployment requires 3 open items to be resolved: A-05 re-trigger decision (stakeholder), S&PS exclusion written confirmation (stakeholder), and Bypass_Flow manual test (Salesforce Admin).
+RG-1 (A-05 re-trigger — acceptable for MVP) and RG-2 (S&PS and other categories out of scope) are confirmed as of 26 Apr 2026. Production deployment requires RG-3 (Bypass_Flow manual test), RG-4 (sandbox completion tests), RG-5 (production infrastructure), and RG-6 (production deliverability) to be closed.
 
 This is notification 9 of 14 in the Orbit Opportunities suite.
 
@@ -171,7 +171,7 @@ All field rows render unconditionally (MVP). Conditional blank-row suppression i
 | Any stage → Closed Won | Yes |
 | Closed Won → Closed Won (re-save, other field edited) | No — IsChanged = false |
 | Closed Won → other stage | No — EqualTo 'Closed Won' fails |
-| Closed Won → other → Closed Won again | **Yes — A-05 open, stakeholder decision required** |
+| Closed Won → other → Closed Won again | **Yes — A-05 resolved. Confirmed acceptable for MVP — treated as a new qualifying event.** |
 | Any stage → other (non-Closed-Won) | No |
 
 ---
@@ -275,15 +275,15 @@ These fields are **not** in the SAL-9 email payload — they are Closed Won admi
 
 | Ref | Prerequisite | Owner | Status |
 |---|---|---|---|
-| PRE-01 | **BLK-01: A-05 decision** — written stakeholder confirmation on re-trigger behaviour | Commercial / BD Lead | **OPEN** |
-| PRE-02 | **BLK-02: S&PS exclusion** — written confirmation that S&PS and 3 other categories are out of scope | Commercial / BD Lead | **OPEN** |
-| PRE-03 | **BLK-03: Bypass_Flow test** — manual test evidence documented | Salesforce Admin | **OPEN** |
-| PRE-04 | Idempotency tests (IDEM-01, IDEM-02) passed | Salesforce Admin | Pending |
+| RG-1 | **A-05 re-trigger behaviour** — confirmed acceptable for MVP (re-trigger = new qualifying event) | Commercial / BD Lead | **CONFIRMED — 26 Apr 2026** |
+| RG-2 | **S&PS and other category exclusions** — confirmed out of scope for SAL-9 | Commercial / BD Lead | **CONFIRMED — 26 Apr 2026** |
+| BLK-03 / RG-3 | **Bypass_Flow test** — manual test evidence documented on Linear SAL-9 | Salesforce Admin | **OPEN** |
+| RG-4 | **Sandbox completion tests** — IDEM-01, IDEM-02, SE-01 pass. Scripts at `af8af2d`. | Salesforce Admin | OPEN |
+| RG-5 | **Production infrastructure** — confirm `Bypass_Flow`, `Opportunity_ID_18__c`, `Salesforce_Base_URL` are deployed in production | Salesforce Admin | OPEN |
+| RG-6 | **Production email deliverability** — confirm org deliverability setting is `All Email` | Salesforce Admin | OPEN |
 | PRE-05 | Explicit approval from business owner / programme lead | Programme Lead | Pending |
 | PRE-06 | Human review of Flow XML diff | Delivery Lead | Pending |
-| PRE-07 | Confirm Bypass_Flow, Opportunity_ID_18__c, Salesforce_Base_URL are deployed in production | Salesforce Admin | To verify |
-| PRE-08 | Confirm org email deliverability setting in production is `All Email` | Salesforce Admin | To verify |
-| PRE-09 | Production smoke test — transition one Opportunity to Closed Won, confirm email received | QA / Salesforce Admin | Pending |
+| PRE-07 | Production smoke test — transition one Opportunity to Closed Won, confirm email received | QA / Salesforce Admin | Pending |
 
 ### Production deployment command (when all prerequisites met)
 

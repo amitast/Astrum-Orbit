@@ -10,7 +10,7 @@
 | Author | Amit Kumar (Salesforce Admin) |
 | PRD Version | 1.0 |
 | Date | 26 April 2026 |
-| Status | Sandbox deployed and Active. 4/4 routing paths smoke-tested. Production deployment BLOCKED — see Section 9. |
+| Status | Sandbox deployed and Active. 4/4 routing paths smoke-tested. RG-1 and RG-2 confirmed 26 Apr 2026. Production deployment pending RG-3 through RG-6 — see Section 9. |
 | Schema Authority | Live org query (Tooling API + anonymous Apex) — astrum--astrumpar sandbox, 25–26 Apr 2026 |
 | Org | astrum--astrumpar.sandbox.my.salesforce.com |
 
@@ -20,7 +20,7 @@
 
 > **SANDBOX ONLY — NOT IN PRODUCTION**
 >
-> SAL-9 has been built, deployed to sandbox `astrum--astrumpar`, and smoke-tested across all 4 routing paths. Production deployment requires resolution of 3 open items (see Section 9). The Flow is currently Active in sandbox.
+> SAL-9 has been built, deployed to sandbox `astrum--astrumpar`, and smoke-tested across all 4 routing paths. RG-1 and RG-2 are confirmed. Production deployment requires RG-3 through RG-6 to be closed — see Section 9. The Flow is currently Active in sandbox.
 >
 > | Milestone | Date | Status |
 > |---|---|---|
@@ -31,10 +31,12 @@
 > | Smoke test — Phase I Unit High path (B) | 26 Apr 2026 | PASS |
 > | Smoke test — Phase I-NIS Low path (C) | 26 Apr 2026 | PASS |
 > | Smoke test — Phase I-NIS High path (D) | 26 Apr 2026 | PASS |
-> | Bypass_Flow permission test | PENDING — manual | BLOCKED |
-> | Email delivery confirmation | PENDING | BLOCKED |
-> | A-05 decision (re-trigger behaviour) | PENDING — stakeholder | OPEN |
-> | S&PS exclusion written confirmation | PENDING — stakeholder | OPEN |
+> | RG-1: A-05 re-trigger acceptance | 26 Apr 2026 | CONFIRMED — re-trigger on Closed Won → other → Closed Won is acceptable for MVP |
+> | RG-2: S&PS and other categories out of scope | 26 Apr 2026 | CONFIRMED — S&PS, All Other Projects (Phase I-NIS), Phase I Clinical Conduct Portugal, Site & Patient Services excluded from SAL-9 |
+> | BLK-03 / RG-3: Bypass_Flow permission test | PENDING — manual | OPEN |
+> | RG-4: Sandbox completion tests (IDEM, SE) | PENDING | OPEN |
+> | RG-5: Production infrastructure confirmed | PENDING | OPEN |
+> | RG-6: Production email deliverability confirmed | PENDING | OPEN |
 > | Production deployment | Not started | BLOCKED |
 
 ---
@@ -161,7 +163,7 @@ The org has a validation rule that requires the following fields to be non-blank
 
 Conditions 1 AND 2 together guarantee the Flow fires **only when StageName first transitions INTO Closed Won** on a given save. A re-save of an already-Closed-Won record without changing Stage does not re-fire.
 
-**ASSUMPTION A-05 (OPEN):** If StageName moves Closed Won → other stage → Closed Won again, a second email fires. Stakeholder confirmation is required on whether one-lifetime-only behaviour is needed. If so, a Boolean sent-flag field or the `IsChanged` approach with a separate re-trigger guard would be required.
+**ASSUMPTION A-05 (RESOLVED — 26 Apr 2026):** If StageName moves Closed Won → other stage → Closed Won again, a second email fires. This is confirmed acceptable for MVP — a genuine re-win or corrected deal is treated as a new qualifying event. One-lifetime-only behaviour (`Closed_Won_Notification_Sent__c` helper field) is deferred to Release 1.1 and will only be implemented if the business later determines it is required.
 
 ---
 
@@ -298,15 +300,18 @@ All 4 action calls use:
 
 ---
 
-## 9. Blockers (Production Deployment)
+## 9. Release Gates (Production Deployment)
 
-The following items **must be resolved and recorded in writing** on the SAL-9 Linear issue before any production deployment:
+All gates must be closed and recorded in writing on the SAL-9 Linear issue before any production deployment.
 
-| ID | Item | Type | Owner |
-|---|---|---|---|
-| BLK-01 | **A-05: Re-trigger decision.** Written confirmation on whether Closed Won → other stage → Closed Won should send a second email, or whether a one-lifetime guard is required. | Stakeholder decision | Commercial / BD Lead |
-| BLK-02 | **S&PS and other category exclusions.** Written confirmation that S&PS, All Other Projects (Phase I-NIS), Phase I Clinical Conduct Portugal, and Site & Patient Services (CRP & MissionTEC) are explicitly out of scope and should not receive the Closed Won notification. | Stakeholder sign-off | Commercial / BD Lead |
-| BLK-03 | **Bypass_Flow permission test.** Manual test: assign Bypass_Flow permission to a test user, trigger the flow, confirm no email fires and Opportunity saves normally. Evidence to be documented on the Linear issue. | Manual test | Salesforce Admin |
+| ID | Item | Type | Owner | Status |
+|---|---|---|---|---|
+| RG-1 | **A-05: Re-trigger behaviour.** Confirmed acceptable for MVP — re-trigger on Closed Won → other → Closed Won is treated as a new qualifying event. | Stakeholder decision | Commercial / BD Lead | **CONFIRMED — 26 Apr 2026** |
+| RG-2 | **S&PS and other category exclusions.** Confirmed that S&PS, All Other Projects (Phase I-NIS), Phase I Clinical Conduct Portugal, and Site & Patient Services (CRP & MissionTEC) are explicitly out of scope for SAL-9. | Stakeholder sign-off | Commercial / BD Lead | **CONFIRMED — 26 Apr 2026** |
+| BLK-03 / RG-3 | **Bypass_Flow permission test.** Manual test: assign Bypass_Flow permission to a test user, trigger the flow, confirm no email fires and Opportunity saves normally. Evidence to be documented on the Linear issue. Instructions posted on Linear SAL-9 (comment d85f7232). | Manual test | Salesforce Admin | OPEN |
+| RG-4 | **Sandbox completion tests.** IDEM-01, IDEM-02, and SE-01 pass in sandbox. Scripts committed at `af8af2d`. | Admin test | Salesforce Admin | OPEN |
+| RG-5 | **Production infrastructure.** `Bypass_Flow`, `Opportunity_ID_18__c`, and `Salesforce_Base_URL` confirmed deployed in production org. | Verification | Salesforce Admin | OPEN |
+| RG-6 | **Production email deliverability.** Production org deliverability setting confirmed as `All Email`. | Verification | Salesforce Admin | OPEN |
 
 Additionally, **email delivery to real recipients cannot be confirmed** in the sandbox because the `astrumcro.com` email domain is not verified in `astrum--astrumpar`. All 4 smoke test paths faulted with `INSUFFICIENT_ACCESS_OR_READONLY` on the emailSimple action. The fault connector handled this gracefully (Opportunity DML succeeded). Email delivery is expected to work in production where the domain is verified.
 
@@ -416,7 +421,7 @@ The Flow can be deactivated instantly from Setup > Flows. No data loss. No recor
 | ID | Summary | Owner | Build impact |
 |---|---|---|---|
 | A-04 | **Creation trigger.** Creating an Opportunity at Closed Won stage is excluded (trigger = Update only). This is the safe default — data loads should not send notifications. | Commercial | Resolved — safe default in place |
-| A-05 | **Re-trigger on Closed Won → other → Closed Won.** If this happens, the Flow fires again on the second Closed Won transition. One-lifetime guard would require a Boolean helper field. | Commercial / BD Lead | **OPEN — blocks production** |
+| A-05 | **Re-trigger on Closed Won → other → Closed Won.** Confirmed acceptable for MVP — treated as a new qualifying event. One-lifetime guard (`Closed_Won_Notification_Sent__c`) deferred to Release 1.1. | Commercial / BD Lead | **Resolved — 26 Apr 2026** |
 
 ---
 
