@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+
+    <apiVersion>66.0</apiVersion>
+
+    <description>SAL-9 Closed Won Notification. Sends an immediate Orbit Opportunity email when StageName first transitions to Closed Won. Recipients routed by Business_Category__c and Service_Fees__c matrix. Phase I Unit and Phase I-NIS only — all other categories exit silently. Uses Salesforce_Base_URL Custom Label for production-safe record links. Recipients confirmed 26 Apr 2026 (A-01, A-02, A-03 resolved). RG-1 through RG-5 confirmed. Deploy as Inactive. Activate manually after post-deploy smoke test.</description>
+
+    <environments>Default</environments>
+
+    <interviewLabel>Notify Closed Won After Save {!$Flow.CurrentDateTime}</interviewLabel>
+
+    <label>Notify Closed Won After Save</label>
+
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+
+    <processType>AutoLaunchedFlow</processType>
+
+    <!-- DefaultMode = User context. Never SystemModeWithoutSharing. Memory Pack FR-09. -->
+    <runInMode>DefaultMode</runInMode>
+
+    <!-- START: entry criteria 1 AND 2
+         1: StageName = 'Closed Won'
+         2: StageName IsChanged
+         Together these guarantee the Flow fires only on the first transition INTO Closed Won.
+         No re-send if the record is edited while already Closed Won.
+         ASSUMPTION A-04: deals are never created at Closed Won so Update trigger is sufficient.
+         ASSUMPTION A-05: if Stage moves Closed Won → other → Closed Won again, a second email
+                          fires. Confirm with Commercial if one-lifetime-only behaviour is required.
+         Standard Probability field never referenced — Memory Pack FR-07 NEVER. -->
+    <start>
+        <locationX>176</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Check_Bypass_Permission</targetReference>
+        </connector>
+        <filterLogic>1 AND 2</filterLogic>
+        <filters>
+            <field>StageName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Closed Won</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <!-- IsChanged ensures prior StageName was not already 'Closed Won' -->
+            <field>StageName</field>
+            <operator>IsChanged</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </filters>
+        <object>Opportunity</object>
+        <recordTriggerType>Update</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+
+    <!-- Draft for production deployment. Activate manually after post-deploy smoke test. -->
+    <status>Draft</status>
+
+    <!-- ═══════════════════════════════════════════════════
+         DECISIONS — all grouped together (XSD requirement)
+         Execution order determined by connector references.
+         ═══════════════════════════════════════════════════ -->
+
+    <!-- ELEMENT 1: Check_Bypass_Permission (Decision)
+         First element inside the Flow — CLAUDE.md hard rule.
+         Exits without sending if running user holds Bypass_Flow custom permission.
+         Prevents unintended sends during data loads and integration runs. -->
+    <decisions>
+        <description>Exits the Flow without sending if the running user holds the Bypass_Flow custom permission. Prevents unintended sends during data loads and integration runs. Required as the first element inside every record-triggered Flow — CLAUDE.md hard rule.</description>
+        <label>Check Bypass Permission</label>
+        <locationX>176</locationX>
+        <locationY>120</locationY>
+        <name>Check_Bypass_Permission</name>
+        <defaultConnector>
+            <targetReference>Get_Opportunity_Detail</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Proceed</defaultConnectorLabel>
+        <rules>
+            <name>Bypassed</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>$Permission.Bypass_Flow</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <label>Bypassed</label>
+            <!-- No connector — Flow terminates. Opportunity save completes normally. -->
+        </rules>
+    </decisions>
+
+    <!-- ELEMENT 3: Check_Business_Category (Decision)
+         Routes by Business_Category__c.
+         Phase I Unit   → Check_Phase_I_Unit_Fees
+         Phase I-NIS    → Check_Phase_I_NIS_Fees
+         All others     → default path (no connector) — silent exit, no email, no error.
+         Active picklist values confirmed in org (25 Apr 2026):
+           Phase I Unit | Phase I-NIS | S&PS | All Other Projects (Phase I - NIS)
+           Phase I Clinical Conduct Portugal | Site & Patient Services (CRP & MissionTEC)
+         Only Phase I Unit and Phase I-NIS are in scope per SAL-9. -->
+    <decisions>
+        <description>Routes the Flow by Business_Category__c. Phase I Unit and Phase I-NIS proceed to fee-threshold decisions. All other Business Category values — including blank — exit silently without sending. No Flow error is thrown and the Opportunity saves normally.</description>
+        <label>Check Business Category</label>
+        <locationX>176</locationX>
+        <locationY>360</locationY>
+        <name>Check_Business_Category</name>
+        <defaultConnectorLabel>All Others — Silent Exit</defaultConnectorLabel>
+        <!-- No defaultConnector — unrecognised categories terminate the Flow silently. -->
+        <rules>
+            <name>Phase_I_Unit</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Opportunity_Detail.Business_Category__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Phase I Unit</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_Phase_I_Unit_Fees</targetReference>
+            </connector>
+            <label>Phase I Unit</label>
+        </rules>
+        <rules>
+            <name>Phase_I_NIS</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Opportunity_Detail.Business_Category__c</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <stringValue>Phase I-NIS</stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Check_Phase_I_NIS_Fees</targetReference>
+            </connector>
+            <label>Phase I-NIS</label>
+        </rules>
+    </decisions>
+
+    <!-- ELEMENT 4: Check_Phase_I_Unit_Fees (Decision)
+         Routes Phase I Unit by Service_Fees__c threshold.
+         Threshold EUR 150,000 confirmed for Closed Won 26 Apr 2026 (A-01 resolved).
+         Currency: EUR (org default). No currency conversion required. -->
+    <decisions>
+        <description>Routes Phase I Unit Opportunities by Service_Fees__c. Below EUR 150,000 sends to the low-tier recipient list; at or above sends to the high-tier list. Threshold EUR 150,000 confirmed for Closed Won 26 Apr 2026 (A-01 resolved).</description>
+        <label>Check Phase I Unit Fees</label>
+        <locationX>176</locationX>
+        <locationY>480</locationY>
+        <name>Check_Phase_I_Unit_Fees</name>
+        <defaultConnector>
+            <targetReference>Send_Closed_Won_Phase_I_Unit_High</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>At or Above EUR 150,000</defaultConnectorLabel>
+        <rules>
+            <name>Phase_I_Unit_Low</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Opportunity_Detail.Service_Fees__c</leftValueReference>
+                <operator>LessThan</operator>
+                <rightValue>
+                    <numberValue>150000</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Closed_Won_Phase_I_Unit_Low</targetReference>
+            </connector>
+            <label>Below EUR 150,000</label>
+        </rules>
+    </decisions>
+
+    <!-- ELEMENT 5: Check_Phase_I_NIS_Fees (Decision)
+         Routes Phase I-NIS by Service_Fees__c threshold.
+         Threshold EUR 500,000 confirmed for Closed Won 26 Apr 2026 (A-02 resolved).
+         Currency: EUR (org default). No currency conversion required. -->
+    <decisions>
+        <description>Routes Phase I-NIS Opportunities by Service_Fees__c. Below EUR 500,000 sends to the low-tier recipient list; at or above sends to the high-tier list. Threshold EUR 500,000 confirmed for Closed Won 26 Apr 2026 (A-02 resolved).</description>
+        <label>Check Phase I-NIS Fees</label>
+        <locationX>704</locationX>
+        <locationY>480</locationY>
+        <name>Check_Phase_I_NIS_Fees</name>
+        <defaultConnector>
+            <targetReference>Send_Closed_Won_Phase_I_NIS_High</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>At or Above EUR 500,000</defaultConnectorLabel>
+        <rules>
+            <name>Phase_I_NIS_Low</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Opportunity_Detail.Service_Fees__c</leftValueReference>
+                <operator>LessThan</operator>
+                <rightValue>
+                    <numberValue>500000</numberValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Send_Closed_Won_Phase_I_NIS_Low</targetReference>
+            </connector>
+            <label>Below EUR 500,000</label>
+        </rules>
+    </decisions>
+
+    <!-- ═══════════════════════════════════════════════════
+         RECORD LOOKUPS
+         ═══════════════════════════════════════════════════ -->
+
+    <!-- ELEMENT 2: Get_Opportunity_Detail (Get Records)
+         Retrieves full Opportunity record so cross-object and custom fields are reliably
+         available for routing and email body. storeOutputAutomatically creates the
+         Get_Opportunity_Detail sObject variable. Account.Name and Owner.Email are resolved
+         by the Flow runtime through relationship traversal — same pattern as SAL-2. -->
+    <recordLookups>
+        <description>Retrieves the Opportunity record with cross-object Account.Name, Owner.Email, and all custom fields needed for recipient routing and the email body. Required because cross-object fields are not always reliably available directly on the trigger record in after-save context.</description>
+        <label>Get Opportunity Detail</label>
+        <locationX>176</locationX>
+        <locationY>240</locationY>
+        <name>Get_Opportunity_Detail</name>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Business_Category</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Opportunity</object>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+
+    <!-- ═══════════════════════════════════════════════════
+         ACTION CALLS — all grouped together
+         ═══════════════════════════════════════════════════ -->
+
+    <!-- ELEMENT 6: Send_Closed_Won_Phase_I_Unit_Low
+         Phase I Unit, Service Fees < EUR 150,000.
+         Recipients confirmed 26 Apr 2026 (SAL-9 A-03 resolved). -->
+    <actionCalls>
+        <description>Sends Closed Won notification for Phase I Unit, Service Fees below EUR 150,000. Recipient list confirmed 26 Apr 2026 (SAL-9 A-03 resolved). Fault path captures error without rethrowing so Opportunity DML is never rolled back.</description>
+        <label>Send Closed Won — Phase I Unit Low</label>
+        <locationX>176</locationX>
+        <locationY>600</locationY>
+        <name>Send_Closed_Won_Phase_I_Unit_Low</name>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <faultConnector>
+            <targetReference>Handle_Send_Fault</targetReference>
+        </faultConnector>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>Recipients_Phase_I_Unit_Low</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>Email_Subject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>Email_Body</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputParameters>
+        <!-- No connector on success — Flow terminates normally after send. -->
+    </actionCalls>
+
+    <!-- ELEMENT 7: Send_Closed_Won_Phase_I_Unit_High
+         Phase I Unit, Service Fees >= EUR 150,000. -->
+    <actionCalls>
+        <description>Sends Closed Won notification for Phase I Unit, Service Fees at or above EUR 150,000. Recipient list confirmed 26 Apr 2026 (SAL-9 A-03 resolved). Fault path captures error without rethrowing.</description>
+        <label>Send Closed Won — Phase I Unit High</label>
+        <locationX>440</locationX>
+        <locationY>600</locationY>
+        <name>Send_Closed_Won_Phase_I_Unit_High</name>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <faultConnector>
+            <targetReference>Handle_Send_Fault</targetReference>
+        </faultConnector>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>Recipients_Phase_I_Unit_High</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>Email_Subject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>Email_Body</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputParameters>
+        <!-- No connector on success — Flow terminates normally after send. -->
+    </actionCalls>
+
+    <!-- ELEMENT 8: Send_Closed_Won_Phase_I_NIS_Low
+         Phase I-NIS, Service Fees < EUR 500,000. -->
+    <actionCalls>
+        <description>Sends Closed Won notification for Phase I-NIS, Service Fees below EUR 500,000. Recipient list confirmed 26 Apr 2026 (SAL-9 A-03 resolved). Fault path captures error without rethrowing.</description>
+        <label>Send Closed Won — Phase I-NIS Low</label>
+        <locationX>704</locationX>
+        <locationY>600</locationY>
+        <name>Send_Closed_Won_Phase_I_NIS_Low</name>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <faultConnector>
+            <targetReference>Handle_Send_Fault</targetReference>
+        </faultConnector>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>Recipients_Phase_I_NIS_Low</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>Email_Subject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>Email_Body</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputParameters>
+        <!-- No connector on success — Flow terminates normally after send. -->
+    </actionCalls>
+
+    <!-- ELEMENT 9: Send_Closed_Won_Phase_I_NIS_High
+         Phase I-NIS, Service Fees >= EUR 500,000. -->
+    <actionCalls>
+        <description>Sends Closed Won notification for Phase I-NIS, Service Fees at or above EUR 500,000. Recipient list confirmed 26 Apr 2026 (SAL-9 A-03 resolved). Fault path captures error without rethrowing.</description>
+        <label>Send Closed Won — Phase I-NIS High</label>
+        <locationX>968</locationX>
+        <locationY>600</locationY>
+        <name>Send_Closed_Won_Phase_I_NIS_High</name>
+        <actionName>emailSimple</actionName>
+        <actionType>emailSimple</actionType>
+        <faultConnector>
+            <targetReference>Handle_Send_Fault</targetReference>
+        </faultConnector>
+        <inputParameters>
+            <name>emailAddresses</name>
+            <value>
+                <elementReference>Recipients_Phase_I_NIS_High</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailSubject</name>
+            <value>
+                <elementReference>Email_Subject</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>emailBody</name>
+            <value>
+                <elementReference>Email_Body</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>sendRichBody</name>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </inputParameters>
+        <!-- No connector on success — Flow terminates normally after send. -->
+    </actionCalls>
+
+    <!-- ═══════════════════════════════════════════════════
+         ASSIGNMENTS
+         ═══════════════════════════════════════════════════ -->
+
+    <!-- ELEMENT 10: Handle_Send_Fault (Assignment)
+         Shared fault terminal for all four Send action calls.
+         Captures $Flow.FaultMessage for debug log visibility.
+         Does not rethrow — an after-save Flow email failure must not roll back the Opportunity DML.
+         No connector — Flow terminates after capturing the fault message. -->
+    <assignments>
+        <description>Fault terminal for all Closed Won send actions. Captures the fault message into FaultMessage for Flow Interview debug logs. Does not rethrow — after-save Flow email failure must not roll back the Opportunity DML. The Opportunity saves normally when this path is taken.</description>
+        <label>Handle Send Fault</label>
+        <locationX>1232</locationX>
+        <locationY>720</locationY>
+        <name>Handle_Send_Fault</name>
+        <assignmentItems>
+            <assignToReference>FaultMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </assignmentItems>
+        <!-- No connector — Flow terminates here. -->
+    </assignments>
+
+    <!-- ═══════════════════════════════════════════════════
+         TEXT TEMPLATES — CONTENT
+         ═══════════════════════════════════════════════════ -->
+
+    <textTemplates>
+        <description>Email subject for the Closed Won notification. Format per SAL-9 PRD.</description>
+        <name>Email_Subject</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>Closed Won. {!Get_Opportunity_Detail.Name}</text>
+    </textTemplates>
+
+    <textTemplates>
+        <description>Email body for the Closed Won notification. Contains all SAL-9 confirmed payload fields. Study_Countries__c excluded — data-quality guardrail per SAL-2 precedent (commit 660e1b2; picklist not cleaned or approved for notification use). Phase field excluded — API name not confirmed in org-validated schema. Mandatory handover line included per SAL-9 business requirement. Record link uses Salesforce_Base_URL Custom Label (OD-02 pattern from SAL-2).</description>
+        <name>Email_Body</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>CLOSED WON
+
+Account:                          {!Get_Opportunity_Detail.Account.Name}
+Opportunity:                      {!Get_Opportunity_Detail.Name}
+Opportunity Code:                 {!Get_Opportunity_Detail.Opportunity_Code__c}
+Business Category:                {!Get_Opportunity_Detail.Business_Category__c}
+
+Service Fees:                     {!Get_Opportunity_Detail.Service_Fees__c}
+Total Fees:                       {!Get_Opportunity_Detail.Total_Fees__c}
+Project Start Work:               {!Get_Opportunity_Detail.Project_Start_Work__c}
+Project End Work:                 {!Get_Opportunity_Detail.Project_End_Work__c}
+
+Therapeutic Area:                 {!Get_Opportunity_Detail.Therapeutic_Area__c}
+Indication:                       {!Get_Opportunity_Detail.Indication__c}
+Number of Enrolled Participants:  {!Get_Opportunity_Detail.Number_of_Enrolled_Participants__c}
+Number of Sites:                  {!Get_Opportunity_Detail.Number_of_Sites__c}
+Entities Providing Services:      {!Get_Opportunity_Detail.Entities_Providing_Services__c}
+
+View record in Salesforce:
+{!$Label.Salesforce_Base_URL}/{!Get_Opportunity_Detail.Opportunity_ID_18__c}
+
+If not already performed, a handover call will be scheduled with the relevant stakeholders following this email.
+
+---
+This is an automated notification from Salesforce.
+Please do not reply to this email.</text>
+    </textTemplates>
+
+    <!-- ═══════════════════════════════════════════════════
+         TEXT TEMPLATES — RECIPIENT LISTS
+         Recipients confirmed 26 Apr 2026 (SAL-9 A-01, A-02, A-03 resolved).
+         Thresholds: EUR 150,000 (Phase I Unit) and EUR 500,000 (Phase I-NIS) confirmed for Closed Won.
+         Opportunity Owner email is always included as a dynamic recipient via cross-object
+         traversal on Get_Opportunity_Detail.Owner.Email (same pattern as Account.Name in SAL-2).
+         ═══════════════════════════════════════════════════ -->
+
+    <textTemplates>
+        <description>Recipients confirmed 26 Apr 2026 (SAL-9 A-03 resolved). Opportunity Owner always included as dynamic recipient. Phase I Unit, Service Fees below EUR 150,000.</description>
+        <name>Recipients_Phase_I_Unit_Low</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>tom.frearson@astrumcro.com,Catherine.Canales@astrumcro.com,{!Get_Opportunity_Detail.Owner.Email},Ricardo.Cunha@astrumcro.com,rfp.rfi@astrumcro.com</text>
+    </textTemplates>
+
+    <textTemplates>
+        <description>Recipients confirmed 26 Apr 2026 (SAL-9 A-03 resolved). Opportunity Owner always included as dynamic recipient. Phase I Unit, Service Fees at or above EUR 150,000.</description>
+        <name>Recipients_Phase_I_Unit_High</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>tom.frearson@astrumcro.com,Catherine.Canales@astrumcro.com,{!Get_Opportunity_Detail.Owner.Email},cristina.lopes@astrumcro.com,Ricardo.Cunha@astrumcro.com,rfp.rfi@astrumcro.com</text>
+    </textTemplates>
+
+    <textTemplates>
+        <description>Recipients confirmed 26 Apr 2026 (SAL-9 A-03 resolved). Opportunity Owner always included as dynamic recipient. Phase I-NIS, Service Fees below EUR 500,000.</description>
+        <name>Recipients_Phase_I_NIS_Low</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>tom.frearson@astrumcro.com,Catherine.Canales@astrumcro.com,{!Get_Opportunity_Detail.Owner.Email},rfp.rfi@astrumcro.com</text>
+    </textTemplates>
+
+    <textTemplates>
+        <description>Recipients confirmed 26 Apr 2026 (SAL-9 A-03 resolved). Opportunity Owner always included as dynamic recipient. Phase I-NIS, Service Fees at or above EUR 500,000.</description>
+        <name>Recipients_Phase_I_NIS_High</name>
+        <isViewedAsPlainText>true</isViewedAsPlainText>
+        <text>tom.frearson@astrumcro.com,Catherine.Canales@astrumcro.com,{!Get_Opportunity_Detail.Owner.Email},cristina.lopes@astrumcro.com,jordi.picas@astrumcro.com,anthony.gibson@astrumcro.com,rfp.rfi@astrumcro.com</text>
+    </textTemplates>
+
+    <!-- ═══════════════════════════════════════════════════
+         VARIABLES
+         ═══════════════════════════════════════════════════ -->
+
+    <variables>
+        <description>Stores the fault message if any Send action fails. Written by Handle_Send_Fault. Visible in Flow Interview debug logs for post-failure investigation. Does not affect Flow execution or the Opportunity record save.</description>
+        <name>FaultMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+</Flow>
