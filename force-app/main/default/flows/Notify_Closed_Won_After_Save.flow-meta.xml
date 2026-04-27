@@ -71,8 +71,8 @@
         <triggerType>RecordAfterSave</triggerType>
     </start>
 
-    <!-- Inactive for production deployment. Activate manually after post-deploy smoke test. -->
-    <status>Inactive</status>
+    <!-- Draft for production deployment. Activate manually after post-deploy smoke test. -->
+    <status>Draft</status>
 
     <!-- ═══════════════════════════════════════════════════
          DECISIONS — all grouped together (XSD requirement)
