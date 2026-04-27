@@ -3,7 +3,7 @@
 
     <apiVersion>66.0</apiVersion>
 
-    <description>SAL-9 Closed Won Notification. Sends an immediate Orbit Opportunity email when StageName first transitions to Closed Won. Recipients routed by Business_Category__c and Service_Fees__c matrix. Phase I Unit and Phase I-NIS only — all other categories exit silently. Uses Salesforce_Base_URL Custom Label for production-safe record links. Deployment target: sandbox astrum--astrumpar only. Recipients confirmed 26 Apr 2026 (A-01, A-02, A-03 resolved). Do not activate until A-04 and A-05 are assessed.</description>
+    <description>SAL-9 Closed Won Notification. Sends an immediate Orbit Opportunity email when StageName first transitions to Closed Won. Recipients routed by Business_Category__c and Service_Fees__c matrix. Phase I Unit and Phase I-NIS only — all other categories exit silently. Uses Salesforce_Base_URL Custom Label for production-safe record links. Recipients confirmed 26 Apr 2026 (A-01, A-02, A-03 resolved). RG-1 through RG-5 confirmed. Deploy as Inactive. Activate manually after post-deploy smoke test.</description>
 
     <environments>Default</environments>
 
@@ -71,8 +71,8 @@
         <triggerType>RecordAfterSave</triggerType>
     </start>
 
-    <!-- Active in sandbox for smoke test. Deployment to production via governed release only. -->
-    <status>Active</status>
+    <!-- Inactive for production deployment. Activate manually after post-deploy smoke test. -->
+    <status>Inactive</status>
 
     <!-- ═══════════════════════════════════════════════════
          DECISIONS — all grouped together (XSD requirement)

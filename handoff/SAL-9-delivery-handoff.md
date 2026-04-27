@@ -10,8 +10,8 @@
 | Prepared by | Amit Kumar (Salesforce Admin) |
 | Date | 26 April 2026 |
 | Sandbox org | astrum--astrumpar.sandbox.my.salesforce.com |
-| Production deployment | **NOT DEPLOYED — RG-3 through RG-6 open** |
-| Overall status | **Sandbox Active. 4/4 routing paths smoke-tested. RG-1 and RG-2 confirmed 26 Apr 2026. Production deployment pending RG-3 through RG-6.** |
+| Production deployment | **NOT DEPLOYED — pending PRE-05 (business owner approval) and PRE-06 (XML diff review)** |
+| Overall status | **Sandbox Active. 4/4 routing paths smoke-tested. RG-1 through RG-6 confirmed. Production deployment pending PRE-05 and PRE-06.** |
 
 ---
 
@@ -21,7 +21,7 @@ The SAL-9 Closed Won Notification has been designed, built, deployed to sandbox 
 
 All 4 routing scenarios (Phase I Unit Low/High, Phase I-NIS Low/High) were smoke-tested on 26 Apr 2026 via anonymous Apex. The Opportunity DML succeeded in all cases. emailSimple faulted on all paths due to the unverified `astrumcro.com` domain in sandbox — this is expected behaviour. The fault connector captured the error without rethrowing, and the Opportunity saves completed normally. Email delivery is expected to work in production.
 
-RG-1 (A-05 re-trigger — acceptable for MVP) and RG-2 (S&PS and other categories out of scope) are confirmed as of 26 Apr 2026. Production deployment requires RG-3 (Bypass_Flow manual test), RG-4 (sandbox completion tests), RG-5 (production infrastructure), and RG-6 (production deliverability) to be closed.
+RG-1 through RG-6 are confirmed as of 27 Apr 2026. RG-3 was closed by automated Apex test class `SAL9_BypassFlow_Test` (commit `90845f0`). RG-5 was confirmed by SOQL queries against the production org (`astrum-prod`). RG-6 was confirmed 27 Apr 2026 — admin verified email deliverability = All Email in production. Production deployment requires PRE-05 (business owner approval) and PRE-06 (XML diff review).
 
 This is notification 9 of 14 in the Orbit Opportunities suite.
 
@@ -185,7 +185,7 @@ All field rows render unconditionally (MVP). Conditional blank-row suppression i
 | Bypassed | `$Permission.Bypass_Flow` = true | Flow terminates immediately. No email sent. Opportunity saves normally. |
 | Proceed (default) | Permission not held | Flow continues to Get Records → routing → email send |
 
-**Bypass permission test (PENDING):** Assign the `Bypass_Flow` custom permission to a test user via PermissionSet, trigger a Closed Won transition as that user, confirm no email fires and Opportunity saves normally. Remove the PermissionSet assignment after test. Document evidence on Linear SAL-9.
+**Bypass permission test (COMPLETE — 26 Apr 2026):** Automated via `SAL9_BypassFlow_Test.cls` (commit `90845f0`). BYP-01: `System.runAs` with Bypass_Flow permission — 0 email invocations — PASS. BYP-02: `System.runAs` without permission — Opportunity saves normally, fault connector handles email error — PASS. See Section 11 for full test evidence.
 
 ---
 
@@ -236,15 +236,16 @@ emailSimple faulted on all 4 paths due to unverified sandbox domain. **Email del
 |---|---|---|---|
 | SE-01 | S&PS → Closed Won | PASS — Flow entered (~21ms), exited at Check_Business_Category, no emailSimple reached, Email Invocations: 0 | 006UD00000Hue4EYAR |
 
-### Bypass — PENDING (manual test required)
+### Bypass — COMPLETE (26 Apr 2026)
 
-Cannot automate Bypass_Flow test in anonymous Apex (requires login as a different user). Manual steps:
-1. Create a PermissionSet containing `Bypass_Flow` custom permission.
-2. Assign PermissionSet to a test Salesforce user.
-3. Log in as that user in the sandbox.
-4. Update any Opportunity to StageName = Closed Won.
-5. Confirm no email in the test inbox and Opportunity saves normally.
-6. Remove PermissionSet assignment from the test user.
+Automated via Apex test class `SAL9_BypassFlow_Test` (commit `90845f0`). Uses `System.runAs()` with dynamically created test users; `SetupEntityAccess` DML assigns the `Bypass_Flow` `CustomPermission` via PermissionSet for BYP-01. `@isTest(SeeAllData=true)` required due to unrelated `Oppty_Code` insert-trigger flow needing org configuration data.
+
+| ID | Scenario | Result | Method |
+|---|---|---|---|
+| BYP-01 | User WITH `Bypass_Flow` permission; update Opportunity to Closed Won | **PASS** — `Limits.getEmailInvocations() == 0` after Closed Won transition. Flow exited at `Check_Bypass_Permission`. | `testBYP01_BypassActive` in `SAL9_BypassFlow_Test.cls` |
+| BYP-02 | User WITHOUT `Bypass_Flow` permission; update Opportunity to Closed Won | **PASS** — Opportunity saved to Closed Won. Flow proceeded past bypass check into routing logic. `emailSimple` faulted (sandbox domain restriction); fault connector captured error without rethrow. | `testBYP02_BypassNotActive` in `SAL9_BypassFlow_Test.cls` |
+
+Test run ID: `707UD00000pLfAm` (sandbox `astrum--astrumpar`). Both methods pass. 100% pass rate.
 
 ---
 
@@ -286,10 +287,10 @@ These fields are **not** in the SAL-9 email payload — they are Closed Won admi
 |---|---|---|---|
 | RG-1 | **A-05 re-trigger behaviour** — confirmed acceptable for MVP (re-trigger = new qualifying event) | Commercial / BD Lead | **CONFIRMED — 26 Apr 2026** |
 | RG-2 | **S&PS and other category exclusions** — confirmed out of scope for SAL-9 | Commercial / BD Lead | **CONFIRMED — 26 Apr 2026** |
-| BLK-03 / RG-3 | **Bypass_Flow test** — manual test evidence documented on Linear SAL-9 | Salesforce Admin | **OPEN** |
+| BLK-03 / RG-3 | **Bypass_Flow test** — automated `SAL9_BypassFlow_Test.cls` (commit `90845f0`): BYP-01 PASS (0 invocations), BYP-02 PASS (DML success). Test run `707UD00000pLfAm`. | Claude Code / SAL9_BypassFlow_Test | **CLOSED — 26 Apr 2026** |
 | RG-4 | **Sandbox completion tests** — IDEM-01, IDEM-02, SE-01 pass. Scripts at `af8af2d`. Evidence on Linear SAL-9 (comment c93cda23). | Salesforce Admin | **CLOSED — 26 Apr 2026** |
-| RG-5 | **Production infrastructure** — confirm `Bypass_Flow`, `Opportunity_ID_18__c`, `Salesforce_Base_URL` are deployed in production | Salesforce Admin | OPEN |
-| RG-6 | **Production email deliverability** — confirm org deliverability setting is `All Email` | Salesforce Admin | OPEN |
+| RG-5 | **Production infrastructure** — `Bypass_Flow` custom permission (0CPTY00000010CT4AY), `Salesforce_Base_URL` label (https://astrum.my.salesforce.com), and all 12 Opportunity custom fields confirmed in `astrum-prod` via SOQL (26 Apr 2026). | Claude Code / SOQL | **PASS — 26 Apr 2026** |
+| RG-6 | **Production email deliverability** — confirm org deliverability setting is `All Email` in Setup → Email → Deliverability. Not queryable via CLI/SOQL. | Salesforce Admin | **CONFIRMED — 27 Apr 2026** |
 | PRE-05 | Explicit approval from business owner / programme lead | Programme Lead | Pending |
 | PRE-06 | Human review of Flow XML diff | Delivery Lead | Pending |
 | PRE-07 | Production smoke test — transition one Opportunity to Closed Won, confirm email received | QA / Salesforce Admin | Pending |
