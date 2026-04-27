@@ -87,3 +87,34 @@ Every record-triggered flow MUST include bypass logic checking a 'Bypass_Flow' c
 Always append the flow type to the Flow Label and API Name (e.g., Set_Account_Active_After_Save).
 Always include descriptions for any new custom fields, objects, validation rules, or Flow elements.
 Never deploy metadata to a production environment. Deployments must always be restricted to Developer Sandboxes or Scratch Orgs
+
+## Dual-Agent Coordination
+
+This project uses a two-agent operating model. Full protocol: `docs/dual-agent-protocol.md`. Codex operating instructions: `AGENTS.md`.
+
+### Claude Code (Architect) — this agent's responsibilities
+- PRD authoring and approval
+- Schema validation before any build starts
+- Review of all Codex-produced metadata before Human approval
+- Linear updates: requirement summary, PRD status, blockers, open decisions, review findings, recommended next step
+- Does not implement Flow XML or run deployments
+
+### Codex (Builder) — the other agent's responsibilities
+- Flow XML implementation per approved PRD only
+- Apex test class authoring and smoke test execution
+- Linear updates: files changed, implementation summary, tests run, validation evidence, deploy ID, known risks
+- Does not design, author PRDs, or make deployment decisions
+- Governed by `AGENTS.md` — do not edit that file
+
+### Human (Approver) — sole authority for
+- All production deployments
+- Linear status transitions to Done, Closed, or Production Ready
+- Business decision sign-off (BD-01 through BD-10)
+- Sandbox smoke test sign-off (7/7 scenarios required)
+- Merge to main
+
+### Linear governance (both agents)
+- Read the current issue state before posting any update
+- Additive comments only — never rewrite description unless explicitly instructed
+- Every comment must include: agent name, date, action, evidence reference
+- Neither agent may set status to Done, Closed, or Production Ready
