@@ -10,7 +10,7 @@
 | Author | Amit Kumar (Salesforce Admin) |
 | PRD Version | 1.0 |
 | Date | 26 April 2026 |
-| Status | Sandbox deployed and Active. 4/4 routing paths smoke-tested. RG-1 through RG-6 confirmed. Production deployment pending PRE-05 (business owner approval) and PRE-06 (XML diff review). |
+| Status | Production deployed as Draft (Flow ID 301TY00000rYVAxYAO) — 27 Apr 2026. Awaiting manual activation and PRE-07 smoke test. |
 | Schema Authority | Live org query (Tooling API + anonymous Apex) — astrum--astrumpar sandbox, 25–26 Apr 2026 |
 | Org | astrum--astrumpar.sandbox.my.salesforce.com |
 
@@ -20,7 +20,7 @@
 
 > **SANDBOX ONLY — NOT IN PRODUCTION**
 >
-> SAL-9 has been built, deployed to sandbox `astrum--astrumpar`, and smoke-tested across all 4 routing paths. RG-1 through RG-6 are confirmed. Production deployment requires PRE-05 (business owner approval) and PRE-06 (XML diff review). The Flow is Active in sandbox; the local XML has been set to `Inactive` for production deployment safety.
+> SAL-9 has been deployed to production `astrum-prod` as Draft (Flow ID `301TY00000rYVAxYAO`, deploy `0AfTY000003kpyf0AA`, 27 Apr 2026). The flow is not yet active. Admin must activate in Setup → Flows and run a production smoke test (PRE-07) before SAL-9 is closed.
 >
 > | Milestone | Date | Status |
 > |---|---|---|
@@ -37,7 +37,8 @@
 > | RG-4: Sandbox completion tests (IDEM, SE) | 26 Apr 2026 | CLOSED — IDEM-01, IDEM-02, SE-01 all PASS |
 > | RG-5: Production infrastructure confirmed | 26 Apr 2026 | **PASS** — `Bypass_Flow` permission (0CPTY00000010CT4AY), `Salesforce_Base_URL` label (https://astrum.my.salesforce.com), and all 12 custom fields confirmed in production via SOQL. |
 > | RG-6: Production email deliverability confirmed | 27 Apr 2026 | **CONFIRMED** — admin verified Setup → Email → Deliverability = All Email in `astrum-prod` |
-> | Production deployment | Not started | BLOCKED on PRE-05 (business owner approval) and PRE-06 (XML diff review) |
+> | Production deployment (as Draft) | 27 Apr 2026 | COMPLETE — Flow ID 301TY00000rYVAxYAO, deploy 0AfTY000003kpyf0AA |
+> | Production activation | Pending | Admin must activate in Setup → Flows, then run PRE-07 smoke test |
 
 ---
 
