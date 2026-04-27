@@ -10,7 +10,7 @@
 | Author | Amit Kumar (Salesforce Admin) |
 | PRD Version | 1.0 |
 | Date | 25 April 2026 |
-| Status | Draft — awaiting BD5 sign-off before build |
+| Status | In Progress — Sandbox Active (26 Apr 2026), Production Blocked (BD-01–BD-05) |
 | Schema Authority | Astrum__Objects_Fields_1.xlsx |
 | Org | astrum--astrumpar.sandbox.my.salesforce.com |
 
@@ -20,18 +20,20 @@
 
 > **BLOCKED FOR ACTIVE BUILD / ACTIVATION**
 >
-> Partially unblocked: Phase I Unit and Phase I-NIS recipient matrices have now been provided. Remaining blockers relate to S&PS routing, other active Business Category values, fallback routing, trigger-stage decision, Lost Reason field confirmation, and production-safe record link design.
+> Partially unblocked because Phase I Unit and Phase I-NIS recipient matrices have been provided. Remaining blockers relate to S&PS, other active Business Category values, fallback routing, trigger-stage decision, Lost Reason field/API, and production-safe record link.
 >
-> No Flow XML, email alert, or deployment-ready automation may be created or activated until all remaining blockers in Section 9 are resolved and signed off in writing.
+> **Sandbox build status (26 Apr 2026):** Flow `Notify_Closed_Lost_Review_After_Save` deployed to `astrum--astrumpar` (Deploy ID `0AfUD00000Go6KL0AZ`). 6 of 7 smoke test scenarios passed. Bypass_Flow manual test (Scenario G) remains pending and must be completed before sandbox sign-off.
 >
-> | Category | Permitted |
+> Production activation remains blocked until all remaining blockers in Section 9 are resolved and signed off in writing.
+>
+> | Category | Status |
 > |---|---|
-> | Safe work | PRD updates, schema validation, org field queries, documentation, design decisions |
-> | Unsafe work | Writing Flow XML, creating email alerts, deploying any automation, activating any Flow |
+> | Sandbox Flow XML | Complete — deployed 26 Apr 2026 |
+> | Sandbox smoke tests | 6/7 pass — Bypass manual test (Scenario G) pending |
+> | Production deployment | Blocked — BD-01 through BD-05 open |
+> | Production activation | Blocked — do not activate until all BD items resolved in writing |
 >
-> SAL-10 is not ready for active Flow build. Documentation and design can continue. Active Flow build and activation remain blocked until all recipient coverage and trigger-stage decisions are approved in writing.
->
-> See Section 14 (Business Decision Pack) for the exact decisions required before build can proceed.
+> See Section 9 (Open Decisions) and Section 14 (Business Decision Pack) for the exact decisions required before production activation can proceed.
 
 ---
 

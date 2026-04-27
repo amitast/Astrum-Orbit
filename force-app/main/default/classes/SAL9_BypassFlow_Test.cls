@@ -62,7 +62,7 @@ private class SAL9_BypassFlow_Test {
             Entities_Providing_Services__c = 'Portugal',
             Protocol_Title__c = 'SAL-9 BYP Test Protocol',
             Contract_Sign_Date__c = Date.today(),
-            Contract_Type__c = 'Statement of Work, Work Order',
+            Contract_Type__c = 'Statement of Work/Work Order',
             Payment_Schedule_Type__c = 'Milestone Based',
             Contract_Entity__c = 'Astrum CRO SL'
         );
