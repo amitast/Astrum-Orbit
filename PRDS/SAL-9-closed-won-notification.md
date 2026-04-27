@@ -10,7 +10,7 @@
 | Author | Amit Kumar (Salesforce Admin) |
 | PRD Version | 1.0 |
 | Date | 26 April 2026 |
-| Status | Production deployed as Draft (Flow ID 301TY00000rYVAxYAO) — 27 Apr 2026. Awaiting manual activation and PRE-07 smoke test. |
+| Status | **COMPLETE — Production Active as of 27 Apr 2026. PRE-07 smoke test PASS. Email delivery confirmed. SAL-9 ready to close on Linear.** |
 | Schema Authority | Live org query (Tooling API + anonymous Apex) — astrum--astrumpar sandbox, 25–26 Apr 2026 |
 | Org | astrum--astrumpar.sandbox.my.salesforce.com |
 
@@ -20,7 +20,7 @@
 
 > **SANDBOX ONLY — NOT IN PRODUCTION**
 >
-> SAL-9 has been deployed to production `astrum-prod` as Draft (Flow ID `301TY00000rYVAxYAO`, deploy `0AfTY000003kpyf0AA`, 27 Apr 2026). The flow is not yet active. Admin must activate in Setup → Flows and run a production smoke test (PRE-07) before SAL-9 is closed.
+> SAL-9 is complete. The flow is **Active in production** (`astrum-prod`, Flow ID `301TY00000rYVAxYAO`, deploy `0AfTY000003kpyf0AA`, 27 Apr 2026). PRE-07 production smoke test PASS — Phase I Unit Low path, Opportunity `006TY00000vLQOTYA4`, email delivery confirmed to all 5 expected recipients by Amit Kumar from Salesforce email logs. SAL-9 is ready to close on Linear.
 >
 > | Milestone | Date | Status |
 > |---|---|---|
@@ -38,7 +38,8 @@
 > | RG-5: Production infrastructure confirmed | 26 Apr 2026 | **PASS** — `Bypass_Flow` permission (0CPTY00000010CT4AY), `Salesforce_Base_URL` label (https://astrum.my.salesforce.com), and all 12 custom fields confirmed in production via SOQL. |
 > | RG-6: Production email deliverability confirmed | 27 Apr 2026 | **CONFIRMED** — admin verified Setup → Email → Deliverability = All Email in `astrum-prod` |
 > | Production deployment (as Draft) | 27 Apr 2026 | COMPLETE — Flow ID 301TY00000rYVAxYAO, deploy 0AfTY000003kpyf0AA |
-> | Production activation | Pending | Admin must activate in Setup → Flows, then run PRE-07 smoke test |
+> | Production activation (manual) | 27 Apr 2026 | COMPLETE — activated by admin in Setup → Flows |
+> | PRE-07: Production smoke test | 27 Apr 2026 | **PASS** — Phase I Unit Low path, Opp 006TY00000vLQOTYA4, email delivery confirmed |
 
 ---
 

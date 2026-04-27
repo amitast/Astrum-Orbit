@@ -10,8 +10,8 @@
 | Prepared by | Amit Kumar (Salesforce Admin) |
 | Date | 26 April 2026 |
 | Sandbox org | astrum--astrumpar.sandbox.my.salesforce.com |
-| Production deployment | **DEPLOYED as Draft — 27 Apr 2026. Awaiting manual activation and production smoke test (PRE-07).** |
-| Overall status | **Sandbox Active. Production deployed as Draft (Flow ID 301TY00000rYVAxYAO). Admin must activate in Setup → Flows, then run smoke test.** |
+| Production deployment | **LIVE — Active in production as of 27 Apr 2026. PRE-07 smoke test PASS. SAL-9 COMPLETE.** |
+| Overall status | **Production Active. All release gates closed. PRE-07 smoke test confirmed email delivery to Phase I Unit Low recipients. SAL-9 ready to close on Linear.** |
 
 ---
 
@@ -21,7 +21,7 @@ The SAL-9 Closed Won Notification has been designed, built, deployed to sandbox 
 
 All 4 routing scenarios (Phase I Unit Low/High, Phase I-NIS Low/High) were smoke-tested on 26 Apr 2026 via anonymous Apex. The Opportunity DML succeeded in all cases. emailSimple faulted on all paths due to the unverified `astrumcro.com` domain in sandbox — this is expected behaviour. The fault connector captured the error without rethrowing, and the Opportunity saves completed normally. Email delivery is expected to work in production.
 
-RG-1 through RG-6 are confirmed as of 27 Apr 2026. RG-3 was closed by automated Apex test class `SAL9_BypassFlow_Test` (commit `90845f0`). RG-5 was confirmed by SOQL queries against the production org (`astrum-prod`). RG-6 was confirmed 27 Apr 2026 — admin verified email deliverability = All Email in production. The flow was deployed to `astrum-prod` on 27 Apr 2026 as Draft (deploy `0AfTY000003kpyf0AA`, Flow ID `301TY00000rYVAxYAO`). It is not yet active. Admin must activate in Setup → Flows and run PRE-07 production smoke test before SAL-9 can be closed.
+All release gates (RG-1 through RG-6) and all deployment prerequisites (PRE-05 through PRE-07) are confirmed as of 27 Apr 2026. The flow was deployed to `astrum-prod` on 27 Apr 2026 (deploy `0AfTY000003kpyf0AA`, Flow ID `301TY00000rYVAxYAO`), manually activated by the admin, and validated via a controlled production smoke test — Phase I Unit Low path, Opportunity `006TY00000vLQOTYA4`, email delivery confirmed to all 5 expected recipients by Amit Kumar from Salesforce email logs. SAL-9 is complete and ready to close on Linear.
 
 This is notification 9 of 14 in the Orbit Opportunities suite.
 
@@ -61,9 +61,9 @@ This is notification 9 of 14 in the Orbit Opportunities suite.
 
 | Component | Type | API Name | Action | Date |
 |---|---|---|---|---|
-| Notify Closed Won After Save | Flow (AutoLaunchedFlow, After Save) | `Notify_Closed_Won_After_Save` | Deployed as Draft — not yet active | 27 Apr 2026 |
+| Notify Closed Won After Save | Flow (AutoLaunchedFlow, After Save) | `Notify_Closed_Won_After_Save` | **Active** | 27 Apr 2026 |
 
-Flow ID: `301TY00000rYVAxYAO` — Deploy ID: `0AfTY000003kpyf0AA`. Activate manually in Setup → Flows after PRE-07 smoke test confirms email delivery.
+Flow ID: `301TY00000rYVAxYAO` — Deploy ID: `0AfTY000003kpyf0AA`. Deployed as Draft, manually activated by admin, PRE-07 smoke test PASS.
 
 ### Source artefacts
 
@@ -296,8 +296,8 @@ These fields are **not** in the SAL-9 email payload — they are Closed Won admi
 | RG-5 | **Production infrastructure** — `Bypass_Flow` custom permission (0CPTY00000010CT4AY), `Salesforce_Base_URL` label (https://astrum.my.salesforce.com), and all 12 Opportunity custom fields confirmed in `astrum-prod` via SOQL (26 Apr 2026). | Claude Code / SOQL | **PASS — 26 Apr 2026** |
 | RG-6 | **Production email deliverability** — confirm org deliverability setting is `All Email` in Setup → Email → Deliverability. Not queryable via CLI/SOQL. | Salesforce Admin | **CONFIRMED — 27 Apr 2026** |
 | PRE-05 | Explicit approval from business owner / programme lead | Programme Lead | **APPROVED — 27 Apr 2026** |
-| PRE-06 | Human review of Flow XML diff | Delivery Lead | Pending |
-| PRE-07 | Production smoke test — transition one Opportunity to Closed Won, confirm email received | QA / Salesforce Admin | Pending — activate flow first |
+| PRE-06 | Human review of Flow XML diff | Delivery Lead | **COMPLETE — 27 Apr 2026** |
+| PRE-07 | Production smoke test — transition one Opportunity to Closed Won, confirm email received | QA / Salesforce Admin | **PASS — 27 Apr 2026** — Opp `006TY00000vLQOTYA4`, Phase I Unit Low, email delivery confirmed by Amit Kumar from Salesforce email logs |
 
 ### Production deployment command (when all prerequisites met)
 
