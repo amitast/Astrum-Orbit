@@ -158,6 +158,39 @@ Remaining risks:
 - Actions 1-5, 7, and 8 remain intentionally out of scope and were not configured.
 - Claude should review whether any UI-only activation/publication step is required before sandbox UAT.
 
+## SAL-16 Bot Shell Remediation Update
+
+| Item | Result |
+|---|---|
+| Timestamp | 2026-04-28T21:10:01+01:00 |
+| Target org | `amit.kumar@astrumcro.com.astrumpar` |
+| Sandbox proof | `sf org list --json`, standard `Organization.IsSandbox = true`, sandbox instance URL |
+| Deploy ID | `0AfUD00000Gq6Hq0AJ` |
+| Deployment status | Succeeded |
+| Components deployed | `Bot` and `BotVersion` only |
+| Validation evidence | `validation/SAL-16-AgentBuilder-CreateContact.md` |
+| SAL-16 remediation Linear comment | `6427b6cb-2aad-4364-b308-806a2be62f23` |
+
+Codex created the Agentforce Studio-visible shell for `Astrum_BD_Agent` using the confirmed working `Sales_Representative_Agent` Bot metadata structure. The deployed BotVersion links to the existing planner with `<genAiPlannerName>Astrum_BD_Agent</genAiPlannerName>`.
+
+Files authored and deployed:
+
+- `force-app/main/default/bots/Astrum_BD_Agent/Astrum_BD_Agent.bot-meta.xml`
+- `force-app/main/default/bots/Astrum_BD_Agent/v1.botVersion-meta.xml`
+
+Post-deploy validation confirmed:
+
+- `BotDefinition` row exists for `Astrum_BD_Agent`, label `Astrum BD Agent`, Type `InternalCopilot`, Id `0XxUD0000000wlZ0AQ`.
+- `BotVersion` row exists for `Astrum_BD_Agent`, version `v1`, Status `Inactive`, Id `0X9UD0000000lAD0AY`.
+- `GenAiPlannerDefinition` remains present and unchanged with Id `16jUD00000061hNYAQ`.
+
+Scope confirmation:
+
+- No activation, deactivation, or publication was performed.
+- Existing agents `Copilot_for_Salesforce`, `Agentforce_Sales_Development_Rep`, and `Sales_Representative_Agent` were not modified.
+- `GenAiPlannerBundle`, `AGENT_CreateContact`, and `Astrum_BD_Agent_PS` were not redeployed.
+- Production was not touched.
+
 ## Next Operator
 - Run next in: Claude
 - Reason: Claude must review Codex's Agentforce configuration evidence, permission/FLS validation evidence, and handoff updates before the next sandbox UAT step.

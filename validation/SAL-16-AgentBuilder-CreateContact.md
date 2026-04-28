@@ -15,6 +15,9 @@
 | Agent Builder action configured | Yes, through `GenAiPlannerBundle` metadata |
 | SAL-16 status | COMPLETED |
 | Linear comment | `aba3edfd-ee1d-4ba0-8da6-c2f19db39487` |
+| Bot shell remediation | Completed 2026-04-28T21:10:01+01:00 |
+| Bot shell deploy ID | `0AfUD00000Gq6Hq0AJ` |
+| Bot shell Linear comment | `6427b6cb-2aad-4364-b308-806a2be62f23` |
 
 ## Discovery And Retrieval
 
@@ -158,3 +161,72 @@ No `AGENT_CreateContact.flow-meta.xml`, `Astrum_BD_Agent_PS.permissionset-meta.x
 ## Result
 
 SAL-16 Agentforce metadata configuration is completed in the Astrum sandbox for S1 Action 6 only.
+
+## Bot Shell Remediation
+
+The first SAL-16 metadata deployment created the `GenAiPlannerDefinition`, topic, and function, but the agent was not visible in Agentforce Studio because no `BotDefinition` / `BotVersion` shell existed. Human provided remediation scope to create the shell using `Sales_Representative_Agent` as the structural template.
+
+Sandbox proof before deploy:
+
+- `sf org list --json` showed `amit.kumar@astrumcro.com.astrumpar` under `sandboxes` with `isSandbox: true`.
+- Standard `Organization` SOQL returned `IsSandbox: true` for org `00DUD000007zF692AE`, instance `SWE92S`.
+- Production `astrum-prod` was a separate entry with `isSandbox: false` and was not targeted.
+
+Files authored:
+
+- `force-app/main/default/bots/Astrum_BD_Agent/Astrum_BD_Agent.bot-meta.xml`
+- `force-app/main/default/bots/Astrum_BD_Agent/v1.botVersion-meta.xml`
+
+Deployment command:
+
+```powershell
+& "C:\Users\Amit Asthana\AppData\Roaming\npm\sf.cmd" project deploy start --source-dir force-app/main/default/bots/Astrum_BD_Agent --target-org amit.kumar@astrumcro.com.astrumpar --wait 30 --json
+```
+
+Deployment result:
+
+| Result item | Value |
+|---|---|
+| Deploy ID | `0AfUD00000Gq6Hq0AJ` |
+| Status | Succeeded |
+| Completed | 2026-04-28T20:09:02.000Z |
+| Components deployed | 2 |
+| Component errors | 0 |
+| Bot component | `Astrum_BD_Agent`, Id `0XxUD0000000wlZ0AQ` |
+| BotVersion component | `Astrum_BD_Agent.v1`, Id `0X9UD0000000lAD0AY` |
+
+Post-deploy validation:
+
+```json
+{
+  "BotDefinition": {
+    "Id": "0XxUD0000000wlZ0AQ",
+    "DeveloperName": "Astrum_BD_Agent",
+    "MasterLabel": "Astrum BD Agent",
+    "Type": "InternalCopilot"
+  },
+  "BotVersion": {
+    "Id": "0X9UD0000000lAD0AY",
+    "DeveloperName": "v1",
+    "BotDefinitionId": "0XxUD0000000wlZ0AQ",
+    "Status": "Inactive"
+  },
+  "GenAiPlannerDefinition": {
+    "Id": "16jUD00000061hNYAQ",
+    "DeveloperName": "Astrum_BD_Agent",
+    "MasterLabel": "Astrum BD Agent",
+    "PlannerType": "AiCopilot__ReAct"
+  }
+}
+```
+
+Remediation scope confirmation:
+
+- Did not activate, deactivate, or publish the bot.
+- Did not modify `Copilot_for_Salesforce`, `Agentforce_Sales_Development_Rep`, or `Sales_Representative_Agent`.
+- Did not redeploy `GenAiPlannerBundle`, `AGENT_CreateContact`, or `Astrum_BD_Agent_PS`.
+- Did not touch production.
+
+The Bot shell is now present in metadata and should make `Astrum BD Agent` visible in Agentforce Studio as an inactive internal copilot/employee agent.
+
+Linear SAL-16 was updated with remediation evidence in comment `6427b6cb-2aad-4364-b308-806a2be62f23`. Issue status was not changed.
