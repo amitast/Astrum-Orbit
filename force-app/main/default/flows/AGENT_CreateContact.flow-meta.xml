@@ -1,0 +1,635 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+
+    <apiVersion>66.0</apiVersion>
+
+    <description>Agentforce autolaunched Flow for Subagent 1. Creates a Contact linked to an Account after validating Account access and checking for duplicate Contacts by same Account plus LastName and by Email. No screens, no delete elements, and no Bypass_Flow decision because this is not record-triggered.</description>
+
+    <environments>Default</environments>
+
+    <interviewLabel>AGENT_CreateContact {!$Flow.CurrentDateTime}</interviewLabel>
+
+    <label>AGENT_CreateContact</label>
+
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+
+    <processType>AutoLaunchedFlow</processType>
+
+    <!-- DefaultMode is the metadata value for User or Queue That Launched the Flow. Never SystemModeWithoutSharing. -->
+    <runInMode>DefaultMode</runInMode>
+
+    <start>
+        <locationX>176</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Account</targetReference>
+        </connector>
+    </start>
+
+    <status>Active</status>
+
+    <recordLookups>
+        <description>Verify that the AccountId input resolves to a real Account record accessible to the running user. This prevents a phantom Contact being created with an invalid AccountId.</description>
+        <label>Get Account</label>
+        <locationX>176</locationX>
+        <locationY>120</locationY>
+        <name>Get_Account</name>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Duplicate_By_Name</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>AccountId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Account</object>
+        <outputReference>var_Account</outputReference>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>false</storeOutputAutomatically>
+    </recordLookups>
+
+    <recordLookups>
+        <description>Query for existing Contacts at the same Account with the same last name. This is the primary duplicate detection signal.</description>
+        <label>Query Duplicate by Name and Account</label>
+        <locationX>176</locationX>
+        <locationY>240</locationY>
+        <name>Get_Duplicate_By_Name</name>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Email_Populated</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>AccountId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>AccountId</elementReference>
+            </value>
+        </filters>
+        <filters>
+            <field>LastName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>LastName</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <outputReference>var_DuplicateByName</outputReference>
+        <queriedFields>FirstName</queriedFields>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>LastName</queriedFields>
+        <storeOutputAutomatically>false</storeOutputAutomatically>
+    </recordLookups>
+
+    <recordLookups>
+        <description>Query for any existing Contact across any Account with the same email address. Email uniqueness is a cross-account signal.</description>
+        <label>Query Duplicate by Email</label>
+        <locationX>176</locationX>
+        <locationY>480</locationY>
+        <name>Get_Duplicate_By_Email</name>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Evaluate_Duplicate_Results</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Email</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Email</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <outputReference>var_DuplicateByEmail</outputReference>
+        <queriedFields>FirstName</queriedFields>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>LastName</queriedFields>
+        <storeOutputAutomatically>false</storeOutputAutomatically>
+    </recordLookups>
+
+    <decisions>
+        <description>Gate the email-based duplicate query. Only execute if the Email input variable is not blank. An empty Email input must not generate a Get Records query because Email equals null returns misleading results.</description>
+        <label>Check Email Populated</label>
+        <locationX>176</locationX>
+        <locationY>360</locationY>
+        <name>Check_Email_Populated</name>
+        <defaultConnector>
+            <targetReference>Evaluate_Duplicate_Results</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Email Blank</defaultConnectorLabel>
+        <rules>
+            <name>Email_Not_Blank</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Email</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Email</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Duplicate_By_Email</targetReference>
+            </connector>
+            <label>Email Not Blank</label>
+        </rules>
+    </decisions>
+
+    <decisions>
+        <description>Determine if the Account validation failed or if any duplicate signal was detected. If either duplicate query returned a record, set duplicate outputs and exit before creating. The name-match signal takes precedence for the duplicate contact display.</description>
+        <label>Evaluate Duplicate Results</label>
+        <locationX>176</locationX>
+        <locationY>600</locationY>
+        <name>Evaluate_Duplicate_Results</name>
+        <defaultConnector>
+            <targetReference>Create_Contact</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>No Duplicate</defaultConnectorLabel>
+        <rules>
+            <name>Account_Not_Found</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_Account.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>true</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Fault_Account_Not_Found</targetReference>
+            </connector>
+            <label>Account Not Found</label>
+        </rules>
+        <rules>
+            <name>Duplicate_Found_By_Name</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_DuplicateByName.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Duplicate_Name_Match</targetReference>
+            </connector>
+            <label>Duplicate Found by Name</label>
+        </rules>
+        <rules>
+            <name>Duplicate_Found_By_Email_Only</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_DuplicateByEmail.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Duplicate_Email_Match</targetReference>
+            </connector>
+            <label>Duplicate Found by Email only</label>
+        </rules>
+    </decisions>
+
+    <assignments>
+        <description>Populate output variables when a duplicate is detected by name at the same account. Do not proceed to Create.</description>
+        <label>Set Duplicate Found - Name Match</label>
+        <locationX>44</locationX>
+        <locationY>720</locationY>
+        <name>Set_Duplicate_Name_Match</name>
+        <assignmentItems>
+            <assignToReference>DuplicateFound</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Success</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DuplicateContactName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_DuplicateNameMatchName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DuplicateContactId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_DuplicateByName.Id</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+
+    <assignments>
+        <description>Populate output variables when a duplicate is detected by email across accounts. Do not proceed to Create.</description>
+        <label>Set Duplicate Found - Email Match</label>
+        <locationX>308</locationX>
+        <locationY>720</locationY>
+        <name>Set_Duplicate_Email_Match</name>
+        <assignmentItems>
+            <assignToReference>DuplicateFound</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Success</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DuplicateContactName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_DuplicateEmailMatchName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DuplicateContactId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_DuplicateByEmail.Id</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+
+    <assignments>
+        <description>Set error outputs when the AccountId input does not resolve to an accessible Account record. The running user may lack record access.</description>
+        <label>Set Fault - Account Not Found</label>
+        <locationX>44</locationX>
+        <locationY>840</locationY>
+        <name>Set_Fault_Account_Not_Found</name>
+        <assignmentItems>
+            <assignToReference>Success</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DuplicateFound</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Account not found or not accessible. Verify the account ID and your record access.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+
+    <assignments>
+        <description>Set error outputs when the Create Records element faults. Do not rethrow the fault because a failed Contact Create must not roll back any upstream DML. Capture the fault message.</description>
+        <label>Set Fault - Create Failed</label>
+        <locationX>836</locationX>
+        <locationY>840</locationY>
+        <name>Set_Fault_Create_Failed</name>
+        <assignmentItems>
+            <assignToReference>Success</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DuplicateFound</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+
+    <assignments>
+        <description>Populate output variables on successful Contact creation.</description>
+        <label>Set Success Outputs</label>
+        <locationX>572</locationX>
+        <locationY>840</locationY>
+        <name>Set_Success_Outputs</name>
+        <assignmentItems>
+            <assignToReference>Success</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CreatedContactId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_CreatedContactId</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CreatedContactName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Formula_CreatedContactName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>DuplicateFound</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+
+    <recordCreates>
+        <description>Create the new Contact record. All input variables are mapped to the corresponding Contact fields. Only AccountId, FirstName, LastName, Title, Email, Phone, and MobilePhone are set.</description>
+        <label>Create Contact</label>
+        <locationX>572</locationX>
+        <locationY>720</locationY>
+        <name>Create_Contact</name>
+        <assignRecordIdToReference>var_CreatedContactId</assignRecordIdToReference>
+        <connector>
+            <targetReference>Set_Success_Outputs</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Set_Fault_Create_Failed</targetReference>
+        </faultConnector>
+        <inputAssignments>
+            <field>AccountId</field>
+            <value>
+                <elementReference>AccountId</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>FirstName</field>
+            <value>
+                <elementReference>FirstName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>LastName</field>
+            <value>
+                <elementReference>LastName</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Title</field>
+            <value>
+                <elementReference>Title</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Email</field>
+            <value>
+                <elementReference>Email</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Phone</field>
+            <value>
+                <elementReference>Phone</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>MobilePhone</field>
+            <value>
+                <elementReference>MobilePhone</elementReference>
+            </value>
+        </inputAssignments>
+        <object>Contact</object>
+    </recordCreates>
+
+    <formulas>
+        <description>Full name output for the created Contact.</description>
+        <name>Formula_CreatedContactName</name>
+        <dataType>String</dataType>
+        <expression>{!FirstName} &amp; &quot; &quot; &amp; {!LastName}</expression>
+    </formulas>
+
+    <formulas>
+        <description>Full name output for the name-match duplicate Contact.</description>
+        <name>Formula_DuplicateNameMatchName</name>
+        <dataType>String</dataType>
+        <expression>{!var_DuplicateByName.FirstName} &amp; &quot; &quot; &amp; {!var_DuplicateByName.LastName}</expression>
+    </formulas>
+
+    <formulas>
+        <description>Full name output for the email-match duplicate Contact.</description>
+        <name>Formula_DuplicateEmailMatchName</name>
+        <dataType>String</dataType>
+        <expression>{!var_DuplicateByEmail.FirstName} &amp; &quot; &quot; &amp; {!var_DuplicateByEmail.LastName}</expression>
+    </formulas>
+
+    <variables>
+        <description>18-character Salesforce Record ID of the parent Account resolved by the agent before invocation.</description>
+        <name>AccountId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+    <variables>
+        <description>Contact first name extracted from the user's request.</description>
+        <name>FirstName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+    <variables>
+        <description>Contact last name extracted from the user's request.</description>
+        <name>LastName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+    <variables>
+        <description>Optional Contact job title extracted from the user's request.</description>
+        <name>Title</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+    <variables>
+        <description>Optional Contact email address extracted from the user's request. When populated, it gates the email duplicate query.</description>
+        <name>Email</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+    <variables>
+        <description>Optional Contact work phone number extracted from the user's request.</description>
+        <name>Phone</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+    <variables>
+        <description>Optional Contact mobile phone number extracted from the user's request.</description>
+        <name>MobilePhone</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+    <variables>
+        <description>True if the Contact was created successfully. False on duplicate or fault paths.</description>
+        <name>Success</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+
+    <variables>
+        <description>18-character Salesforce Record ID of the newly created Contact. Blank unless Success is true.</description>
+        <name>CreatedContactId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+
+    <variables>
+        <description>Full name of the created Contact for the agent confirmation message. Blank unless Success is true.</description>
+        <name>CreatedContactName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+
+    <variables>
+        <description>True if a potential duplicate Contact was found by name or email. False on success and fault paths.</description>
+        <name>DuplicateFound</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+
+    <variables>
+        <description>Full name of the first potential duplicate Contact found. Blank if no duplicate was found.</description>
+        <name>DuplicateContactName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+
+    <variables>
+        <description>18-character Salesforce Record ID of the first potential duplicate Contact found. Blank if no duplicate was found.</description>
+        <name>DuplicateContactId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+
+    <variables>
+        <description>Error message returned on fault paths when Success is false and DuplicateFound is false.</description>
+        <name>ErrorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+
+    <variables>
+        <description>Account record returned by the Account validation query.</description>
+        <name>var_Account</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Account</objectType>
+    </variables>
+
+    <variables>
+        <description>Contact record returned by the duplicate-by-name query.</description>
+        <name>var_DuplicateByName</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+
+    <variables>
+        <description>Contact record returned by the duplicate-by-email query.</description>
+        <name>var_DuplicateByEmail</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Contact</objectType>
+    </variables>
+
+    <variables>
+        <description>Stores the Contact ID returned by the Create Records element.</description>
+        <name>var_CreatedContactId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+
+</Flow>
