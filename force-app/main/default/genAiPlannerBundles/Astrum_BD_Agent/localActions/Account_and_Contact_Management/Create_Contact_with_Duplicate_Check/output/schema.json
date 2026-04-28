@@ -1,0 +1,69 @@
+{
+  "unevaluatedProperties": false,
+  "properties": {
+    "Success": {
+      "title": "Success",
+      "description": "True if AGENT_CreateContact created the Contact successfully.",
+      "lightning:type": "lightning__booleanType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    },
+    "CreatedContactId": {
+      "title": "CreatedContactId",
+      "description": "Salesforce ID of the newly created Contact. Populated only when Success is true.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    },
+    "CreatedContactName": {
+      "title": "CreatedContactName",
+      "description": "Full name of the newly created Contact. Populated only when Success is true.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": true,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    },
+    "DuplicateFound": {
+      "title": "DuplicateFound",
+      "description": "True if AGENT_CreateContact found a potential duplicate and did not create a Contact.",
+      "lightning:type": "lightning__booleanType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    },
+    "DuplicateContactName": {
+      "title": "DuplicateContactName",
+      "description": "Name of the potential duplicate Contact, populated when DuplicateFound is true.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": true,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    },
+    "DuplicateContactId": {
+      "title": "DuplicateContactId",
+      "description": "Salesforce ID of the potential duplicate Contact, populated when DuplicateFound is true.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    },
+    "ErrorMessage": {
+      "title": "ErrorMessage",
+      "description": "Error message returned by AGENT_CreateContact when Success is false.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    }
+  },
+  "lightning:type": "lightning__objectType"
+}
