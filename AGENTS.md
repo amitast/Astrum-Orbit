@@ -210,8 +210,35 @@ These rules are non-negotiable. A build that violates any of these must not be d
 - Email delivery confirmed only via Setup → Email Log Files — no SOQL verification available
 - Do not assert email invocation count in Apex tests for emailSimple sends
 
+### Salesforce CLI invocation in PowerShell (Codex)
+
+`sf` is installed to the user npm bin directory (`%APPDATA%\npm`), which is on the user PATH but not
+the machine PATH. Codex's PowerShell sandbox inherits only the machine PATH, so `sf` is not found by
+name alone.
+
+**Always invoke sf in PowerShell using the full APPDATA path:**
+
+```powershell
+& "$env:APPDATA\npm\sf.cmd" <subcommand> [args]
+```
+
+Examples:
+```powershell
+& "$env:APPDATA\npm\sf.cmd" --version
+& "$env:APPDATA\npm\sf.cmd" project deploy start --source-dir force-app --target-org amit.kumar@astrumcro.com.astrumpar
+& "$env:APPDATA\npm\sf.cmd" apex run test --class-names MyTest --test-level RunSpecifiedTests --target-org amit.kumar@astrumcro.com.astrumpar
+& "$env:APPDATA\npm\sf.cmd" org list
+```
+
+`$env:APPDATA` is a user environment variable available in all PowerShell contexts including
+non-interactive sandbox shells. `sf.cmd` is the CMD wrapper — it does not require a PS1 execution
+policy and works in all PowerShell versions.
+
+In bash (Git Bash or WSL), `sf` resolves correctly by name — no full path needed.
+
 ### Deploy command (sandbox only)
-- Always use: `sf project deploy start --source-dir force-app --target-org amit.kumar@astrumcro.com.astrumpar`
+- Always use: `& "$env:APPDATA\npm\sf.cmd" project deploy start --source-dir force-app --target-org amit.kumar@astrumcro.com.astrumpar`
+- In bash: `sf project deploy start --source-dir force-app --target-org amit.kumar@astrumcro.com.astrumpar`
 - Never add a production alias to any deploy command
 
 ## 12. Current Build Wave Status
