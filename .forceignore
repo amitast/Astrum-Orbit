@@ -1,14 +1,13 @@
-# List files or directories below to ignore them when running force:source:push, force:source:pull, and force:source:status
-# More information: https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_exclude_source.htm
-#
-
-package.xml
-
-# LWC configuration files
-**/jsconfig.json
-**/.eslintrc.json
-
-# LWC Jest
-**/__tests__/**
-
-node_modules/
+# Non-Astrum-BD-Agent metadata — do not retrieve
+**/bots/Agentforce_Sales_Development_Rep/**
+**/bots/Copilot_for_Salesforce/**
+**/bots/Sales_Representative_Agent/**
+**/genAiPlannerBundles/Agentforce_Sales_Development_Rep/**
+**/genAiPlannerBundles/EmployeeCopilotPlanner/**
+**/genAiPlannerBundles/Sales_Representative_Agent/**
+**/genAiPlugins/Lead_Nurturing.genAiPlugin-meta.xml
+**/genAiPlugins/Fetch_Lead_Details.genAiPlugin-meta.xml
+**/genAiFunctions/Fetch_Lead_By_Name/**
+**/genAiFunctions/AUTO_Send_Follow_UP_Emails/**
+**/genAiFunctions/AUTO_Send_Mail_Flow/**
+**/genAiFunctions/Fetch_Account_Information1/**
