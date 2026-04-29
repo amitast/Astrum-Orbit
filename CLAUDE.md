@@ -88,9 +88,9 @@ Always append the flow type to the Flow Label and API Name (e.g., Set_Account_Ac
 Always include descriptions for any new custom fields, objects, validation rules, or Flow elements.
 Never deploy metadata to a production environment. Deployments must always be restricted to Developer Sandboxes or Scratch Orgs
 
-## Dual-Agent Coordination
+## Three-Operator Coordination
 
-This project uses a two-agent operating model. Full protocol: `docs/dual-agent-protocol.md`. Codex operating instructions: `AGENTS.md`.
+This project uses a three-operator operating model. Full protocol: `docs/dual-agent-protocol.md`. Operator instructions: `AGENTS.md`.
 
 ### Claude Code (Architect) — this agent's responsibilities
 - PRD authoring and approval
@@ -106,6 +106,15 @@ This project uses a two-agent operating model. Full protocol: `docs/dual-agent-p
 - Does not design, author PRDs, or make deployment decisions
 - Governed by `AGENTS.md` — do not edit that file
 
+### Agentforce Vibes (Validator) — this agent's responsibilities
+- Salesforce-native validation: Agentforce DX checks, Code Analyzer, org-aware metadata inspection
+- Agentforce Testing Center preparation and sandbox-safe test execution (approved specs only)
+- Org state verification: deployed metadata, bot activation, permission set assignments, SOQL queries
+- Produces structured validation evidence for Claude review
+- Does not deploy, activate agents, or modify metadata without explicit Human approval after Claude review
+- Does not target astrum-prod under any circumstances
+- Governed by `AGENTS.md` — do not edit that file
+
 ### Human (Approver) — sole authority for
 - All production deployments
 - Linear status transitions to Done, Closed, or Production Ready
@@ -113,8 +122,8 @@ This project uses a two-agent operating model. Full protocol: `docs/dual-agent-p
 - Sandbox smoke test sign-off (7/7 scenarios required)
 - Merge to main
 
-### Linear governance (both agents)
+### Linear governance (all AI operators)
 - Read the current issue state before posting any update
 - Additive comments only — never rewrite description unless explicitly instructed
 - Every comment must include: agent name, date, action, evidence reference
-- Neither agent may set status to Done, Closed, or Production Ready
+- No AI operator may set status to Done, Closed, or Production Ready

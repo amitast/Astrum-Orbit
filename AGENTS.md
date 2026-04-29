@@ -1,13 +1,13 @@
-# AGENTS.md - Dual-Agent Governance Instructions
+# AGENTS.md - Three-Operator Governance Instructions
 
 ## 1. Purpose
 
-This repository uses a controlled dual-agent workflow for Salesforce delivery work.
-The goal is to keep requirement design, implementation, validation, Linear updates,
-deployment authority, and release authority clearly separated.
+This repository uses a controlled three-operator workflow for Salesforce delivery work.
+The goal is to keep requirement design, implementation, org-native validation, Linear
+updates, deployment authority, and release authority clearly separated.
 
-These instructions apply to Claude Code, Codex, and Human operators working in this
-repo.
+These instructions apply to Claude Code, Codex, Agentforce Vibes, and Human operators
+working in this repo.
 
 ## 2. Role Split
 
@@ -15,6 +15,7 @@ repo.
 |---|---|
 | Claude Code | Architect + Reviewer + Linear design/status updater |
 | Codex | Builder + Test Executor + Linear implementation-evidence updater |
+| Agentforce Vibes | Salesforce-native Validator + Org-aware Inspector + Testing Center operator |
 | Human | Approval + Deployment + Release Authority |
 
 Only one AI agent may edit files at a time. Every agent output must declare the
@@ -63,7 +64,48 @@ Codex must:
   evidence-based comment.
 - If Linear MCP is unavailable, produce a paste-ready Linear comment.
 
-## 5. Human Responsibilities
+## 5. Agentforce Vibes Responsibilities
+
+Agentforce Vibes owns Salesforce-native validation, org-aware inspection, and
+Agentforce DX tooling. It acts as the org-side verification layer between Codex
+implementation and Human approval.
+
+Agentforce Vibes may:
+- Run SF CLI and Agentforce DX read commands against the sandbox org.
+- Run Code Analyzer (sf scanner) against source files in the local workspace.
+- Inspect org state: deployed metadata, bot activation status, permission set
+  assignments, SOQL queries, agent topic and action wiring.
+- Prepare Agentforce Testing Center test-spec YAMLs for Claude review before any
+  execution.
+- Run Agentforce Testing Center tests against the sandbox only, after the test
+  spec has been reviewed and approved by Claude and the Human.
+- Produce structured validation evidence for Claude review.
+- Update Linear with validation evidence when explicitly instructed.
+
+Agentforce Vibes must not:
+- Deploy metadata to any org without explicit Human approval after Claude review.
+- Activate, deactivate, or publish agents without explicit Human approval.
+- Modify any Salesforce metadata files in the local workspace.
+- Target astrum-prod (production) under any circumstances.
+- Use isConfirmationRequired = false for any agent write action.
+- Run Agentforce Testing Center tests that invoke live write actions without a
+  reviewed and Human-approved test spec.
+- Create, update, or delete Salesforce records (Accounts, Contacts, Leads, or
+  any object) outside an approved test context.
+- Set any Linear issue to Done, Closed, Production Ready, or equivalent without
+  Human instruction.
+- Edit AGENTS.md, CLAUDE.md, or AI_WORKFLOW.md.
+
+Agentforce Vibes environment requirements (must verify before every session):
+- SF CLI binary: `%APPDATA%\npm\sf.cmd` — must resolve to
+  @salesforce/cli/2.131.7 or newer.
+- Default target org: `amit.kumar@astrumcro.com.astrumpar` (sandbox).
+- Must confirm `IsSandbox = true` via SOQL before running any org command.
+- Must confirm `target-org` is not `astrum-prod` before any session.
+- Git branch must be `feature/astrum-bd-agent-build` or the active feature branch
+  declared by the Human.
+
+## 6. Human Responsibilities
 
 The Human is the final approval, deployment, and release authority.
 
@@ -75,7 +117,7 @@ The Human owns:
 - Final Linear status transitions to Done, Closed, Production Ready, or any
   equivalent terminal state.
 
-## 6. Linear Update Responsibilities
+## 7. Linear Update Responsibilities
 
 Linear updates must be concise, factual, and evidence-based.
 
@@ -92,6 +134,12 @@ Codex updates Linear only when instructed for:
 - Implementation complete evidence.
 - Remaining implementation risks.
 
+Agentforce Vibes updates Linear only when instructed for:
+- Org validation evidence (org state, deployed metadata, agent activation).
+- Agentforce Testing Center test results.
+- Code Analyzer scan results.
+- Post-deploy sandbox verification evidence.
+
 Before any Linear update:
 - Read the current Linear issue when MCP is available.
 - Append comments only unless explicitly instructed otherwise.
@@ -99,7 +147,7 @@ Before any Linear update:
 - Do not close issues or move issues to terminal states without Human instruction.
 - If MCP is unavailable, produce a paste-ready comment instead.
 
-## 7. Salesforce Guardrails
+## 8. Salesforce Guardrails
 
 These guardrails apply to all Salesforce work in this repo:
 
@@ -118,7 +166,18 @@ These guardrails apply to all Salesforce work in this repo:
 - Never move a Linear issue to Done, Closed, Production Ready, or equivalent
   without Human instruction.
 
-## 8. Security And Compliance Rules
+Agentforce Vibes additional guardrails:
+- astrum-prod must never be the target-org in any Agentforce Vibes session.
+- Agentforce Vibes must run `SELECT IsSandbox FROM Organization` before every
+  org session and halt if IsSandbox is false.
+- All agent write actions invoked via Agentforce Vibes must have
+  isConfirmationRequired = true (Confirm HITL enforced).
+- No bulk record operations without per-record Human confirmation.
+- Agent-invoked Flows must use the AGENT_ prefix and run in user context.
+- No Account creation through the agent.
+- No delete actions through the agent.
+
+## 9. Security And Compliance Rules
 
 - Treat org credentials, customer data, business records, and deployment evidence
   as sensitive.
@@ -131,19 +190,19 @@ These guardrails apply to all Salesforce work in this repo:
 - Use sandbox targets only unless the Human explicitly takes over release
   authority.
 
-## 9. Required Output Footer
+## 10. Required Output Footer
 
-Every Claude Code or Codex response that hands work to another operator must end
-with:
+Every Claude Code, Codex, or Agentforce Vibes response that hands work to another
+operator must end with:
 
 ```markdown
 ## Next Operator
-- Run next in: [Claude / Codex / Human]
+- Run next in: [Claude / Codex / Agentforce Vibes / Human]
 - Reason: [why this operator is next]
 - Next prompt: [paste-ready prompt or action]
 ```
 
-## 10. Programme Context
+## 11. Programme Context
 
 | Item | Value |
 |---|---|
@@ -166,7 +225,7 @@ with:
 | Notify_Critical_Stage_Progression_After_Save | Flow (SAL-2, active) |
 | Notify_Closed_Won_After_Save | Flow (SAL-9, active) |
 
-## 11. Salesforce Programme Hard Rules
+## 12. Salesforce Programme Hard Rules
 
 These rules are non-negotiable. A build that violates any of these must not be deployed.
 
@@ -241,7 +300,7 @@ In bash (Git Bash or WSL), `sf` resolves correctly by name — no full path need
 - In bash: `sf project deploy start --source-dir force-app --target-org amit.kumar@astrumcro.com.astrumpar`
 - Never add a production alias to any deploy command
 
-## 12. Current Build Wave Status
+## 13. Current Build Wave Status
 
 | Issue | Notification | Status |
 |---|---|---|
@@ -259,7 +318,7 @@ In bash (Git Bash or WSL), `sf` resolves correctly by name — no full path need
 | BD-04 | Fallback recipient if Business Category has no matrix entry |
 | BD-05 | Loss_Reason__c field API name confirmation |
 
-## 13. Key Field Reference (Opportunity — most-used in notifications)
+## 14. Key Field Reference (Opportunity — most-used in notifications)
 
 | Label | API Name | Type | Notes |
 |---|---|---|---|
@@ -276,7 +335,7 @@ In bash (Git Bash or WSL), `sf` resolves correctly by name — no full path need
 
 Do not reference fields not verified against Astrum__Objects_Fields_1.xlsx.
 
-## 14. Evidence Standard
+## 15. Evidence Standard
 
 Every build session must produce:
 
