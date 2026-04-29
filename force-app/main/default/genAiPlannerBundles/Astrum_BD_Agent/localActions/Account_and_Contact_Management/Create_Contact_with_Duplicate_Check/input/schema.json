@@ -1,14 +1,14 @@
 {
   "required": [
-    "AccountId",
+    "AccountName",
     "FirstName",
     "LastName"
   ],
   "unevaluatedProperties": false,
   "properties": {
-    "AccountId": {
-      "title": "AccountId",
-      "description": "Salesforce record ID of the existing Account selected by the user or resolved by prior account lookup.",
+    "AccountName": {
+      "title": "AccountName",
+      "description": "Name of the Salesforce Account to link the new Contact to, for example 'Pfizer'. Extracted from the user's utterance. The flow resolves the Account record ID from this name.",
       "lightning:type": "lightning__textType",
       "lightning:isPII": false,
       "copilotAction:isUserInput": false

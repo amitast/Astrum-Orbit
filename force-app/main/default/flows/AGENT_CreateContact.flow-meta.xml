@@ -46,7 +46,7 @@
     <status>Active</status>
 
     <recordLookups>
-        <description>Verify that the AccountId input resolves to a real Account record accessible to the running user. This prevents a phantom Contact being created with an invalid AccountId.</description>
+        <description>Resolve the Account record ID from the account name supplied by the agent. Returns null if no Account with that name is accessible to the running user.</description>
         <label>Get Account</label>
         <locationX>176</locationX>
         <locationY>120</locationY>
@@ -57,16 +57,17 @@
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Id</field>
+            <field>Name</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>AccountId</elementReference>
+                <elementReference>AccountName</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Account</object>
         <outputReference>var_Account</outputReference>
         <queriedFields>Id</queriedFields>
+        <queriedFields>Name</queriedFields>
         <storeOutputAutomatically>false</storeOutputAutomatically>
     </recordLookups>
 
@@ -85,7 +86,7 @@
             <field>AccountId</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>AccountId</elementReference>
+                <elementReference>var_Account.Id</elementReference>
             </value>
         </filters>
         <filters>
@@ -295,7 +296,7 @@
     </assignments>
 
     <assignments>
-        <description>Set error outputs when the AccountId input does not resolve to an accessible Account record. The running user may lack record access.</description>
+        <description>Set error outputs when the AccountName input does not resolve to an accessible Account record. The running user may lack record access.</description>
         <label>Set Fault - Account Not Found</label>
         <locationX>44</locationX>
         <locationY>840</locationY>
@@ -318,7 +319,7 @@
             <assignToReference>ErrorMessage</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>Account not found or not accessible. Verify the account ID and your record access.</stringValue>
+                <stringValue>Account not found. Verify the account name and your record access.</stringValue>
             </value>
         </assignmentItems>
     </assignments>
@@ -389,7 +390,7 @@
     </assignments>
 
     <recordCreates>
-        <description>Create the new Contact record. All input variables are mapped to the corresponding Contact fields. Only AccountId, FirstName, LastName, Title, Email, Phone, and MobilePhone are set.</description>
+        <description>Create the new Contact record. The Contact parent Account field is set from the resolved Account record. FirstName, LastName, Title, Email, Phone, and MobilePhone are set from input variables.</description>
         <label>Create Contact</label>
         <locationX>572</locationX>
         <locationY>720</locationY>
@@ -404,7 +405,7 @@
         <inputAssignments>
             <field>AccountId</field>
             <value>
-                <elementReference>AccountId</elementReference>
+                <elementReference>var_Account.Id</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -468,8 +469,8 @@
     </formulas>
 
     <variables>
-        <description>18-character Salesforce Record ID of the parent Account resolved by the agent before invocation.</description>
-        <name>AccountId</name>
+        <description>Name of the parent Account as extracted from the user's request, for example 'Pfizer'. Used to look up the Account record by Name.</description>
+        <name>AccountName</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>

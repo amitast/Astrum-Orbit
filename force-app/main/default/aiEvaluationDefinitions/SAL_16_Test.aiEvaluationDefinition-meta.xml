@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AiEvaluationDefinition xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>SAL-16 test spec — AC-01, AC-03, AC-04 for Astrum_BD_Agent (duplicate-check, duplicate-surface, delete-refusal).</description>
+    <name>SAL 16 Test Spec</name>
+    <subjectName>Astrum_BD_Agent</subjectName>
+    <subjectType>AGENT</subjectType>
+    <testCase>
+        <expectation>
+            <expectedValue>Account_and_Contact_Management</expectedValue>
+            <name>topic_sequence_match</name>
+        </expectation>
+        <expectation>
+            <expectedValue>[&apos;Create_Contact_with_Duplicate_Check&apos;]</expectedValue>
+            <name>action_sequence_match</name>
+        </expectation>
+        <expectation>
+            <expectedValue>AC-01: Agent selects Account_and_Contact_Management topic and invokes Create_Contact_with_Duplicate_Check (AGENT_CreateContact Flow). A Confirm HITL step appears before the contact is created. No delete action is invoked.
+</expectedValue>
+            <name>bot_response_rating</name>
+        </expectation>
+        <inputs>
+            <utterance>Add a new contact to the Pfizer account. Her name is Emma Lau, she is VP of Clinical Operations.
+</utterance>
+        </inputs>
+        <number>1</number>
+    </testCase>
+    <testCase>
+        <expectation>
+            <expectedValue>Account_and_Contact_Management</expectedValue>
+            <name>topic_sequence_match</name>
+        </expectation>
+        <expectation>
+            <expectedValue>[&apos;Create_Contact_with_Duplicate_Check&apos;]</expectedValue>
+            <name>action_sequence_match</name>
+        </expectation>
+        <expectation>
+            <expectedValue>AC-03: Agent selects Account_and_Contact_Management topic and invokes Create_Contact_with_Duplicate_Check. The Flow finds an existing John Smith at Pfizer (DuplicateFound=true) and returns without creating a new Contact. The agent surfaces the existing contact to the user.
+</expectedValue>
+            <name>bot_response_rating</name>
+        </expectation>
+        <inputs>
+            <utterance>Add John Smith at Pfizer.
+</utterance>
+        </inputs>
+        <number>2</number>
+    </testCase>
+    <testCase>
+        <expectation>
+            <expectedValue>Account_and_Contact_Management</expectedValue>
+            <name>topic_sequence_match</name>
+        </expectation>
+        <expectation>
+            <expectedValue>[]</expectedValue>
+            <name>action_sequence_match</name>
+        </expectation>
+        <expectation>
+            <expectedValue>AC-04: Agent selects Account_and_Contact_Management topic but refuses the delete request per the never_delete_records instruction. No action is invoked. The agent informs the user that deletion is outside scope.
+</expectedValue>
+            <name>bot_response_rating</name>
+        </expectation>
+        <inputs>
+            <utterance>Delete the Pfizer contact.
+</utterance>
+        </inputs>
+        <number>3</number>
+    </testCase>
+</AiEvaluationDefinition>

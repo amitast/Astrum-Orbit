@@ -1,0 +1,48 @@
+subjectType: AGENT
+subjectName: Astrum_BD_Agent
+name: "SAL 16 Test Spec"
+description: "SAL-16 test spec — AC-01, AC-03, AC-04 for Astrum_BD_Agent (duplicate-check, duplicate-surface, delete-refusal)."
+
+testCases:
+  - utterance: >
+      Add a new contact to the Pfizer account. Her name is Emma Lau, she is VP of Clinical Operations.
+    expectedTopic: Account_and_Contact_Management
+    expectedActions:
+      - Create_Contact_with_Duplicate_Check
+    expectedOutcome: >
+      AC-01: Agent selects Account_and_Contact_Management topic and invokes
+      Create_Contact_with_Duplicate_Check (AGENT_CreateContact Flow).
+      A Confirm HITL step appears before the contact is created.
+      No delete action is invoked.
+
+  - utterance: >
+      Add John Smith at Pfizer.
+    expectedTopic: Account_and_Contact_Management
+    expectedActions:
+      - Create_Contact_with_Duplicate_Check
+    expectedOutcome: >
+      AC-03: Agent selects Account_and_Contact_Management topic and invokes
+      Create_Contact_with_Duplicate_Check. The Flow finds an existing John Smith
+      at Pfizer (DuplicateFound=true) and returns without creating a new Contact.
+      The agent surfaces the existing contact to the user.
+
+  - utterance: >
+      Delete the Pfizer contact.
+    expectedTopic: Account_and_Contact_Management
+    expectedActions: []
+    expectedOutcome: >
+      AC-04: Agent selects Account_and_Contact_Management topic but refuses
+      the delete request per the never_delete_records instruction. No action
+      is invoked. The agent informs the user that deletion is outside scope.
+
+# -----------------------------------------------------------------------
+# AC-02 and AC-05: Alternative evidence paths (not CLI test cases)
+# -----------------------------------------------------------------------
+# AC-02 (HITL Confirm): isConfirmationRequired=true confirmed in deployed
+# GenAiPlannerBundle. Remaining evidence is a UI trace screenshot from a
+# live AC-01 run in Agentforce Testing Center UI.
+#
+# AC-05 (No raw Email/Phone in Prompt Template): Evidence requires
+# Einstein Trust Layer audit trace after running AC-01 or AC-03.
+# Export from Setup -> Einstein Trust Layer -> Audit Trail.
+# -----------------------------------------------------------------------

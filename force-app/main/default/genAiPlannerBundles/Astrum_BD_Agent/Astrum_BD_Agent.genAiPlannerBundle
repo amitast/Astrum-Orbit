@@ -54,28 +54,35 @@
 Do not use this subagent for managing opportunities, updating deal stages, capturing next steps on deals, changing close dates, creating forecast views, or running data quality audits across multiple records. This subagent acts on one account or contact record at a time based on an explicit user instruction. It does not perform unsolicited analysis of pipeline health or data completeness.</description>
         <developerName>Account_and_Contact_Management</developerName>
         <genAiPluginInstructions>
-            <description>Always retrieve and display the current account or contact record before taking any action that modifies it. Show the user the current field values before presenting any proposed update.</description>
-            <developerName>always_retrieve_current_record</developerName>
+            <description>When the user requests to create or add a new contact and provides a first name, last name, and account name, invoke Create_Contact_with_Duplicate_Check immediately with AccountName, FirstName, and LastName extracted from the utterance. Do not retrieve the account record first. Do not search for duplicate contacts manually. Do not present account candidate lists before invoking. Create_Contact_with_Duplicate_Check resolves the account by name and performs duplicate detection internally before creating the record.</description>
+            <developerName>create_contact_routing</developerName>
             <language xsi:nil="true"/>
-            <masterLabel>Always retrieve current record</masterLabel>
+            <masterLabel>Create contact routing</masterLabel>
             <sortOrder>0</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
-            <description>Always confirm the exact record identity before writing to it. If the user&apos;s request matches more than one account or contact, present the candidate list and ask the user to select one before invoking any action.</description>
+            <description>Before updating an existing account or contact record, always retrieve and display the current record and show the user the current field values before applying any change. This instruction applies to update operations only — it does not apply to creating new contacts.</description>
+            <developerName>always_retrieve_current_record</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Always retrieve current record</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Before updating an existing record, confirm the exact record identity. If the user&apos;s request matches more than one existing account or contact, present the candidate list and ask the user to select one. For new contact creation, skip this check — Create_Contact_with_Duplicate_Check handles account resolution and duplicate detection internally.</description>
             <developerName>always_confirm_record_identity</developerName>
             <language xsi:nil="true"/>
             <masterLabel>Always confirm record identity</masterLabel>
-            <sortOrder>1</sortOrder>
+            <sortOrder>2</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
             <description>Always include the Salesforce Account Name in every response that references a specific account.</description>
             <developerName>always_include_account_name</developerName>
             <language xsi:nil="true"/>
             <masterLabel>Always include account name</masterLabel>
-            <sortOrder>2</sortOrder>
+            <sortOrder>15</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
-            <description>Always check for potential duplicate contacts before creating a new contact. Search by first name, last name, and account. If a potential duplicate is found, present it to the user and ask them to confirm that the new record is not a duplicate before proceeding.</description>
+            <description>Duplicate contact detection for new contacts is handled automatically by Create_Contact_with_Duplicate_Check. Always invoke this action for new contact creation — do not manually search for duplicates before calling it. The action searches by last name at the same account and by email address, and returns duplicate contact details for display to the user when a match is found.</description>
             <developerName>always_check_duplicate_contacts</developerName>
             <language xsi:nil="true"/>
             <masterLabel>Always check duplicate contacts</masterLabel>
@@ -145,14 +152,14 @@ Do not use this subagent for managing opportunities, updating deal stages, captu
             <sortOrder>12</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
-            <description>As a first step when asked about an account, call Get Account Details to retrieve the record. Then display key fields to the user before offering further actions.</description>
+            <description>When the user asks to view, summarise, or update an existing account record, retrieve the account record and display key fields before making changes. For new contact creation requests, skip this step and invoke Create_Contact_with_Duplicate_Check directly without a prior account lookup.</description>
             <developerName>first_step_account_details</developerName>
             <language xsi:nil="true"/>
             <masterLabel>First step account details</masterLabel>
             <sortOrder>13</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
-            <description>As a first step when asked about a contact, call Get Contact Details to retrieve the record. Then display name, title, account, and contact fields before offering further actions.</description>
+            <description>When the user asks to view, update, or find an existing contact record, retrieve the contact record and display name, title, account, and contact fields before making changes. For new contact creation, skip this step and invoke Create_Contact_with_Duplicate_Check directly.</description>
             <developerName>first_step_contact_details</developerName>
             <language xsi:nil="true"/>
             <masterLabel>First step contact details</masterLabel>

@@ -67,7 +67,7 @@ private class AGENT_CreateContact_Test {
     }
 
     private static Map<String, Object> runCreateContactFlow(
-        Id accountId,
+        String accountName,
         String firstName,
         String lastName,
         String title,
@@ -76,7 +76,7 @@ private class AGENT_CreateContact_Test {
         String mobilePhone
     ) {
         Map<String, Object> inputs = new Map<String, Object>{
-            'AccountId' => String.valueOf(accountId),
+            'AccountName' => accountName,
             'FirstName' => firstName,
             'LastName' => lastName,
             'Title' => title,
@@ -117,7 +117,7 @@ private class AGENT_CreateContact_Test {
 
             Test.startTest();
             Map<String, Object> outputs = runCreateContactFlow(
-                acc.Id,
+                acc.Name,
                 'Ava',
                 lastName,
                 'Director',
@@ -181,7 +181,7 @@ private class AGENT_CreateContact_Test {
 
             Test.startTest();
             Map<String, Object> outputs = runCreateContactFlow(
-                acc.Id,
+                acc.Name,
                 'New',
                 lastName,
                 'VP',
@@ -236,7 +236,7 @@ private class AGENT_CreateContact_Test {
 
             Test.startTest();
             Map<String, Object> outputs = runCreateContactFlow(
-                targetAccount.Id,
+                targetAccount.Name,
                 'Different',
                 'Last' + suffix,
                 'Head of Clinical Operations',
@@ -269,12 +269,12 @@ private class AGENT_CreateContact_Test {
         }
 
         System.runAs(bdUser) {
-            Id missingAccountId = (Id) '001000000000000AAA';
+            String missingName = 'SAL15 TC04 Missing ' + System.now().getTime();
             String lastName = 'MissingAccount' + System.now().getTime();
 
             Test.startTest();
             Map<String, Object> outputs = runCreateContactFlow(
-                missingAccountId,
+                missingName,
                 'Mia',
                 lastName,
                 null,
