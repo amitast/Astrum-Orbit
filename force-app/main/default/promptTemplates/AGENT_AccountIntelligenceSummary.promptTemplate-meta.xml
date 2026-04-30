@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<PromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <activeVersionNumber>1</activeVersionNumber>
+    <description>Account Intelligence Summary for Astrum BD Agent Subagent 1. Generates a concise AI summary of a named account grounded in Salesforce record data only. Contact communication fields are excluded. No web grounding. No hallucination.</description>
+    <developerName>AGENT_AccountIntelligenceSummary</developerName>
+    <masterLabel>AGENT Account Intelligence Summary</masterLabel>
+    <promptTemplateVersions>
+        <activeVersion>true</activeVersion>
+        <description>Initial version — awaiting peer review by Solution Architect and BD Lead before activation</description>
+        <masterLabel>v1</masterLabel>
+        <versionNumber>1</versionNumber>
+        <templateInputs>
+            <apiName>AccountRecord</apiName>
+            <description>The Account record being summarised. Passed by the Agentforce planner after Get Account Details retrieves the record. Fields: Name, Industry, Type, BillingCity, BillingCountry, NumberOfEmployees, Description, Owner.Name. AnnualRevenue included — may be blank if FLS-restricted; template handles gracefully.</description>
+            <isRequired>true</isRequired>
+            <referenceSobjectFieldName>Id</referenceSobjectFieldName>
+            <referenceSobjectType>Account</referenceSobjectType>
+            <type>SObjectRecord</type>
+        </templateInputs>
+        <templateInputs>
+            <apiName>RelatedContacts</apiName>
+            <description>Top 5 contacts at this account ordered by LastModifiedDate descending. Includes FirstName, LastName, and Title only. Contact communication fields are explicitly excluded — PII must not be passed into this template.</description>
+            <isRequired>false</isRequired>
+            <referenceSobjectFieldName>AccountId</referenceSobjectFieldName>
+            <referenceSobjectType>Contact</referenceSobjectType>
+            <type>SObjectList</type>
+        </templateInputs>
+        <templateInputs>
+            <apiName>OpenOpportunities</apiName>
+            <description>Open (IsClosed = false) Opportunities on this account. Used to derive pipeline count and total Amount. Includes Name, Amount, StageName, CloseDate only. Passed as a list for the model to summarise. No PII. No Long Text. No legacy migration notes.</description>
+            <isRequired>false</isRequired>
+            <referenceSobjectFieldName>AccountId</referenceSobjectFieldName>
+            <referenceSobjectType>Opportunity</referenceSobjectType>
+            <type>SObjectList</type>
+        </templateInputs>
+        <templateBody>You are a business development assistant for Astrum, a contract research organisation (CRO). Summarise the following account for a BD team member preparing for outreach or account review. Use only the information provided below. Do not add information that is not present in the data. Do not guess, speculate, or invent values. Be concise and factual.
+
+Account: {!AccountRecord.Name}
+Industry: {!AccountRecord.Industry}
+Type: {!AccountRecord.Type}
+Location: {!AccountRecord.BillingCity}, {!AccountRecord.BillingCountry}
+Annual Revenue: {!AccountRecord.AnnualRevenue}
+Employees: {!AccountRecord.NumberOfEmployees}
+Account Owner: {!AccountRecord.Owner.Name}
+Description: {!AccountRecord.Description}
+
+Key Contacts (name and title only — no contact communication fields):
+{!RelatedContacts}
+
+Open Pipeline:
+{!OpenOpportunities}
+
+Write a 3-4 sentence summary covering: (1) what this organisation does and its relevance as a potential or existing Astrum client, (2) the key relationship holders we know (name and title only — do not include contact communication details in the summary), (3) current pipeline status if open opportunities exist. If a field is blank or zero, omit it from the summary rather than stating it is unknown. Do not fabricate contact details, deal values, or relationship information not present in the data above.</templateBody>
+    </promptTemplateVersions>
+    <type>Flex</type>
+</PromptTemplate>
