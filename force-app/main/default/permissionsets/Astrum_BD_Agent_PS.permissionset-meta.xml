@@ -1,6 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <PermissionSet xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>Exclusive permission set for the Astrum BD Agent. Grants the minimum Account read and Contact create permissions required for AGENT_CreateContact. Does not grant Delete, View All, Modify All, or Account Create.</description>
+    <description>Exclusive permission set for the Astrum BD Agent. Grants minimum access for S1 Account and Contact Management actions: Get Account Details, Search Accounts, Update Account Field, Get Contact Details, Search Contacts, Update Contact Field, and Create Contact. Does not grant Delete, Account Create, View All, or Modify All.</description>
+    <apexClassAccesses>
+        <apexClass>AGENT_SearchAccounts</apexClass>
+        <enabled>true</enabled>
+    </apexClassAccesses>
+    <apexClassAccesses>
+        <apexClass>AGENT_SearchContacts</apexClass>
+        <enabled>true</enabled>
+    </apexClassAccesses>
+    <apexClassAccesses>
+        <apexClass>AGENT_UpdateAccountField</apexClass>
+        <enabled>true</enabled>
+    </apexClassAccesses>
+    <apexClassAccesses>
+        <apexClass>AGENT_UpdateContactField</apexClass>
+        <enabled>true</enabled>
+    </apexClassAccesses>
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.Industry</field>
