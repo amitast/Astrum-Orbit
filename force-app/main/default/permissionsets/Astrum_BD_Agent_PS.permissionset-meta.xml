@@ -16,7 +16,7 @@
         <apexClass>AGENT_UpdateContactField</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <description>Exclusive permission set for the Astrum BD Agent. Grants minimum access for S1 Account and Contact Management actions: Get Account Details, Search Accounts, Update Account Field, Get Contact Details, Search Contacts, Update Contact Field, and Create Contact. Does not grant Delete, Account Create, View All, or Modify All.</description>
+    <description>Astrum BD Agent permission set for S1 account/contact actions. Grants approved AGENT Apex and Flow access only. No delete, no account creation, no bulk update permissions.</description>
     <fieldPermissions>
         <editable>true</editable>
         <field>Account.Industry</field>
