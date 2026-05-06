@@ -91,6 +91,14 @@
         <enabled>true</enabled>
         <flow>AGENT_CreateContact</flow>
     </flowAccesses>
+    <flowAccesses>
+        <enabled>true</enabled>
+        <flow>AGENT_GetAccountDetails</flow>
+    </flowAccesses>
+    <flowAccesses>
+        <enabled>true</enabled>
+        <flow>AGENT_GetContactDetails</flow>
+    </flowAccesses>
     <hasActivationRequired>false</hasActivationRequired>
     <label>Astrum BD Agent</label>
     <objectPermissions>
