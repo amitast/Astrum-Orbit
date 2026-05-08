@@ -97,7 +97,7 @@
 
 | Check | Result |
 |---|---|
-| Agentforce Studio — Astrum BD Agent visible | Pending Human confirmation |
-| Account and Contact Management topic present | Pending Human confirmation |
-| All 7 local actions listed | Pending Human confirmation |
-| Confirmation required on write actions | Pending Human confirmation |
+| Agentforce Studio — Astrum BD Agent visible | PASS — confirmed by Human 2026-05-08 |
+| Account and Contact Management topic present | PASS — confirmed by Human 2026-05-08 |
+| All 7 local actions listed | PASS — confirmed by Human 2026-05-08 |
+| Confirmation required on write actions | PASS — confirmed by Human 2026-05-08 |
