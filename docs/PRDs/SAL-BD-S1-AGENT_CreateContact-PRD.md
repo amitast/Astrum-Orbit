@@ -6,7 +6,7 @@
 | PRD ID | SAL-BD-S1-AGENT_CreateContact |
 | Author | Claude Code (Architect agent) — Astrum Orbit programme |
 | Date | 2026-04-28 |
-| Status | **Draft — Awaiting Human Approval before Codex build** |
+| Status | **Approved — Human approved 2026-05-08** |
 | Source spec | LLM-TXTS/agentforce/Astrum_BD_Agent_S1_AccountContact_Spec.md — Section 3, Action 6 |
 | Schema authority | LLM-TXTS/schema/Astrum_Objects_Fields_Schema_Authority.md (generated 2026-04-28T07:11:47Z) |
 | Build readiness | validation/agentforce/Astrum_BD_Agent_Build_Readiness_Report.md — Section 6 |

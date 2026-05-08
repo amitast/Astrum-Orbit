@@ -2,139 +2,98 @@
 
 | Item | Value |
 |---|---|
-| Linear issue | SAL-15 ([S1] AGENT_CreateContact Flow Build) |
-| Validation timestamp | 2026-04-28T18:49:02+01:00 |
-| Shell used | Windows PowerShell Desktop 5.1.26100.8115 |
-| Salesforce CLI command path | `& "$env:APPDATA\npm\sf.cmd"` |
-| Salesforce CLI version | `@salesforce/cli/2.131.7 win32-x64 node-v24.15.0` |
+| Linear issue | SAL-BD-S1 |
+| PRD | `docs/PRDs/SAL-BD-S1-AGENT_CreateContact-PRD.md` |
+| Target org | `astrum--astrumpar.sandbox.my.salesforce.com` |
 | Target username | `amit.kumar@astrumcro.com.astrumpar` |
-| Target org ID | `00DUD000007zF692AE` |
-| Target instance URL | `https://astrum--astrumpar.sandbox.my.salesforce.com` |
-| Deployment status | Succeeded |
-| Deploy ID | `0AfUD00000Gq3wf0AB` |
-| Agent Builder configuration | Not started |
-| Permission set work | Not performed |
-| Production org | Not touched |
+| Validation timestamp | 2026-05-08T18:24:57Z |
+| Validation ID | `0AfUD00000GyNzr0AF` |
+| Validation type | Check-only deployment validation with `RunSpecifiedTests`; no metadata was deployed |
+| SF CLI | `@salesforce/cli/2.133.4` |
 
-## Sandbox Proof
+## Scope Built
 
-| Evidence | Result |
-|---|---|
-| `sf org list --json` | Target username appeared under `sandboxes` with `isSandbox: true`; production `astrum-prod` appeared separately with `isSandbox: false` |
-| `Organization` SOQL query | `SELECT Id, Name, IsSandbox, InstanceName, OrganizationType FROM Organization LIMIT 1` returned `IsSandbox: true` |
-| Instance URL | `https://astrum--astrumpar.sandbox.my.salesforce.com` |
+| Component | Type | Status |
+|---|---|---|
+| `force-app/main/default/flows/AGENT_CreateContact.flow-meta.xml` | Flow | Updated to PRD AccountId contract |
+| `force-app/main/default/classes/AGENT_CreateContactTest.cls` | Apex test | Created for PRD TC-01 through TC-04 |
+| `force-app/main/default/classes/AGENT_CreateContactTest.cls-meta.xml` | Apex metadata | Created |
+| `force-app/main/default/classes/AGENT_CreateContact_Test.cls` | Existing Apex test | Updated from legacy AccountName input to AccountId so future all-tests runs do not fail after Flow deployment |
 
-## Commands Used
+No SAL-2, SAL-9, SAL-10, SAL-21 agent planner, bot, prompt-template, or evaluation files were edited by this build.
+
+## Validation Commands
 
 Sandbox confirmation:
 
 ```powershell
-& "$env:APPDATA\npm\sf.cmd" org list --json
-& "$env:APPDATA\npm\sf.cmd" data query --target-org amit.kumar@astrumcro.com.astrumpar --query "SELECT Id, Name, IsSandbox, InstanceName, OrganizationType FROM Organization LIMIT 1" --json
+& 'C:\Program Files\Git\bin\bash.exe' -lc "sf data query --query 'SELECT IsSandbox FROM Organization' --target-org amit.kumar@astrumcro.com.astrumpar --json"
 ```
 
-Final deployment command:
+Result: `IsSandbox = true`.
+
+Check-only validation and tests:
 
 ```powershell
-& "$env:APPDATA\npm\sf.cmd" project deploy start --source-dir force-app/main/default/flows/AGENT_CreateContact.flow-meta.xml --source-dir force-app/main/default/classes/AGENT_CreateContact_Test.cls --source-dir force-app/main/default/classes/AGENT_CreateContact_Test.cls-meta.xml --target-org amit.kumar@astrumcro.com.astrumpar --test-level RunSpecifiedTests --tests AGENT_CreateContact_Test --wait 30 --json
+& 'C:\Program Files\Git\bin\bash.exe' -lc "sf project deploy validate --source-dir force-app/main/default/flows/AGENT_CreateContact.flow-meta.xml --source-dir force-app/main/default/classes/AGENT_CreateContactTest.cls --source-dir force-app/main/default/classes/AGENT_CreateContactTest.cls-meta.xml --source-dir force-app/main/default/classes/AGENT_CreateContact_Test.cls --source-dir force-app/main/default/classes/AGENT_CreateContact_Test.cls-meta.xml --target-org amit.kumar@astrumcro.com.astrumpar --test-level RunSpecifiedTests --tests AGENT_CreateContactTest --tests AGENT_CreateContact_Test --wait 30 --json"
 ```
 
-Separate test command:
+Result: validation succeeded, `checkOnly = true`, `numFailures = 0`, `numberTestsCompleted = 8`, `numberTestsTotal = 8`.
 
-```text
-Not run. The final deployment command clearly ran AGENT_CreateContact_Test with 4/4 tests passing.
-```
+## Smoke Test Results
 
-## Deployment Result
-
-| Component | Type | Result |
-|---|---|---|
-| `AGENT_CreateContact` | Flow | Created |
-| `AGENT_CreateContact_Test` | ApexClass | Created |
-
-Final deployment summary:
-
-| Field | Value |
-|---|---|
-| Status | `Succeeded` |
-| Success | `true` |
-| Components deployed | 2 |
-| Component errors | 0 |
-| Tests completed | 4 |
-| Tests total | 4 |
-| Test failures | 0 |
-
-## Apex Runtime Test Evidence
-
-| Scenario | Test method | Expected | Result | Status |
+| Scenario | Description | Expected | Actual | Status |
 |---|---|---|---|---|
-| TC-01 | `tc01_noDuplicateCreatesContact` | Unique Contact is created and outputs return `Success = true` | Passed in deployment test run | PASS |
-| TC-02 | `tc02_duplicateByNameExitsWithoutCreate` | Same Account/name duplicate returns existing Contact and prevents create | Passed in deployment test run | PASS |
-| TC-03 | `tc03_duplicateByEmailExitsWithoutCreate` | Email duplicate returns existing Contact and prevents create | Passed in deployment test run | PASS |
-| TC-04 | `tc04_accountNotFoundFailsGracefully` | Missing Account returns clean `Account not found` error without creating Contact | Passed in deployment test run | PASS |
+| TC-01 | Valid AccountId, unique Contact name/email | Contact created; `Success = true`; `DuplicateFound = false`; created ID/name populated | `AGENT_CreateContactTest.tc01_noDuplicateCreatesContact` PASS; compatibility test also PASS | PASS |
+| TC-02 | Existing Contact with same LastName at same Account | No new Contact; `DuplicateFound = true`; existing Contact ID/name returned | `AGENT_CreateContactTest.tc02_duplicateByNameExitsWithoutCreate` PASS; compatibility test also PASS | PASS |
+| TC-03 | Existing Contact with same Email at another Account | No new Contact; `DuplicateFound = true`; email-match Contact ID/name returned | `AGENT_CreateContactTest.tc03_duplicateByEmailExitsWithoutCreate` PASS; compatibility test also PASS | PASS |
+| TC-04 | Syntactically valid AccountId does not resolve | No Contact; `Success = false`; `DuplicateFound = false`; `ErrorMessage` contains `Account not found` | `AGENT_CreateContactTest.tc04_accountIdNotFoundFailsGracefully` PASS; compatibility test also PASS | PASS |
 
-Deployment test result:
+## Flow Exit Criteria
 
-| Metric | Value |
-|---|---|
-| Test class | `AGENT_CreateContact_Test` |
-| Tests run | 4 |
-| Failures | 0 |
-| Total test time | 11,554 ms |
-
-## Flow-level Exit Criteria
-
-| Criterion | Status | Evidence |
+| Criterion | Evidence | Status |
 |---|---|---|
-| FC-01: All four unit test scenarios pass | PASS | Deployment `0AfUD00000Gq3wf0AB` ran `AGENT_CreateContact_Test`; TC-01 through TC-04 passed, 4/4 tests, 0 failures |
-| FC-02: Flow API name is `AGENT_CreateContact` | PASS | Deployed Flow fullName `AGENT_CreateContact`; file path `force-app/main/default/flows/AGENT_CreateContact.flow-meta.xml` |
-| FC-03: Flow run mode is user-launched context, not system without sharing | PASS | Flow XML uses `<runInMode>DefaultMode</runInMode>` and not `SystemModeWithoutSharing` |
-| FC-04: Duplicate scenarios create no Contact | PASS | TC-02 and TC-03 Apex runtime methods passed and assert unchanged Contact counts |
-| FC-05: Account not found returns clean ErrorMessage without unhandled fault | PASS | TC-04 Apex runtime method passed and asserts `ErrorMessage` contains `Account not found` and no Contact is created |
-| FC-06: Flow elements have descriptions | PASS | Salesforce metadata API does not expose a `<description>` field on `FlowStart` — platform constraint, not a build defect. All non-Start deployable Flow elements carry non-blank descriptions, confirmed statically and by successful deployment. |
+| FC-01: TC-01 through TC-04 pass | `AGENT_CreateContactTest` ran 4/4 PASS. Existing `AGENT_CreateContact_Test` also ran 4/4 PASS after AccountId compatibility update. | PASS |
+| FC-02: Flow API name is `AGENT_CreateContact` | Metadata path `force-app/main/default/flows/AGENT_CreateContact.flow-meta.xml`; validation component fullName `AGENT_CreateContact`. | PASS |
+| FC-03: User-launched run mode, not system mode | Flow XML uses `<runInMode>DefaultMode</runInMode>`, Salesforce metadata value for "User or Queue That Launched the Flow"; validation succeeded. No `SystemMode*` value present. | PASS |
+| FC-04: Duplicate scenarios create no Contact | TC-02 and TC-03 assert Contact counts do not increase. | PASS |
+| FC-05: AccountId-not-found path exits cleanly | TC-04 asserts no Contact created and `ErrorMessage` contains `Account not found`. | PASS |
+| FC-06: Element descriptions populated | Static XML check confirmed all configurable Flow elements have non-blank `<description>` tags. Note: Salesforce metadata rejects descriptions on `<start>`, so Start cannot carry a description in source XML. | PASS |
 
-## Warnings and Deviations
+## Flow Guardrail Checks
 
-- Initial deploy attempt `0AfUD00000Gq3mz0AB` failed and rolled back because Flow source XML interleaved `recordLookups` elements. The Flow file was fixed by grouping all Get Records elements contiguously.
-- Second deploy attempt `0AfUD00000Gq3tR0AR` failed and rolled back because Flow source XML interleaved `assignments` elements. The Flow file was fixed by grouping Assignment elements contiguously.
-- Third deploy attempt `0AfUD00000Gq3v30AB` failed and rolled back because Salesforce metadata does not allow name, label, or description on `FlowStart`. The unsupported Start description was removed.
-- Final deploy `0AfUD00000Gq3wf0AB` succeeded with 4/4 tests passing.
-- Flow coverage reports `Set_Fault_Create_Failed` not covered. The PRD-required TC-04 account-not-found graceful-failure path is covered and passed; create-DML fault injection was not part of TC-01 through TC-04.
-- No Agent Builder configuration was started.
-- No permission set work was performed.
-- Production org `astrum-prod` was not targeted or modified.
+| Check | Result |
+|---|---|
+| Flow API name has `AGENT_` prefix | PASS |
+| Autolaunched Flow, no screen elements | PASS |
+| No Delete Records element | PASS |
+| No `Check_Bypass_Permission` / `Bypass_Flow` decision | PASS |
+| Create Records fault connector routes to `Set_Fault_Create_Failed` | PASS |
+| Account validation uses `Account.Id = {!AccountId}` before duplicate lookup/create | PASS |
+| Duplicate-by-name query uses `Contact.AccountId = {!AccountId}` and `Contact.LastName = {!LastName}` | PASS |
+| Duplicate-by-email query is gated by `Email` not blank | PASS |
+| Create Contact sets only `AccountId`, `FirstName`, `LastName`, `Title`, `Email`, `Phone`, `MobilePhone` | PASS |
+
+## Notes
+
+- No deploy was run. The successful validation was check-only.
+- The PRD prompt requested `runInMode = UserMode`, but Salesforce Flow metadata validates user-launched context as `DefaultMode`; `DefaultMode` is used consistently by existing repo Flow metadata and passed API 66.0 validation.
+- `Set_Fault_Create_Failed` is present and wired from the Create Records fault connector. It is not covered by the four PRD tests because the required scenarios do not force a Contact create DML fault.
+- The existing `AGENT_CreateContact_Test.cls` was updated because it was still passing `AccountName`; leaving it unchanged would create a future all-tests failure after the Flow moves to the PRD AccountId contract.
 
 ## Paste-ready Linear Comment
 
-SAL-15 sandbox deployment and runtime validation completed for `AGENT_CreateContact`.
+SAL-BD-S1 implementation evidence for `AGENT_CreateContact`:
 
-Sandbox safety:
-- Target username: `amit.kumar@astrumcro.com.astrumpar`
-- Org ID: `00DUD000007zF692AE`
-- `sf org list --json` showed the target under sandboxes with `isSandbox: true`
-- `Organization` query returned `IsSandbox = true`
-- Instance URL: `https://astrum--astrumpar.sandbox.my.salesforce.com`
-- Production was not touched
+- Built/updated Flow: `force-app/main/default/flows/AGENT_CreateContact.flow-meta.xml`
+- Created PRD test class: `force-app/main/default/classes/AGENT_CreateContactTest.cls`
+- Updated existing compatibility test: `force-app/main/default/classes/AGENT_CreateContact_Test.cls`
+- Validation evidence: `validation/SAL-BD-S1-AGENT_CreateContact.md`
+- Target org confirmed sandbox: `amit.kumar@astrumcro.com.astrumpar`, `IsSandbox = true`
+- Check-only validation succeeded; no deployment performed
+- Validation ID: `0AfUD00000GyNzr0AF`
+- Tests: `AGENT_CreateContactTest` 4/4 PASS for TC-01 through TC-04; existing `AGENT_CreateContact_Test` also 4/4 PASS
+- Guardrails confirmed: autolaunched Flow, `AGENT_` prefix, user-launched run mode (`DefaultMode` metadata value), no screens, no delete element, no Bypass_Flow decision, Create fault path routes to `Set_Fault_Create_Failed`
+- Note for review: Salesforce API 66.0 accepts `DefaultMode` for "User or Queue That Launched the Flow"; `UserMode` did not appear in the repo's validated Flow metadata patterns.
 
-Deployment:
-- Command used narrow source paths for only the approved SAL-15 Flow and Apex test class
-- Deploy ID: `0AfUD00000Gq3wf0AB`
-- Status: Succeeded
-- Components created: `AGENT_CreateContact` Flow and `AGENT_CreateContact_Test` Apex class
-
-Runtime tests:
-- `AGENT_CreateContact_Test`: 4/4 passed, 0 failures
-- TC-01 no duplicate creates Contact: PASS
-- TC-02 duplicate by Account/name prevents create: PASS
-- TC-03 duplicate by Email prevents create: PASS
-- TC-04 account not found returns clean ErrorMessage: PASS
-
-Exit criteria:
-- FC-01: PASS
-- FC-04: PASS
-- FC-05: PASS
-
-Notes:
-- Agent Builder configuration was not started.
-- Permission set work was not performed.
-- Salesforce metadata does not allow a description on `FlowStart`; all deployable Flow elements retain non-blank descriptions.
+Ready for Claude review against `docs/PRDs/SAL-BD-S1-AGENT_CreateContact-PRD.md`.
