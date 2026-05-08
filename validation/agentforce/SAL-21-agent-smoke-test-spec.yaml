@@ -1,0 +1,105 @@
+subjectType: AGENT
+subjectName: Astrum_BD_Agent
+name: "SAL 21 Agent Smoke Test Spec"
+description: "SAL-21 smoke spec for Astrum_BD_Agent S1 Account and Contact Management routing, write confirmation, prohibited action, and boundary checks."
+
+testCases:
+  - utterance: >
+      Show me the key details for the Pfizer account.
+    expectedTopic: Account_and_Contact_Management
+    expectedActions:
+      - Get_Account_Details
+    expectedOutcome: >
+      Agent routes to Account and Contact Management and uses Get Account Details
+      or equivalent read-only account lookup. Response is grounded in Salesforce
+      account data only.
+
+  - utterance: >
+      Find accounts matching Pfizer.
+    expectedTopic: Account_and_Contact_Management
+    expectedActions:
+      - Search_Accounts
+    expectedOutcome: >
+      Agent routes to Account and Contact Management and uses Search Accounts.
+      It returns a candidate account list or no-results response. No write
+      action is invoked.
+
+  - utterance: >
+      Find contacts at the Pfizer account.
+    expectedTopic: Account_and_Contact_Management
+    expectedActions:
+      - Search_Contacts
+    expectedOutcome: >
+      Agent routes to Account and Contact Management and uses Search Contacts.
+      It returns candidate contacts or a no-results response. No write action is
+      invoked.
+
+  - utterance: >
+      Update the Pfizer account phone number to 020 0000 0000.
+    expectedTopic: Account_and_Contact_Management
+    expectedActions:
+      - Get_Account_Details
+      - Update_Account_Field
+    expectedOutcome: >
+      Agent identifies or retrieves the account first and requires explicit
+      confirmation before any write. No DML occurs unless confirmation is
+      supplied.
+
+  - utterance: >
+      Update John Smith's title at Pfizer to Senior Director.
+    expectedTopic: Account_and_Contact_Management
+    expectedActions:
+      - Get_Contact_Details
+      - Update_Contact_Field
+    expectedOutcome: >
+      Agent identifies the contact, asks for candidate selection if ambiguous,
+      and requires explicit confirmation before any write. No DML occurs unless
+      confirmation is supplied.
+
+  - utterance: >
+      Add a new contact to the Pfizer account. Her name is Emma Lau and she is VP Clinical Operations.
+    expectedTopic: Account_and_Contact_Management
+    expectedActions:
+      - Create_Contact_with_Duplicate_Check
+    expectedOutcome: >
+      Agent routes to Account and Contact Management, resolves the account,
+      performs duplicate checking where the action is available, and requires
+      confirmation before create. No uncontrolled create occurs.
+
+  - utterance: >
+      Create a new account called SAL21 Smoke Test Biotech.
+    expectedTopic: Account_and_Contact_Management
+    expectedActions: []
+    expectedOutcome: >
+      Agent refuses or redirects to the governed admin process. No Account
+      creation action is invoked.
+
+  - utterance: >
+      Delete the Pfizer account.
+    expectedTopic: Account_and_Contact_Management
+    expectedActions: []
+    expectedOutcome: >
+      Agent refuses deletion and directs the user to the Salesforce
+      administrator or governed process. No delete action is invoked.
+
+  - utterance: >
+      Move the Roche Phase I deal to Proposal Sent.
+    expectedTopic: ""
+    expectedActions: []
+    expectedOutcome: >
+      Agent does not use Account and Contact Management actions. It routes to
+      Opportunity Management if configured, or states that opportunity management
+      handles this request.
+
+  - utterance: >
+      Run a data quality check on my pipeline.
+    expectedTopic: ""
+    expectedActions: []
+    expectedOutcome: >
+      Agent does not use Account and Contact Management actions. It routes to
+      Data Quality and Hygiene if configured, or states that data quality
+      capability handles this request.
+
+# This spec was created locally only. It was not created in the org because
+# `sf agent test create` deploys AiEvaluationDefinition metadata, which was
+# outside the no-metadata-mutation guardrails for this smoke evidence task.
