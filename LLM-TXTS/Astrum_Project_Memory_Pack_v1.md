@@ -31,6 +31,8 @@ NOTE	SALES CLOUD: Configuration of Lead model, Account model, Opportunity model 
 NOTE	MARKETING CLOUD: Top-of-funnel Lead nurture journeys and re-engagement journeys. Email is the confirmed Phase 1 channel. SMS and WhatsApp are referenced in capability diagram but NOT confirmed for Phase 1 — do not design until channel, consent, and content are confirmed.
 NOTE	DATA CLOUD: Identity resolution, Consent DMO, and audience activation to Marketing Cloud. IndividualId population status in the live org is unconfirmed and is the single highest-priority compliance risk.
 NOTE	EMAIL NOTIFICATIONS: 14 Opportunity pipeline notifications specified. Build order priority: notifications 2, 9, 10 first (cleanest trigger logic), then 4, 11, 12, 13; digest and historical-change notifications (3, 5, 6, 7, 8) require custom log object or helper fields before build.
+DELIVERED	SAL-2 (Notification 2 — Critical Stage Progression): COMPLETE — production active since 25 Apr 2026 (Linear Done, smoke test PASS). Flow `Notify_Critical_Stage_Progression_After_Save` v2 (ID `301TY00000rVQPaYAO`) active in astrum-prod.
+DELIVERED	SAL-9 (Notification 9 — Closed Won): COMPLETE — production active since 27 Apr 2026 (PRE-07 PASS, Linear Done). Flow `Notify_Closed_Won_After_Save` (ID `301TY00000rYVAxYAO`) active in astrum-prod. Deploy ID `0AfTY000003kpyf0AA`.
 
 Out of scope until explicitly confirmed:
 •	External-facing Agentforce channels (web chat, email bot, LinkedIn)
@@ -65,16 +67,21 @@ Opportunity	146	108	AccountId, Name, CloseDate, StageName, ForecastCategoryName,
 Lead	51	15	Company, LastName, Status
 
 Key confirmed picklist values to use exactly:
-•	Opportunity StageName: Pre-Identification, Early Engagement, RFI in progress, RFI sent, Proposal On Hold, Proposal In Progress, Proposal Sent, Bid Defense, Verbal Award, Change Order, Contract Agreed, Closed Won, Closed Lost
+•	Opportunity StageName (13 canonical values): Pre-Identification, Early Engagement, RFI in progress, RFI sent, Proposal On Hold, Proposal In Progress, Proposal Sent, Bid Defense, Verbal Award, Change Order, Contract Agreed, Closed Won, Closed Lost. NOTE: Org has 19 active stage values confirmed via SOQL 26 Apr 2026. Additional active stage includes `Lost/Cancelled/Declined to Bid`. BD-01 required to determine whether this stage triggers SAL-10.
 •	Opp_Probability__c: 0, 5, 10, 25, 50, 75, 90, 100  [Custom picklist — this is the authoritative probability field, not standard Probability]
 •	ForecastCategoryName: Omitted, Pipeline, Best Case, Commit, Closed
-•	Business_Category__c: Phase I-NIS, Phase I Unit, S&PS
+•	Business_Category__c (6 active values confirmed via SOQL 26 Apr 2026): Phase I Unit, Phase I-NIS, S&PS, All Other Projects (Phase I - NIS), Phase I Clinical Conduct Portugal, Site & Patient Services (CRP & MissionTEC). Only Phase I Unit and Phase I-NIS have confirmed recipient matrices. S&PS and the remaining 3 values are blocked on BD-02/BD-03/BD-05. Do not assume the prior 3-value list is complete.
 •	Business_Type__c: Change Order, New Business
 •	Loss_Reason__c: Astrum Capabilities, Cancelled, Cost, Declined to Bid, Geographical Coverage, Lost to Follow-up, Lost to Incumbent, Project Team Experience, Therapeutic Experience
 •	Lead Status: New, Prospect, Outreach Done, Meeting Done, RfP Expected, Qualified, Disqualified
 •	Lead_Source__c (custom, authoritative): Astrum Event, BD Outreach, Conference Event, Employee Referral, Existing Client, External Event, External Referral, Google AdWords, Inbound Lead, Marketing Campaign, Other, Personal Connection, Prospecting, Referral, Referral (from existing client), Webinar
 •	Account Client_Type__c: Biotech, Consultant, Generics/Biosimilars, MedTech/Medical Devices, Nutraceuticals/Cosmetics, Other CRO, Other Vendor, Pharma, Academic
 •	Account_Segment__c: Strategic Account, Standard Account, Key Account
+
+Opportunity validation rule required fields (confirmed via org 25–26 Apr 2026 — not in original schema capture):
+•	STAGE_Closed_Won (ID 03dUD000000TMbRYAW) — enforces these 12 fields non-blank on Closed Won saves: Description, Reason_for_win__c, Indication__c, Number_of_Enrolled_Participants__c, Study_Countries__c, Number_of_Sites__c, Entities_Providing_Services__c, Protocol_Title__c, Contract_Sign_Date__c, Contract_Type__c, Payment_Schedule_Type__c, Contract_Entity__c
+•	STAGE_Closed_Lost — enforces non-blank on Closed Lost saves: Loss_Reason__c, Loss_Reason_Date__c (Date field — not in original schema capture), Description
+•	Contract_Type__c confirmed active picklist values: Change Order, Clinical Services Agreement, Invoice Only, Letter of Agreement, Out of Scope, Proposal Acceptance Form, Start Work Authorisation, Statement of Work/Work Order
  
 5.  Canonical Field Dependency Summary
 
@@ -193,6 +200,8 @@ ALWAYS	Confirm Total_Fees__c formula field is reliably populated before includin
 BEFORE BUILD	Notification 8 (Missing Key Data weekly digest) cannot be built until the BD Lead formally signs off the required fields list. The digest audits exactly those fields. Building against the wrong criteria produces a useless digest from day one.
 BEFORE BUILD	Notification 15 (Quote Closed Won) is not implementation-ready. The trigger mixes Opportunity and Quote logic and the quote selection rule is undefined. Do not start build until the quote trigger and quote-selection rule are formally confirmed.
 NOTE	Build priority order as recommended in the Notification Specification: notifications 2, 9, 10, then 1 (manual). These have the cleanest trigger logic and will deliver value fastest. Digest and historical-change notifications are a second work package.
+ALWAYS	Reference `Salesforce_Base_URL` Custom Label (value: `https://astrum.my.salesforce.com`, Label ID `101TY00000rVYYOYA4`) in all notification Flow email bodies for Salesforce record links. Use `{!$Label.Salesforce_Base_URL}`. Label is deployed in production since 25 Apr 2026. Do not re-deploy in future notification manifests.
+ALWAYS	`emailSimple` Flow action routes via org email relay and does NOT count under the `Number of Email Invocations` governor limit. Email delivery can only be confirmed via Setup → Email Log Files. No SOQL-based verification is available. Do not assert email invocation count in Apex tests for `emailSimple` sends.
  
 11.  Known Gaps and Unresolved Decisions
 
@@ -204,7 +213,7 @@ NF2	Meeting_Outcome__c (Lead)	Picklist	Structured post-meeting follow-up logic a
 NF3	Last_MC_Send_Date__c (Lead, Contact)	Date/Time	Deduplication gate between Marketing Cloud sends and BD outreach. Critical for preventing duplicate messaging.
 NF4	Disqualification_Reason__c (Lead)	Picklist	Confirmed as Decision D5 (Open) in Jan 2026 requirements meeting. Values from Dynamics taxonomy pending Commercial.
 NF5	Preferred_Language__c (Lead, Contact)	Picklist	Multi-language content personalisation. Deferred unless Phase 1 content is confirmed as English-only.
-NF6	Prior_Probability__c (Opportunity)	Text	Previous probability value for notification 2 email payload. Updated by before-save Flow.
+NF6	[RETIRED — NOT REQUIRED] Prior_Probability__c (Opportunity)	Text	Confirmed not required as at Apr 2026. `{!$Record__Prior.Opp_Probability__c}` is natively available in after-save record-triggered Flows. No helper field or before-save Flow needed. Confirmed in SAL-2 delivery evidence. Do not build this field.
 NF7	Prior_Service_Fees__c (Opportunity)	Currency	Previous Service Fees value for notification 5 threshold logic and email payload.
 NF8	Prior_Close_Date__c (Opportunity)	Date	Previous close date for notification 6 slippage calculation.
 NO1	Opportunity_Change_Log__c (custom object)	Master-Detail to Opp	Rolling count and prior-value logging for notifications 5, 6, 7. Fields: Change_Type__c, Previous_Value__c, New_Value__c, Change_Date__c, Changed_By__c.

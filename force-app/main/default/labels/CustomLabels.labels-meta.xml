@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+    <labels>
+        <fullName>Salesforce_Base_URL</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Base Salesforce URL used for Orbit notification record links.</shortDescription>
+        <value>https://astrum.my.salesforce.com</value>
+    </labels>
+</CustomLabels>

@@ -1,0 +1,33 @@
+{
+  "unevaluatedProperties": false,
+  "properties": {
+    "AccountCount": {
+      "title": "AccountCount",
+      "description": "Number of Account records returned. Zero if no accounts matched the search criteria.",
+      "lightning:type": "lightning__numberType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    },
+    "ResultsSummary": {
+      "title": "ResultsSummary",
+      "description": "Formatted summary of matching Account records, one per line. Empty string if AccountCount is zero.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    },
+    "ErrorMessage": {
+      "title": "ErrorMessage",
+      "description": "Error message if the search could not be executed. Empty string if no error occurred.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    }
+  },
+  "lightning:type": "lightning__objectType"
+}

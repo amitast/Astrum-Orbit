@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Package xmlns="http://soap.sforce.com/2006/04/metadata">
+    <!-- SAL-2: Critical Stage Progression Alert — production deployment package -->
+    <!-- Orbit Opportunities notification suite — notification 2 of 14         -->
+    <!-- CustomPermission included because Bypass_Flow is absent from prod org  -->
+    <types>
+        <members>Bypass_Flow</members>
+        <name>CustomPermission</name>
+    </types>
+    <types>
+        <members>Salesforce_Base_URL</members>
+        <name>CustomLabel</name>
+    </types>
+    <types>
+        <members>Notify_Critical_Stage_Progression_After_Save</members>
+        <name>Flow</name>
+    </types>
+    <version>66.0</version>
+</Package>

@@ -1,0 +1,27 @@
+{
+  "unevaluatedProperties": false,
+  "properties": {
+    "SearchTerm": {
+      "title": "SearchTerm",
+      "description": "Partial last name to search for using a LIKE match, for example 'Chen'. At least one of SearchTerm, AccountName, or TitleFilter must be provided.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isUserInput": false
+    },
+    "AccountName": {
+      "title": "AccountName",
+      "description": "Exact account name to filter contacts by, for example 'Pfizer'. At least one of SearchTerm, AccountName, or TitleFilter must be provided.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isUserInput": false
+    },
+    "TitleFilter": {
+      "title": "TitleFilter",
+      "description": "Partial job title to filter contacts by using a LIKE match, for example 'Director'. At least one of SearchTerm, AccountName, or TitleFilter must be provided.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isUserInput": false
+    }
+  },
+  "lightning:type": "lightning__objectType"
+}
