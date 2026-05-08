@@ -1,0 +1,27 @@
+{
+  "unevaluatedProperties": false,
+  "properties": {
+    "SearchTerm": {
+      "title": "SearchTerm",
+      "description": "Partial account name to search for using a LIKE match, for example 'AstraZeneca'. At least one of SearchTerm, IndustryFilter, or TypeFilter must be provided.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isUserInput": false
+    },
+    "IndustryFilter": {
+      "title": "IndustryFilter",
+      "description": "Exact industry value to filter by, for example 'Biotechnology' or 'Pharmaceuticals'. At least one of SearchTerm, IndustryFilter, or TypeFilter must be provided.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isUserInput": false
+    },
+    "TypeFilter": {
+      "title": "TypeFilter",
+      "description": "Exact account type value to filter by, for example 'Customer' or 'Partner'. At least one of SearchTerm, IndustryFilter, or TypeFilter must be provided.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isUserInput": false
+    }
+  },
+  "lightning:type": "lightning__objectType"
+}

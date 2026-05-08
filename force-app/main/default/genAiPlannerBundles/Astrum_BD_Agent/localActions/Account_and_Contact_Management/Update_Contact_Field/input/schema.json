@@ -1,0 +1,32 @@
+{
+  "required": [
+    "ContactId",
+    "FieldApiName",
+    "NewValue"
+  ],
+  "unevaluatedProperties": false,
+  "properties": {
+    "ContactId": {
+      "title": "ContactId",
+      "description": "Salesforce ID of the Contact record to update. Must be a valid 15 or 18-character Salesforce ID.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isUserInput": false
+    },
+    "FieldApiName": {
+      "title": "FieldApiName",
+      "description": "API name of the Contact field to update. Permitted values: Title, Department, Email, Phone, MobilePhone. AccountId is explicitly not permitted. Any other value will be rejected.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isUserInput": false
+    },
+    "NewValue": {
+      "title": "NewValue",
+      "description": "New value to set for the specified field, passed as a string.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isUserInput": false
+    }
+  },
+  "lightning:type": "lightning__objectType"
+}

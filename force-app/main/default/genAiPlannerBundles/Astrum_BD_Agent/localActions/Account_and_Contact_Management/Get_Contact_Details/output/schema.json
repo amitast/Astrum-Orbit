@@ -1,0 +1,105 @@
+{
+  "unevaluatedProperties": false,
+  "properties": {
+    "ContactFound": {
+      "title": "ContactFound",
+      "description": "True if the Contact was found. False if no matching contact exists or a query error occurred.",
+      "lightning:type": "lightning__booleanType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    },
+    "FullName": {
+      "title": "FullName",
+      "description": "Full name of the retrieved Contact.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": true,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    },
+    "AccountName": {
+      "title": "AccountName",
+      "description": "Name of the Account the Contact belongs to.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    },
+    "Title": {
+      "title": "Title",
+      "description": "Job title of the Contact.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    },
+    "Department": {
+      "title": "Department",
+      "description": "Department of the Contact.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    },
+    "Email": {
+      "title": "Email",
+      "description": "Email address of the Contact.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": true,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    },
+    "Phone": {
+      "title": "Phone",
+      "description": "Business phone number of the Contact.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": true,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    },
+    "MobilePhone": {
+      "title": "MobilePhone",
+      "description": "Mobile phone number of the Contact.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": true,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    },
+    "OwnerName": {
+      "title": "OwnerName",
+      "description": "Full name of the Contact owner.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    },
+    "LastModifiedDate": {
+      "title": "LastModifiedDate",
+      "description": "Date the Contact record was last modified.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    },
+    "ErrorMessage": {
+      "title": "ErrorMessage",
+      "description": "Error message returned when ContactFound is false.",
+      "lightning:type": "lightning__textType",
+      "lightning:isPII": false,
+      "copilotAction:isDisplayable": true,
+      "copilotAction:isUsedByPlanner": true,
+      "copilotAction:useHydratedPrompt": false
+    }
+  },
+  "lightning:type": "lightning__objectType"
+}

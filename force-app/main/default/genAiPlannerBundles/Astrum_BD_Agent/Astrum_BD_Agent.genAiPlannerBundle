@@ -169,6 +169,24 @@ Do not use this subagent for managing opportunities, updating deal stages, captu
         <localActionLinks>
             <functionName>Create_Contact_with_Duplicate_Check</functionName>
         </localActionLinks>
+        <localActionLinks>
+            <functionName>Get_Account_Details</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Get_Contact_Details</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Search_Accounts</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Search_Contacts</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Update_Account_Field</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Update_Contact_Field</functionName>
+        </localActionLinks>
         <localActions>
             <fullName>Create_Contact_with_Duplicate_Check</fullName>
             <description>Create a new contact record linked to a specified account in Salesforce. Before creating, searches for existing contacts with the same last name at the same account, or the same email address. If a potential duplicate is found, presents it to the user for review before proceeding. Use when the user explicitly asks to add a new contact to an account and has provided at minimum a first name, last name, and account.</description>
@@ -180,6 +198,78 @@ Do not use this subagent for managing opportunities, updating deal stages, captu
             <localDeveloperName>Create_Contact_with_Duplicate_Check</localDeveloperName>
             <masterLabel>Create Contact with Duplicate Check</masterLabel>
             <progressIndicatorMessage>Checking for duplicates and creating contact</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Get_Account_Details</fullName>
+            <description>Retrieve details for a specific Account record by ID or name. Returns key account fields including industry, type, phone, website, billing location, description, employee count, annual revenue, owner name, and custom segment fields. Use when the user asks to view, look up, or summarise a specific account by name or ID.</description>
+            <developerName>Get_Account_Details</developerName>
+            <invocationTarget>AGENT_GetAccountDetails</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Get_Account_Details</localDeveloperName>
+            <masterLabel>Get Account Details</masterLabel>
+            <progressIndicatorMessage>Retrieving account details</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Get_Contact_Details</fullName>
+            <description>Retrieve details for a specific Contact record by ID or last name, with optional account name disambiguation. Returns contact name, title, department, email, phone, mobile, owner, and last-modified date. Use when the user asks to view, look up, or retrieve details on a specific contact.</description>
+            <developerName>Get_Contact_Details</developerName>
+            <invocationTarget>AGENT_GetContactDetails</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Get_Contact_Details</localDeveloperName>
+            <masterLabel>Get Contact Details</masterLabel>
+            <progressIndicatorMessage>Retrieving contact details</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Search_Accounts</fullName>
+            <description>Search for Account records matching one or more criteria: account name (partial match), industry, or account type. Returns up to 10 matching accounts with key details. Use when the user wants to find or list accounts by industry, type, or name pattern. Do not use when looking up a single known account by exact name — use Get_Account_Details for that.</description>
+            <developerName>Search_Accounts</developerName>
+            <invocationTarget>AGENT_SearchAccounts</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Search_Accounts</localDeveloperName>
+            <masterLabel>Search Accounts</masterLabel>
+            <progressIndicatorMessage>Searching account records</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Search_Contacts</fullName>
+            <description>Search for Contact records matching one or more criteria: last name (partial match), account name, or job title (partial match). Returns up to 10 matching contacts with name, title, account, email, and phone. Use when the user wants to find contacts by name pattern, company, or role. Do not use when looking up a single known contact — use Get_Contact_Details for that.</description>
+            <developerName>Search_Contacts</developerName>
+            <invocationTarget>AGENT_SearchContacts</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Search_Contacts</localDeveloperName>
+            <masterLabel>Search Contacts</masterLabel>
+            <progressIndicatorMessage>Searching contact records</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Update_Account_Field</fullName>
+            <description>Update a single permitted field on an existing Account record. Permitted fields: Industry, Type, Phone, Website, Description, NumberOfEmployees. Requires explicit user confirmation before any change is applied. Use when the user explicitly asks to change or update a specific field on a specific account. Do not use for Owner, Parent Account, or billing address changes.</description>
+            <developerName>Update_Account_Field</developerName>
+            <invocationTarget>AGENT_UpdateAccountField</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>true</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Update_Account_Field</localDeveloperName>
+            <masterLabel>Update Account Field</masterLabel>
+            <progressIndicatorMessage>Updating account field</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Update_Contact_Field</fullName>
+            <description>Update a single permitted field on an existing Contact record. Permitted fields: Title, Department, Email, Phone, MobilePhone. Requires explicit user confirmation before any change is applied. AccountId cannot be changed through this action. Use when the user explicitly asks to change or update a specific field on a specific contact.</description>
+            <developerName>Update_Contact_Field</developerName>
+            <invocationTarget>AGENT_UpdateContactField</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>true</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Update_Contact_Field</localDeveloperName>
+            <masterLabel>Update Contact Field</masterLabel>
+            <progressIndicatorMessage>Updating contact field</progressIndicatorMessage>
         </localActions>
         <localDeveloperName>Account_and_Contact_Management</localDeveloperName>
         <masterLabel>Account and Contact Management</masterLabel>
