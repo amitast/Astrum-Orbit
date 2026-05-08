@@ -1,27 +1,27 @@
 {
-  "unevaluatedProperties": false,
-  "properties": {
-    "ContactId": {
-      "title": "ContactId",
-      "description": "Salesforce ID of the Contact to retrieve. Use when the ID is known. If not known, provide LastName instead.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isUserInput": false
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "ContactId" : {
+      "title" : "ContactId",
+      "description" : "Salesforce ID of the Contact to retrieve. Use when the ID is known. If not known, provide LastName instead.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
     },
-    "LastName": {
-      "title": "LastName",
-      "description": "Last name of the Contact to retrieve. Use when the ID is not known. Provide AccountName as well if there may be multiple contacts with the same last name.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isUserInput": false
+    "LastName" : {
+      "title" : "LastName",
+      "description" : "Last name of the Contact to retrieve. Use when the ID is not known. Provide AccountName as well if there may be multiple contacts with the same last name.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
     },
-    "AccountName": {
-      "title": "AccountName",
-      "description": "Name of the Account the Contact belongs to. Used to disambiguate when multiple contacts share the same last name.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isUserInput": false
+    "AccountName" : {
+      "title" : "AccountName",
+      "description" : "Name of the Account the Contact belongs to. Used to disambiguate when multiple contacts share the same last name.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
     }
   },
-  "lightning:type": "lightning__objectType"
+  "lightning:type" : "lightning__objectType"
 }

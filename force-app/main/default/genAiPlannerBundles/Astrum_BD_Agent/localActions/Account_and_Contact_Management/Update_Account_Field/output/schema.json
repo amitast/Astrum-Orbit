@@ -1,42 +1,42 @@
 {
-  "unevaluatedProperties": false,
-  "properties": {
-    "Success": {
-      "title": "Success",
-      "description": "True if the Account field was updated successfully.",
-      "lightning:type": "lightning__booleanType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "Success" : {
+      "title" : "Success",
+      "description" : "True if the Account field was updated successfully.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     },
-    "UpdatedFieldLabel": {
-      "title": "UpdatedFieldLabel",
-      "description": "Human-readable label of the field that was updated, for example 'Account Phone'.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+    "UpdatedFieldLabel" : {
+      "title" : "UpdatedFieldLabel",
+      "description" : "Human-readable label of the field that was updated, for example 'Account Phone'.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     },
-    "NewValue": {
-      "title": "NewValue",
-      "description": "The new value that was applied to the field.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+    "NewValue" : {
+      "title" : "NewValue",
+      "description" : "The new value that was applied to the field.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     },
-    "ErrorMessage": {
-      "title": "ErrorMessage",
-      "description": "Error message returned when Success is false.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+    "ErrorMessage" : {
+      "title" : "ErrorMessage",
+      "description" : "Error message returned when Success is false.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     }
   },
-  "lightning:type": "lightning__objectType"
+  "lightning:type" : "lightning__objectType"
 }

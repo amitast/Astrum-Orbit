@@ -1,32 +1,28 @@
 {
-  "required": [
-    "AccountId",
-    "FieldApiName",
-    "NewValue"
-  ],
-  "unevaluatedProperties": false,
-  "properties": {
-    "AccountId": {
-      "title": "AccountId",
-      "description": "Salesforce ID of the Account record to update. Must be a valid 15 or 18-character Salesforce ID.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isUserInput": false
+  "required" : [ "AccountId", "FieldApiName", "NewValue" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "AccountId" : {
+      "title" : "AccountId",
+      "description" : "Salesforce ID of the Account record to update. Must be a valid 15 or 18-character Salesforce ID.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
     },
-    "FieldApiName": {
-      "title": "FieldApiName",
-      "description": "API name of the Account field to update. Permitted values: Industry, Type, Phone, Website, Description, NumberOfEmployees. Any other value will be rejected by the action.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isUserInput": false
+    "FieldApiName" : {
+      "title" : "FieldApiName",
+      "description" : "API name of the Account field to update. Permitted values: Industry, Type, Phone, Website, Description, NumberOfEmployees. Any other value will be rejected by the action.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
     },
-    "NewValue": {
-      "title": "NewValue",
-      "description": "New value to set for the specified field, passed as a string. For NumberOfEmployees, must be a whole number string.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isUserInput": false
+    "NewValue" : {
+      "title" : "NewValue",
+      "description" : "New value to set for the specified field, passed as a string. For NumberOfEmployees, must be a whole number string.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
     }
   },
-  "lightning:type": "lightning__objectType"
+  "lightning:type" : "lightning__objectType"
 }

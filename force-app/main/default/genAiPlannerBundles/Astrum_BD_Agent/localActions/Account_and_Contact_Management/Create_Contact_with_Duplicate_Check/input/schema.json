@@ -1,60 +1,56 @@
 {
-  "required": [
-    "AccountName",
-    "FirstName",
-    "LastName"
-  ],
-  "unevaluatedProperties": false,
-  "properties": {
-    "AccountName": {
-      "title": "AccountName",
-      "description": "Name of the Salesforce Account to link the new Contact to, for example 'Pfizer'. Extracted from the user's utterance. The flow resolves the Account record ID from this name.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isUserInput": false
+  "required" : [ "AccountName", "FirstName", "LastName" ],
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "AccountName" : {
+      "title" : "AccountName",
+      "description" : "Name of the Salesforce Account to link the new Contact to, for example 'Pfizer'. Extracted from the user's utterance. The flow resolves the Account record ID from this name.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
     },
-    "FirstName": {
-      "title": "FirstName",
-      "description": "User-provided Contact first name.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": true,
-      "copilotAction:isUserInput": false
+    "FirstName" : {
+      "title" : "FirstName",
+      "description" : "User-provided Contact first name.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : true,
+      "copilotAction:isUserInput" : false
     },
-    "LastName": {
-      "title": "LastName",
-      "description": "User-provided Contact last name.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": true,
-      "copilotAction:isUserInput": false
+    "LastName" : {
+      "title" : "LastName",
+      "description" : "User-provided Contact last name.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : true,
+      "copilotAction:isUserInput" : false
     },
-    "Title": {
-      "title": "Title",
-      "description": "User-provided Contact job title, if supplied.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isUserInput": false
+    "Title" : {
+      "title" : "Title",
+      "description" : "User-provided Contact job title, if supplied.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
     },
-    "Email": {
-      "title": "Email",
-      "description": "User-provided Contact email address, if supplied.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": true,
-      "copilotAction:isUserInput": false
+    "Email" : {
+      "title" : "Email",
+      "description" : "User-provided Contact email address, if supplied.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : true,
+      "copilotAction:isUserInput" : false
     },
-    "Phone": {
-      "title": "Phone",
-      "description": "User-provided Contact work phone number, if supplied.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": true,
-      "copilotAction:isUserInput": false
+    "Phone" : {
+      "title" : "Phone",
+      "description" : "User-provided Contact work phone number, if supplied.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : true,
+      "copilotAction:isUserInput" : false
     },
-    "MobilePhone": {
-      "title": "MobilePhone",
-      "description": "User-provided Contact mobile phone number, if supplied.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": true,
-      "copilotAction:isUserInput": false
+    "MobilePhone" : {
+      "title" : "MobilePhone",
+      "description" : "User-provided Contact mobile phone number, if supplied.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : true,
+      "copilotAction:isUserInput" : false
     }
   },
-  "lightning:type": "lightning__objectType"
+  "lightning:type" : "lightning__objectType"
 }

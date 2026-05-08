@@ -1,150 +1,150 @@
 {
-  "unevaluatedProperties": false,
-  "properties": {
-    "AccountFound": {
-      "title": "AccountFound",
-      "description": "True if the Account was found. False if no matching account exists or a query error occurred.",
-      "lightning:type": "lightning__booleanType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "AccountFound" : {
+      "title" : "AccountFound",
+      "description" : "True if the Account was found. False if no matching account exists or a query error occurred.",
+      "lightning:type" : "lightning__booleanType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     },
-    "AccountName": {
-      "title": "AccountName",
-      "description": "Name of the retrieved Account.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+    "AccountName" : {
+      "title" : "AccountName",
+      "description" : "Name of the retrieved Account.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     },
-    "Industry": {
-      "title": "Industry",
-      "description": "Industry classification of the Account.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+    "Industry" : {
+      "title" : "Industry",
+      "description" : "Industry classification of the Account.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     },
-    "AccountType": {
-      "title": "AccountType",
-      "description": "Type field value of the Account (e.g. Customer, Partner, Prospect).",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+    "AccountType" : {
+      "title" : "AccountType",
+      "description" : "Type field value of the Account (e.g. Customer, Partner, Prospect).",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     },
-    "Phone": {
-      "title": "Phone",
-      "description": "Main phone number of the Account.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+    "Phone" : {
+      "title" : "Phone",
+      "description" : "Main phone number of the Account.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     },
-    "Website": {
-      "title": "Website",
-      "description": "Website URL of the Account.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+    "Website" : {
+      "title" : "Website",
+      "description" : "Website URL of the Account.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     },
-    "Description": {
-      "title": "Description",
-      "description": "Account description field.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+    "Description" : {
+      "title" : "Description",
+      "description" : "Account description field.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     },
-    "NumberOfEmployees": {
-      "title": "NumberOfEmployees",
-      "description": "Number of employees at the Account.",
-      "lightning:type": "lightning__numberType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+    "NumberOfEmployees" : {
+      "title" : "NumberOfEmployees",
+      "description" : "Number of employees at the Account.",
+      "lightning:type" : "lightning__numberType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     },
-    "AnnualRevenue": {
-      "title": "AnnualRevenue",
-      "description": "Annual revenue of the Account.",
-      "lightning:type": "lightning__numberType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+    "AnnualRevenue" : {
+      "title" : "AnnualRevenue",
+      "description" : "Annual revenue of the Account.",
+      "lightning:type" : "lightning__numberType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     },
-    "BillingCity": {
-      "title": "BillingCity",
-      "description": "Billing city of the Account.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+    "BillingCity" : {
+      "title" : "BillingCity",
+      "description" : "Billing city of the Account.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     },
-    "BillingCountry": {
-      "title": "BillingCountry",
-      "description": "Billing country of the Account.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+    "BillingCountry" : {
+      "title" : "BillingCountry",
+      "description" : "Billing country of the Account.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     },
-    "OwnerName": {
-      "title": "OwnerName",
-      "description": "Full name of the Account owner.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+    "OwnerName" : {
+      "title" : "OwnerName",
+      "description" : "Full name of the Account owner.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     },
-    "ClientType": {
-      "title": "ClientType",
-      "description": "Custom client type classification of the Account.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+    "ClientType" : {
+      "title" : "ClientType",
+      "description" : "Custom client type classification of the Account.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     },
-    "AccountSegment": {
-      "title": "AccountSegment",
-      "description": "Custom account segment classification.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+    "AccountSegment" : {
+      "title" : "AccountSegment",
+      "description" : "Custom account segment classification.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     },
-    "TierCategory": {
-      "title": "TierCategory",
-      "description": "Custom tier category of the Account.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+    "TierCategory" : {
+      "title" : "TierCategory",
+      "description" : "Custom tier category of the Account.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     },
-    "ErrorMessage": {
-      "title": "ErrorMessage",
-      "description": "Error message returned when AccountFound is false.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isDisplayable": true,
-      "copilotAction:isUsedByPlanner": true,
-      "copilotAction:useHydratedPrompt": false
+    "ErrorMessage" : {
+      "title" : "ErrorMessage",
+      "description" : "Error message returned when AccountFound is false.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
     }
   },
-  "lightning:type": "lightning__objectType"
+  "lightning:type" : "lightning__objectType"
 }
