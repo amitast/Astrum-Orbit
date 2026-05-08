@@ -21,6 +21,7 @@
 |---|---|---|---|---|
 | D-11 | `AGENT_GetAccountDetails`, `AGENT_GetContactDetails` | `0AfUD00000GvASr0AN` | Succeeded | `2026-05-06T09:23:24.000Z` |
 | D-12 | `AGENT_SearchAccounts`, `AGENT_SearchContacts`, `AGENT_UpdateAccountField`, `AGENT_UpdateContactField` | `0AfUD00000GvBiH0AV` | Succeeded | `2026-05-06T09:32:05.000Z` |
+| D-13 | `GenAiPlannerBundle / Astrum_BD_Agent` | `0AfUD00000GxlT70AJ` | Succeeded | `2026-05-08T08:57:09.000Z` |
 
 ## Apex Test Summary
 
@@ -48,6 +49,10 @@
 
 | Test class | Test method | Result |
 |---|---|---|
+| `AGENT_CreateContact_Test` | `tc01_noDuplicateCreatesContact` | PASS |
+| `AGENT_CreateContact_Test` | `tc02_duplicateByNameExitsWithoutCreate` | PASS |
+| `AGENT_CreateContact_Test` | `tc03_duplicateByEmailExitsWithoutCreate` | PASS |
+| `AGENT_CreateContact_Test` | `tc04_accountNotFoundFailsGracefully` | PASS |
 | `AGENT_SearchAccounts_Test` | `allFiltersBlankReturnsErrorWithoutQuery` | PASS |
 | `AGENT_SearchAccounts_Test` | `combinedFiltersMatchAllProvidedFilters` | PASS |
 | `AGENT_SearchAccounts_Test` | `exceptionPathReturnsError` | PASS |
@@ -88,3 +93,11 @@
 | `AGENT_SearchAccounts_Test` | `searchTermMatchByName` | PASS - SOQL LIKE bind variable path passed |
 | `AGENT_SearchContacts_Test` | `searchTermMatchesLastName` | PASS - SOQL LIKE bind variable path passed |
 
+## Human UI Verification
+
+| Check | Result |
+|---|---|
+| Agentforce Studio — Astrum BD Agent visible | Pending Human confirmation |
+| Account and Contact Management topic present | Pending Human confirmation |
+| All 7 local actions listed | Pending Human confirmation |
+| Confirmation required on write actions | Pending Human confirmation |
