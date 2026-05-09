@@ -56,6 +56,16 @@ private class AGENT_UpdateContactField_Test {
     }
 
     @IsTest
+    static void validUpdateMobilePhone() {
+        Contact contactRecord = getTestContact();
+        AGENT_UpdateContactField.UpdateResult result = updateField(contactRecord.Id, 'MobilePhone', '+44 7700 499999');
+
+        System.assertEquals(true, result.Success, 'MobilePhone update should succeed.');
+        System.assertEquals('Mobile Phone', result.UpdatedFieldLabel, 'Field label mismatch.');
+        System.assertEquals('+44 7700 499999', [SELECT MobilePhone FROM Contact WHERE Id = :contactRecord.Id WITH USER_MODE].MobilePhone, 'MobilePhone should be updated.');
+    }
+
+    @IsTest
     static void rejectsAccountIdWithoutDml() {
         Contact contactRecord = getTestContact();
 

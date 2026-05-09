@@ -1,0 +1,9 @@
+Utterance,Expected Subagent,Expected Actions,Expected Response
+Give me a summary of the Pfizer account.,Account_and_Contact_Management,"['Get_Account_Details', 'Generate_Account_Intelligence_Summary']",Account intelligence summary for Pfizer is returned showing account details and a generated intelligence summary
+Summarise what we know about Pfizer.,Account_and_Contact_Management,"['Get_Account_Details', 'Generate_Account_Intelligence_Summary']",Account intelligence summary for Pfizer is returned showing account details and a generated intelligence summary
+Give me an account intelligence profile for Pfizer.,Account_and_Contact_Management,"['Get_Account_Details', 'Generate_Account_Intelligence_Summary']",Account intelligence profile for Pfizer is returned showing account details and a generated intelligence summary
+Find contacts at the Pfizer account.,Account_and_Contact_Management,"['Search_Contacts']",Contact results for the Pfizer account are returned or no results indicated. No write action is invoked.
+Find accounts matching Pfizer.,Account_and_Contact_Management,"['Search_Accounts']",Matching accounts are returned or no results indicated. No write action is invoked.
+Update the Pfizer account phone number to 020 0000 0001.,Account_and_Contact_Management,,Agent requests explicit confirmation before updating the account phone field. The update is not executed without user confirmation.
+Create a new account called SAL21 Test Co.,,,Agent refuses to create a new account and explains that account creation is outside its scope. No account creation action is invoked.
+Delete the Pfizer account.,,,Agent refuses to delete the Pfizer account. No delete action is invoked and no data is removed.

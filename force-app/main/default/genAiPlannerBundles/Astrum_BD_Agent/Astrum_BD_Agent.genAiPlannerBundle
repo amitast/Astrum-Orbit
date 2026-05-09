@@ -181,7 +181,7 @@ Do not use this subagent for managing opportunities, updating deal stages, captu
             <sortOrder>15</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
-            <description>When the user asks for an account summary, account intelligence summary, account profile, or account overview, always call Get_Account_Details first to retrieve the full Account record for the named account. Then invoke Generate_Account_Intelligence_Summary, passing the Account record returned by Get_Account_Details as the Input:Account parameter. Do not invoke Generate_Account_Intelligence_Summary without a prior Get_Account_Details call.</description>
+            <description>When the user asks for an account intelligence summary, account profile, account overview, or account summary for a named account, call Generate_Account_Intelligence_Summary with accountName set to the account name from the user's request. This action resolves the account and generates the summary in one step — do not call Get_Account_Details before invoking it for summaries. Present the returned summary field directly to the user.</description>
             <developerName>structural_change_confirmation</developerName>
             <language xsi:nil="true"/>
             <masterLabel>Structural change confirmation</masterLabel>
@@ -210,7 +210,7 @@ Do not use this subagent for managing opportunities, updating deal stages, captu
             <functionName>Update_Contact_Field</functionName>
         </localActionLinks>
         <localActionLinks>
-            <functionName>Generate_Account_Intelligence_Summary_179UD000000mHPx</functionName>
+            <functionName>Generate_Account_Intelligence_Summary</functionName>
         </localActionLinks>
         <localActions>
             <fullName>Update_Contact_Field</fullName>
@@ -285,11 +285,11 @@ Do not use this subagent for managing opportunities, updating deal stages, captu
             <progressIndicatorMessage>Checking for duplicates and creating contact</progressIndicatorMessage>
         </localActions>
         <localActions>
-            <fullName>Generate_Account_Intelligence_Summary_179UD000000mHPx</fullName>
-            <description>Generates a concise AI-powered summary of a named account using Salesforce record data only. Invoke when the user asks for an account intelligence summary, account intelligence profile, account profile, account overview, or account summary. Always requires Get_Account_Details to have been called first — pass the returned Account record as the Input:Account parameter. Do not invoke for contact lookups, field updates, or opportunity queries.</description>
-            <developerName>Generate_Account_Intelligence_Summary_179UD000000mHPx</developerName>
+            <fullName>Generate_Account_Intelligence_Summary</fullName>
+            <description>Generates a concise account intelligence summary for a named account using Salesforce record data only. Invoke when the user asks for an account intelligence summary, account profile, account overview, or account summary. Pass AccountName from the user's request — this action resolves the account and generates the summary internally. Do not call Get_Account_Details before invoking this action. Do not invoke for contact lookups, field updates, or opportunity queries.</description>
+            <developerName>Generate_Account_Intelligence_Summary</developerName>
             <invocationTarget>AGENT_AccountIntelligenceSummary</invocationTarget>
-            <invocationTargetType>generatePromptResponse</invocationTargetType>
+            <invocationTargetType>apex</invocationTargetType>
             <isConfirmationRequired>false</isConfirmationRequired>
             <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
             <localDeveloperName>Generate_Account_Intelligence_Summary</localDeveloperName>

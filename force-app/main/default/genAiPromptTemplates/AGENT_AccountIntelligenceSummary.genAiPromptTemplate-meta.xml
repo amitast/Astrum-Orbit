@@ -19,7 +19,7 @@ Include, where available:
 - Industry {!$Input:Account.Industry}
 - Type {!$Input:Account.Type}
 - Billing city and billing country {!$Input:Account.BillingCity} , {!$Input:Account.BillingCountry}
-- Annual revenue 
+- Annual revenue
 - Number of employees {!$Input:Account.Number_Employees__c}
 - Account owner {!$Input:Account.Owner.Name}
 - Description
