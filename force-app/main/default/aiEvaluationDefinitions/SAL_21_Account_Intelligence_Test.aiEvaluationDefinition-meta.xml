@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <AiEvaluationDefinition xmlns="http://soap.sforce.com/2006/04/metadata">
-    <description>SAL-21 account intelligence test spec for Astrum_BD_Agent. Validates Account_and_Contact_Management routing for account summary requests and asserts Get_Account_Details followed by Generate_Account_Intelligence_Summary. Test account: Pfizer (confirmed accessible in sandbox).</description>
+    <description>SAL-21 account intelligence test for Astrum_BD_Agent. Validates Account_and_Contact_Management routing; asserts Get_Account_Details then Generate_Account_Intelligence_Summary. Test account: Pfizer.</description>
     <name>SAL 21 Account Intelligence Test</name>
     <subjectName>Astrum_BD_Agent</subjectName>
     <subjectType>AGENT</subjectType>
