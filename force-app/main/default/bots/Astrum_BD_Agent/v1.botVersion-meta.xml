@@ -5,7 +5,7 @@
     <botDialogs>
         <botSteps>
             <botMessages>
-                <message>Hi, Iâ€™m Agentforce! I use AI to search trusted sources, and more. Ask me â€œWhat else can you do?â€ to see how I can simplify your workday. How can I help?</message>
+                <message>Hi, I&apos;m Astrum BD Agent! I use AI to search trusted sources, and more. Ask me &apos;What else can you do?&apos; to see how I can simplify your workday. How can I help?</message>
                 <messageIdentifier>342c2245-1513-4e4d-8ae4-b69c583c40e4</messageIdentifier>
             </botMessages>
             <stepIdentifier>9da96d3c-fcd7-408c-9840-83fdbd151768</stepIdentifier>
@@ -64,6 +64,20 @@
     <conversationDefinitionPlanners>
         <genAiPlannerName>Astrum_BD_Agent</genAiPlannerName>
     </conversationDefinitionPlanners>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <developerName>accountRecordDetails</developerName>
+        <includeInPrompt>true</includeInPrompt>
+        <label>accountRecordDetails</label>
+        <visibility>External</visibility>
+    </conversationVariables>
+    <conversationVariables>
+        <dataType>Text</dataType>
+        <developerName>accountSearchQuery</developerName>
+        <includeInPrompt>true</includeInPrompt>
+        <label>accountSearchQuery</label>
+        <visibility>External</visibility>
+    </conversationVariables>
     <conversationVariables>
         <dataType>Text</dataType>
         <description>Salesforce Application Name.</description>

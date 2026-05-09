@@ -1,0 +1,180 @@
+﻿{
+  "status": 0,
+  "result": {
+    "endTime": "2026-05-09T08:00:28Z",
+    "startTime": "2026-05-09T07:59:54Z",
+    "status": "COMPLETED",
+    "subjectName": "SAL_21_Account_Intelligence_Test",
+    "testCases": [
+      {
+        "endTime": "2026-05-09T08:00:21Z",
+        "generatedData": {
+          "actionsSequence": "[&#39;Generate_Account_Intelligence_Summary&#39;]",
+          "invokedActions": "[[{\"function\":{\"name\":\"Generate_Account_Intelligence_Summary_179UD000000mHPx\"}}]]",
+          "outcome": "It looks like something went wrong while trying to retrieve the summary for the Pfizer account. The issue seems to be related to incorrect input parameters. If you can provide more specific details or clarify your request, I’ll do my best to assist! (Session ID: 019e0bc0-0ce2-755d-aeba-0456f09cd89e)",
+          "topic": "Account_and_Contact_Management"
+        },
+        "inputs": {
+          "utterance": "Give me a summary of the Pfizer account."
+        },
+        "startTime": "2026-05-09T07:59:54Z",
+        "status": "COMPLETED",
+        "testNumber": 1,
+        "testResults": [
+          {
+            "actualValue": "Account_and_Contact_Management",
+            "endTime": "2026-05-09T08:00:22Z",
+            "errorCode": 0,
+            "expectedValue": "Account_and_Contact_Management",
+            "metricLabel": "topic_assertion",
+            "name": "topic_assertion",
+            "result": "PASS",
+            "score": 1,
+            "startTime": "2026-05-09T07:59:55Z",
+            "status": "COMPLETED",
+            "metricExplainability": ""
+          },
+          {
+            "actualValue": "['Generate_Account_Intelligence_Summary']",
+            "endTime": "2026-05-09T08:00:22Z",
+            "errorCode": 0,
+            "expectedValue": "['Get_Account_Details', 'Generate_Account_Intelligence_Summary']",
+            "metricLabel": "actions_assertion",
+            "name": "actions_assertion",
+            "result": "FAILURE",
+            "score": 0,
+            "startTime": "2026-05-09T07:59:55Z",
+            "status": "COMPLETED",
+            "metricExplainability": ""
+          },
+          {
+            "actualValue": "It looks like something went wrong while trying to retrieve the summary for the Pfizer account. The issue seems to be related to incorrect input parameters. If you can provide more specific details or clarify your request, I’ll do my best to assist! (Session ID: 019e0bc0-0ce2-755d-aeba-0456f09cd89e)",
+            "endTime": "2026-05-09T08:00:22Z",
+            "errorCode": 0,
+            "expectedValue": "HP-08: Agent retrieves the Pfizer account record and generates a concise account intelligence summary grounded only in Salesforce record data. Summary contains no hallucinated facts and no Contact Email or Phone values.",
+            "metricExplainability": "The bot's response indicates an error and asks for clarification, but the query was straightforward and the bot should have been able to retrieve the Pfizer account summary from the CRM database. The bot failed to provide the required summary, which is the main goal of the expected response.",
+            "metricLabel": "output_validation",
+            "name": "output_validation",
+            "result": "FAILURE",
+            "score": 1,
+            "startTime": "2026-05-09T07:59:55Z",
+            "status": "COMPLETED"
+          }
+        ]
+      },
+      {
+        "endTime": "2026-05-09T08:00:27Z",
+        "generatedData": {
+          "actionsSequence": "[&#39;Generate_Account_Intelligence_Summary&#39;]",
+          "invokedActions": "[[{\"function\":{\"name\":\"Generate_Account_Intelligence_Summary_179UD000000mHPx\"}}]]",
+          "outcome": "It seems something went wrong while trying to process your request. Unfortunately, I couldn&#39;t retrieve the information you were looking for. If you&#39;d like, you can try rephrasing your question or ask about something else, and I&#39;ll do my best to assist! (Session ID: 019e0bc0-0c94-747d-a994-3798a2b77b16)",
+          "topic": "Account_and_Contact_Management"
+        },
+        "inputs": {
+          "utterance": "Summarise what we know about Pfizer."
+        },
+        "startTime": "2026-05-09T07:59:55Z",
+        "status": "COMPLETED",
+        "testNumber": 2,
+        "testResults": [
+          {
+            "actualValue": "Account_and_Contact_Management",
+            "endTime": "2026-05-09T08:00:28Z",
+            "errorCode": 0,
+            "expectedValue": "Account_and_Contact_Management",
+            "metricLabel": "topic_assertion",
+            "name": "topic_assertion",
+            "result": "PASS",
+            "score": 1,
+            "startTime": "2026-05-09T07:59:55Z",
+            "status": "COMPLETED",
+            "metricExplainability": ""
+          },
+          {
+            "actualValue": "['Generate_Account_Intelligence_Summary']",
+            "endTime": "2026-05-09T08:00:28Z",
+            "errorCode": 0,
+            "expectedValue": "['Get_Account_Details', 'Generate_Account_Intelligence_Summary']",
+            "metricLabel": "actions_assertion",
+            "name": "actions_assertion",
+            "result": "FAILURE",
+            "score": 0,
+            "startTime": "2026-05-09T07:59:55Z",
+            "status": "COMPLETED",
+            "metricExplainability": ""
+          },
+          {
+            "actualValue": "It seems something went wrong while trying to process your request. Unfortunately, I couldn't retrieve the information you were looking for. If you'd like, you can try rephrasing your question or ask about something else, and I'll do my best to assist! (Session ID: 019e0bc0-0c94-747d-a994-3798a2b77b16)",
+            "endTime": "2026-05-09T08:00:28Z",
+            "errorCode": 0,
+            "expectedValue": "Agent interprets the request as a Pfizer account intelligence summary, retrieves the account record first, then generates a grounded summary using Salesforce account data only.",
+            "metricExplainability": "The bot failed to retrieve Pfizer account data and provided a generic error message instead of attempting to retrieve the information from the CRM database or asking for clarification. This does not align with the expected response of generating a grounded summary using Salesforce account data.",
+            "metricLabel": "output_validation",
+            "name": "output_validation",
+            "result": "FAILURE",
+            "score": 0,
+            "startTime": "2026-05-09T07:59:55Z",
+            "status": "COMPLETED"
+          }
+        ]
+      },
+      {
+        "endTime": "2026-05-09T08:00:18Z",
+        "generatedData": {
+          "actionsSequence": "[]",
+          "invokedActions": "[[]]",
+          "topic": "Account_and_Contact_Management"
+        },
+        "inputs": {
+          "utterance": "Give me an account intelligence profile for Pfizer."
+        },
+        "startTime": "2026-05-09T07:59:55Z",
+        "status": "COMPLETED",
+        "testNumber": 3,
+        "testResults": [
+          {
+            "actualValue": "Account_and_Contact_Management",
+            "endTime": "2026-05-09T08:00:20Z",
+            "errorCode": 0,
+            "expectedValue": "Account_and_Contact_Management",
+            "metricLabel": "topic_assertion",
+            "name": "topic_assertion",
+            "result": "PASS",
+            "score": 1,
+            "startTime": "2026-05-09T07:59:55Z",
+            "status": "COMPLETED",
+            "metricExplainability": ""
+          },
+          {
+            "actualValue": "[]",
+            "endTime": "2026-05-09T08:00:20Z",
+            "errorCode": 0,
+            "expectedValue": "['Get_Account_Details', 'Generate_Account_Intelligence_Summary']",
+            "metricLabel": "actions_assertion",
+            "name": "actions_assertion",
+            "result": "FAILURE",
+            "score": 0,
+            "startTime": "2026-05-09T07:59:55Z",
+            "status": "COMPLETED",
+            "metricExplainability": ""
+          },
+          {
+            "endTime": "2026-05-09T08:00:20Z",
+            "errorCode": 0,
+            "errorMessage": "Skip metric result due to missing expected input",
+            "expectedValue": "Agent treats the account profile request as Account_and_Contact_Management scope, calls Get_Account_Details for Pfizer first, then generates an account intelligence summary grounded in the retrieved record.",
+            "metricLabel": "output_validation",
+            "name": "output_validation",
+            "result": "FAILURE",
+            "score": 0,
+            "startTime": "2026-05-09T07:59:55Z",
+            "status": "ERROR",
+            "actualValue": "",
+            "metricExplainability": ""
+          }
+        ]
+      }
+    ]
+  },
+  "warnings": []
+}

@@ -1,5 +1,5 @@
-@isTest
-private class AGENT_CreateContact_Test {
+@IsTest
+private class AGENT_CreateContactTest {
     private static User createBdTestUser() {
         Profile p = [
             SELECT Id
@@ -16,11 +16,11 @@ private class AGENT_CreateContact_Test {
         ];
         Long ts = System.now().getTime();
         User u = new User(
-            FirstName = 'SAL15',
+            FirstName = 'SALBD',
             LastName = 'BDUser',
-            Email = 'sal15.bduser.' + ts + '@test.sal15.invalid',
-            Username = 'sal15.bduser.' + ts + '@test.sal15.invalid',
-            Alias = 'sal15bd',
+            Email = 'salbd.bduser.' + ts + '@test.salbd.invalid',
+            Username = 'salbd.bduser.' + ts + '@test.salbd.invalid',
+            Alias = 'salbd',
             ProfileId = p.Id,
             TimeZoneSidKey = runningUser.TimeZoneSidKey,
             LocaleSidKey = runningUser.LocaleSidKey,
@@ -30,8 +30,8 @@ private class AGENT_CreateContact_Test {
         insert u;
 
         PermissionSet ps = new PermissionSet(
-            Name = 'SAL15_AGENT_CC_PS_' + ts,
-            Label = 'SAL15 Agent Create Contact Test ' + ts
+            Name = 'SALBD_AGENT_CC_PS_' + ts,
+            Label = 'SALBD Agent Create Contact Test ' + ts
         );
         insert ps;
 
@@ -97,7 +97,7 @@ private class AGENT_CreateContact_Test {
         };
     }
 
-    @isTest
+    @IsTest
     static void tc01_noDuplicateCreatesContact() {
         User bdUser;
         System.runAs(new User(Id = UserInfo.getUserId())) {
@@ -105,7 +105,7 @@ private class AGENT_CreateContact_Test {
         }
 
         System.runAs(bdUser) {
-            Account acc = createAccount('SAL15 TC01 Account');
+            Account acc = createAccount('SAL-BD-S1 TC01 Account');
             String lastName = 'Unique' + System.now().getTime();
 
             Integer beforeCount = [
@@ -154,7 +154,7 @@ private class AGENT_CreateContact_Test {
         }
     }
 
-    @isTest
+    @IsTest
     static void tc02_duplicateByNameExitsWithoutCreate() {
         User bdUser;
         System.runAs(new User(Id = UserInfo.getUserId())) {
@@ -162,7 +162,7 @@ private class AGENT_CreateContact_Test {
         }
 
         System.runAs(bdUser) {
-            Account acc = createAccount('SAL15 TC02 Account');
+            Account acc = createAccount('SAL-BD-S1 TC02 Account');
             String lastName = 'NameDup' + System.now().getTime();
             Contact existing = new Contact(
                 AccountId = acc.Id,
@@ -208,7 +208,7 @@ private class AGENT_CreateContact_Test {
         }
     }
 
-    @isTest
+    @IsTest
     static void tc03_duplicateByEmailExitsWithoutCreate() {
         User bdUser;
         System.runAs(new User(Id = UserInfo.getUserId())) {
@@ -216,8 +216,8 @@ private class AGENT_CreateContact_Test {
         }
 
         System.runAs(bdUser) {
-            Account targetAccount = createAccount('SAL15 TC03 Target Account');
-            Account otherAccount = createAccount('SAL15 TC03 Other Account');
+            Account targetAccount = createAccount('SAL-BD-S1 TC03 Target Account');
+            Account otherAccount = createAccount('SAL-BD-S1 TC03 Other Account');
             String suffix = String.valueOf(System.now().getTime());
             String email = 'emaildup.' + suffix + '@example.invalid';
             Contact existing = new Contact(
@@ -261,8 +261,8 @@ private class AGENT_CreateContact_Test {
         }
     }
 
-    @isTest
-    static void tc04_accountNotFoundFailsGracefully() {
+    @IsTest
+    static void tc04_accountIdNotFoundFailsGracefully() {
         User bdUser;
         System.runAs(new User(Id = UserInfo.getUserId())) {
             bdUser = createBdTestUser();

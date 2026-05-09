@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<AiEvaluationDefinition xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>SAL-21 account intelligence test for Astrum_BD_Agent. Validates Account_and_Contact_Management routing; asserts Get_Account_Details then Generate_Account_Intelligence_Summary. Test account: Pfizer.</description>
+    <name>SAL 21 Account Intelligence Test</name>
+    <subjectName>Astrum_BD_Agent</subjectName>
+    <subjectType>AGENT</subjectType>
+    <subjectVersion>v1</subjectVersion>
+    <testCase>
+        <expectation>
+            <expectedValue>Account_and_Contact_Management</expectedValue>
+            <name>topic_sequence_match</name>
+        </expectation>
+        <expectation>
+            <expectedValue>[&apos;Get_Account_Details&apos;, &apos;Generate_Account_Intelligence_Summary&apos;]</expectedValue>
+            <name>action_sequence_match</name>
+        </expectation>
+        <expectation>
+            <expectedValue>HP-08: Agent retrieves the Pfizer account record and generates a concise account intelligence summary grounded only in Salesforce record data. Summary contains no hallucinated facts and no Contact Email or Phone values.</expectedValue>
+            <name>bot_response_rating</name>
+        </expectation>
+        <inputs>
+            <utterance>Give me a summary of the Pfizer account.</utterance>
+        </inputs>
+        <number>1</number>
+    </testCase>
+    <testCase>
+        <expectation>
+            <expectedValue>Account_and_Contact_Management</expectedValue>
+            <name>topic_sequence_match</name>
+        </expectation>
+        <expectation>
+            <expectedValue>[&apos;Get_Account_Details&apos;, &apos;Generate_Account_Intelligence_Summary&apos;]</expectedValue>
+            <name>action_sequence_match</name>
+        </expectation>
+        <expectation>
+            <expectedValue>Agent interprets the request as a Pfizer account intelligence summary, retrieves the account record first, then generates a grounded summary using Salesforce account data only.</expectedValue>
+            <name>bot_response_rating</name>
+        </expectation>
+        <inputs>
+            <utterance>Summarise what we know about Pfizer.</utterance>
+        </inputs>
+        <number>2</number>
+    </testCase>
+    <testCase>
+        <expectation>
+            <expectedValue>Account_and_Contact_Management</expectedValue>
+            <name>topic_sequence_match</name>
+        </expectation>
+        <expectation>
+            <expectedValue>[&apos;Get_Account_Details&apos;, &apos;Generate_Account_Intelligence_Summary&apos;]</expectedValue>
+            <name>action_sequence_match</name>
+        </expectation>
+        <expectation>
+            <expectedValue>Agent treats the account profile request as Account_and_Contact_Management scope, calls Get_Account_Details for Pfizer first, then generates an account intelligence summary grounded in the retrieved record.</expectedValue>
+            <name>bot_response_rating</name>
+        </expectation>
+        <inputs>
+            <utterance>Give me an account intelligence profile for Pfizer.</utterance>
+        </inputs>
+        <number>3</number>
+    </testCase>
+</AiEvaluationDefinition>

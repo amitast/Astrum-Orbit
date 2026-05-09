@@ -1,20 +1,20 @@
 {
-  "unevaluatedProperties": false,
-  "properties": {
-    "AccountId": {
-      "title": "AccountId",
-      "description": "Salesforce ID of the Account to retrieve. Use when the ID is known. If not known, provide AccountName instead.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isUserInput": false
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "AccountId" : {
+      "title" : "AccountId",
+      "description" : "Salesforce ID of the Account to retrieve. Use when the ID is known. If not known, provide AccountName instead.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
     },
-    "AccountName": {
-      "title": "AccountName",
-      "description": "Name of the Account to retrieve, for example 'AstraZeneca UK'. Use when the ID is not known. The flow performs an exact name lookup.",
-      "lightning:type": "lightning__textType",
-      "lightning:isPII": false,
-      "copilotAction:isUserInput": false
+    "AccountName" : {
+      "title" : "AccountName",
+      "description" : "Name of the Account to retrieve, for example 'AstraZeneca UK'. Use when the ID is not known. The flow performs an exact name lookup.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
     }
   },
-  "lightning:type": "lightning__objectType"
+  "lightning:type" : "lightning__objectType"
 }

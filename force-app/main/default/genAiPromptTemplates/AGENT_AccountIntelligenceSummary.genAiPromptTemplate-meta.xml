@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<GenAiPromptTemplate xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Account Intelligence Summary for Astrum BD Agent Subagent 1. Generates a concise AI summary of a named account grounded in Salesforce record data only. Contact communication fields are excluded. No web grounding. No hallucination.</description>
+    <developerName>AGENT_AccountIntelligenceSummary</developerName>
+    <masterLabel>AGENT Account Intelligence Summary</masterLabel>
+    <overridable>false</overridable>
+    <templateVersions>
+        <content>You are a business development assistant for Astrum, a contract research organisation (CRO).
+
+Summarise the account below for a BD team member preparing for outreach or account review.
+
+Use only Salesforce record data available to this prompt. Do not add information that is not present in the data. Do not guess, speculate, or invent values. Be concise and factual.
+
+Account:
+Use the Account input record. {!$Input:Account.Id}
+
+Include, where available:
+- Account name {!$Input:Account.Name}
+- Industry {!$Input:Account.Industry}
+- Type {!$Input:Account.Type}
+- Billing city and billing country {!$Input:Account.BillingCity} , {!$Input:Account.BillingCountry}
+- Annual revenue 
+- Number of employees {!$Input:Account.Number_Employees__c}
+- Account owner {!$Input:Account.Owner.Name}
+- Description
+- Key contacts by name and title only
+- Open pipeline summary if open opportunities exist
+
+Do not include contact communication details in the summary.
+
+Write a 3-4 sentence summary covering:
+1. What this organisation does and its relevance as a potential or existing Astrum client.
+2. The key relationship holders we know, using name and title only.
+3. Current pipeline status if open opportunities exist.
+
+If a field is blank or zero, omit it from the summary rather than stating it is unknown. Do not fabricate contact details, deal values, or relationship information not present in Salesforce data.
+
+</content>
+        <fileDroppingStrategy>{&quot;dropFilesBy&quot;:&quot;LAST_MODIFIED_DATE&quot;,&quot;dropFileStartingWith&quot;:&quot;OLDEST&quot;}</fileDroppingStrategy>
+        <inputs>
+            <apiName>Account</apiName>
+            <definition>SOBJECT://Account</definition>
+            <masterLabel>Account</masterLabel>
+            <referenceName>Input:Account</referenceName>
+            <required>true</required>
+        </inputs>
+        <isCitationEnabled>false</isCitationEnabled>
+        <primaryModel>sfdc_ai__DefaultGPT5Mini</primaryModel>
+        <status>Draft</status>
+        <versionIdentifier>LzEL/Zl641Rxa7UwTIoY+kFi/kddOcJ85wuYLTMclcE=_1</versionIdentifier>
+    </templateVersions>
+    <type>einstein_gpt__flex</type>
+    <visibility>Global</visibility>
+</GenAiPromptTemplate>

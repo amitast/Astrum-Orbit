@@ -1,0 +1,176 @@
+{
+  "endTime": "2026-05-08T17:57:14Z",
+  "startTime": "2026-05-08T17:56:57Z",
+  "status": "COMPLETED",
+  "subjectName": "SAL_21_Account_Intelligence_Test",
+  "testCases": [
+    {
+      "endTime": "2026-05-08T17:57:12Z",
+      "generatedData": {
+        "actionsSequence": "[&#39;Get_Account_Details&#39;]",
+        "invokedActions": "[[{\"function\":{\"name\":\"Get_Account_Details\"}}]]",
+        "outcome": "I couldn&#39;t find the Eli Lilly account in Salesforce. Let me know if you&#39;d like me to search for similar accounts or assist in another way.\nfalse",
+        "topic": "Account_and_Contact_Management"
+      },
+      "inputs": {
+        "utterance": "Give me a summary of the Eli Lilly account."
+      },
+      "startTime": "2026-05-08T17:56:57Z",
+      "status": "COMPLETED",
+      "testNumber": 1,
+      "testResults": [
+        {
+          "actualValue": "Account_and_Contact_Management",
+          "endTime": "2026-05-08T17:57:13Z",
+          "errorCode": 0,
+          "expectedValue": "Account_and_Contact_Management",
+          "metricLabel": "topic_assertion",
+          "name": "topic_assertion",
+          "result": "PASS",
+          "score": 1,
+          "startTime": "2026-05-08T17:57:06Z",
+          "status": "COMPLETED",
+          "metricExplainability": ""
+        },
+        {
+          "actualValue": "['Get_Account_Details']",
+          "endTime": "2026-05-08T17:57:13Z",
+          "errorCode": 0,
+          "expectedValue": "['Get_Account_Details', 'Generate_Account_Intelligence_Summary']",
+          "metricLabel": "actions_assertion",
+          "name": "actions_assertion",
+          "result": "FAILURE",
+          "score": 0,
+          "startTime": "2026-05-08T17:57:06Z",
+          "status": "COMPLETED",
+          "metricExplainability": ""
+        },
+        {
+          "actualValue": "I couldn't find the Eli Lilly account in Salesforce. Let me know if you'd like me to search for similar accounts or assist in another way.\nfalse",
+          "endTime": "2026-05-08T17:57:13Z",
+          "errorCode": 0,
+          "expectedValue": "HP-08: Agent retrieves the Eli Lilly account record and generates a concise account intelligence summary grounded only in Salesforce record data. Summary contains no hallucinated facts and no Contact Email or Phone values.",
+          "metricExplainability": "The bot's response indicates it could not find the Eli Lilly account, which contradicts the expected response that assumes the account exists and a summary can be generated. The bot should have attempted to retrieve the account data or clarified the issue, but instead it offers a generic alternative without addressing the core request. This shows a lack of alignment with the expected outcome.",
+          "metricLabel": "output_validation",
+          "name": "output_validation",
+          "result": "FAILURE",
+          "score": 1,
+          "startTime": "2026-05-08T17:57:06Z",
+          "status": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "endTime": "2026-05-08T17:57:12Z",
+      "generatedData": {
+        "actionsSequence": "[&#39;Get_Account_Details&#39;]",
+        "invokedActions": "[[{\"function\":{\"name\":\"Get_Account_Details\"}}]]",
+        "outcome": "It seems the account for Eli Lilly was not found or is not accessible. Let me know if you&#39;d like to refine your request or check something else.\nfalse",
+        "topic": "Account_and_Contact_Management"
+      },
+      "inputs": {
+        "utterance": "Summarise what we know about Eli Lilly."
+      },
+      "startTime": "2026-05-08T17:56:57Z",
+      "status": "COMPLETED",
+      "testNumber": 2,
+      "testResults": [
+        {
+          "actualValue": "Account_and_Contact_Management",
+          "endTime": "2026-05-08T17:57:13Z",
+          "errorCode": 0,
+          "expectedValue": "Account_and_Contact_Management",
+          "metricLabel": "topic_assertion",
+          "name": "topic_assertion",
+          "result": "PASS",
+          "score": 1,
+          "startTime": "2026-05-08T17:57:06Z",
+          "status": "COMPLETED",
+          "metricExplainability": ""
+        },
+        {
+          "actualValue": "['Get_Account_Details']",
+          "endTime": "2026-05-08T17:57:13Z",
+          "errorCode": 0,
+          "expectedValue": "['Get_Account_Details', 'Generate_Account_Intelligence_Summary']",
+          "metricLabel": "actions_assertion",
+          "name": "actions_assertion",
+          "result": "FAILURE",
+          "score": 0,
+          "startTime": "2026-05-08T17:57:06Z",
+          "status": "COMPLETED",
+          "metricExplainability": ""
+        },
+        {
+          "actualValue": "It seems the account for Eli Lilly was not found or is not accessible. Let me know if you'd like to refine your request or check something else.\nfalse",
+          "endTime": "2026-05-08T17:57:13Z",
+          "errorCode": 0,
+          "expectedValue": "Agent interprets the request as an Eli Lilly account intelligence summary, retrieves the account record first, then generates a grounded summary using Salesforce account data only.",
+          "metricExplainability": "The bot's response indicates that the Eli Lilly account was not found or is not accessible, which is a deviation from the expected behavior of retrieving the account record and generating a summary. The bot should have attempted to retrieve the account data or provided a summary if available. The response also includes a generic error message, which does not align with the expected outcome.",
+          "metricLabel": "output_validation",
+          "name": "output_validation",
+          "result": "FAILURE",
+          "score": 1,
+          "startTime": "2026-05-08T17:57:06Z",
+          "status": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "endTime": "2026-05-08T17:57:13Z",
+      "generatedData": {
+        "actionsSequence": "[&#39;Generate_Account_Intelligence_Summary&#39;]",
+        "invokedActions": "[[{\"function\":{\"name\":\"Generate_Account_Intelligence_Summary_179UD000000mHPx\"}}]]",
+        "outcome": "It looks like something went wrong while trying to generate the account intelligence profile for Eli Lilly. The issue seems to be related to incorrect input parameters. Unfortunately, I can&#39;t complete your request at the moment. If you&#39;d like, you can try rephrasing or providing more specific details, and I&#39;ll do my best to assist! (Session ID: REDACTED)",
+        "topic": "Account_and_Contact_Management"
+      },
+      "inputs": {
+        "utterance": "Give me an account intelligence profile for Eli Lilly."
+      },
+      "startTime": "2026-05-08T17:56:57Z",
+      "status": "COMPLETED",
+      "testNumber": 3,
+      "testResults": [
+        {
+          "actualValue": "Account_and_Contact_Management",
+          "endTime": "2026-05-08T17:57:14Z",
+          "errorCode": 0,
+          "expectedValue": "Account_and_Contact_Management",
+          "metricLabel": "topic_assertion",
+          "name": "topic_assertion",
+          "result": "PASS",
+          "score": 1,
+          "startTime": "2026-05-08T17:57:06Z",
+          "status": "COMPLETED",
+          "metricExplainability": ""
+        },
+        {
+          "actualValue": "['Generate_Account_Intelligence_Summary']",
+          "endTime": "2026-05-08T17:57:14Z",
+          "errorCode": 0,
+          "expectedValue": "['Get_Account_Details', 'Generate_Account_Intelligence_Summary']",
+          "metricLabel": "actions_assertion",
+          "name": "actions_assertion",
+          "result": "FAILURE",
+          "score": 0,
+          "startTime": "2026-05-08T17:57:06Z",
+          "status": "COMPLETED",
+          "metricExplainability": ""
+        },
+        {
+          "actualValue": "It looks like something went wrong while trying to generate the account intelligence profile for Eli Lilly. The issue seems to be related to incorrect input parameters. Unfortunately, I can't complete your request at the moment. If you'd like, you can try rephrasing or providing more specific details, and I'll do my best to assist! (Session ID: REDACTED)",
+          "endTime": "2026-05-08T17:57:14Z",
+          "errorCode": 0,
+          "expectedValue": "Agent treats the account profile request as Account_and_Contact_Management scope, retrieves Eli Lilly account details, then generates an account intelligence summary grounded in the retrieved record.",
+          "metricExplainability": "The bot's response indicates an error and asks the user to rephrase or provide more details, but it does not attempt to retrieve the account intelligence profile for Eli Lilly as expected. The bot fails to achieve the goal of the expected response, which is to generate the profile from the CRM database. The response is not aligned with the expected outcome.",
+          "metricLabel": "output_validation",
+          "name": "output_validation",
+          "result": "FAILURE",
+          "score": 0,
+          "startTime": "2026-05-08T17:57:06Z",
+          "status": "COMPLETED"
+        }
+      ]
+    }
+  ]
+}

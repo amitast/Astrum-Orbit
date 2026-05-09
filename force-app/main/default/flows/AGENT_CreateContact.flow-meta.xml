@@ -1,16 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Flow xmlns="http://soap.sforce.com/2006/04/metadata">
-
     <apiVersion>66.0</apiVersion>
-
-    <description>Agentforce autolaunched Flow for Subagent 1. Creates a Contact linked to an Account after validating Account access and checking for duplicate Contacts by same Account plus LastName and by Email. No screens, no delete elements, and no Bypass_Flow decision because this is not record-triggered.</description>
-
+    <description>Agentforce autolaunched Flow for Subagent 1. Creates a Contact linked to a resolved AccountId after validating Account access and checking for duplicate Contacts by same Account plus LastName and by Email. No screens, no delete elements, and no record-triggered bypass decision because this is not record-triggered.</description>
     <environments>Default</environments>
-
     <interviewLabel>AGENT_CreateContact {!$Flow.CurrentDateTime}</interviewLabel>
-
     <label>AGENT_CreateContact</label>
-
     <processMetadataValues>
         <name>BuilderType</name>
         <value>
@@ -29,12 +23,9 @@
             <stringValue>LightningFlowBuilder</stringValue>
         </value>
     </processMetadataValues>
-
     <processType>AutoLaunchedFlow</processType>
-
-    <!-- DefaultMode is the metadata value for User or Queue That Launched the Flow. Never SystemModeWithoutSharing. -->
+    <!-- DefaultMode is the Salesforce metadata value for "User or Queue That Launched the Flow". Never use system mode for agent write actions. -->
     <runInMode>DefaultMode</runInMode>
-
     <start>
         <locationX>176</locationX>
         <locationY>0</locationY>
@@ -42,40 +33,36 @@
             <targetReference>Get_Account</targetReference>
         </connector>
     </start>
-
     <status>Active</status>
-
     <recordLookups>
-        <description>Resolve the Account record ID from the account name supplied by the agent. Returns null if no Account with that name is accessible to the running user.</description>
+        <description>Verify that the AccountId input resolves to a real Account record accessible to the running user. This prevents a phantom Contact being created with an invalid AccountId.</description>
         <label>Get Account</label>
         <locationX>176</locationX>
         <locationY>120</locationY>
         <name>Get_Account</name>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
-            <targetReference>Get_Duplicate_By_Name</targetReference>
+            <targetReference>Check_Account_Found</targetReference>
         </connector>
         <filterLogic>and</filterLogic>
         <filters>
-            <field>Name</field>
+            <field>Id</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>AccountName</elementReference>
+                <elementReference>AccountId</elementReference>
             </value>
         </filters>
         <getFirstRecordOnly>true</getFirstRecordOnly>
         <object>Account</object>
         <outputReference>var_Account</outputReference>
         <queriedFields>Id</queriedFields>
-        <queriedFields>Name</queriedFields>
         <storeOutputAutomatically>false</storeOutputAutomatically>
     </recordLookups>
-
     <recordLookups>
         <description>Query for existing Contacts at the same Account with the same last name. This is the primary duplicate detection signal.</description>
         <label>Query Duplicate by Name and Account</label>
         <locationX>176</locationX>
-        <locationY>240</locationY>
+        <locationY>360</locationY>
         <name>Get_Duplicate_By_Name</name>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -86,7 +73,7 @@
             <field>AccountId</field>
             <operator>EqualTo</operator>
             <value>
-                <elementReference>var_Account.Id</elementReference>
+                <elementReference>AccountId</elementReference>
             </value>
         </filters>
         <filters>
@@ -104,12 +91,11 @@
         <queriedFields>LastName</queriedFields>
         <storeOutputAutomatically>false</storeOutputAutomatically>
     </recordLookups>
-
     <recordLookups>
         <description>Query for any existing Contact across any Account with the same email address. Email uniqueness is a cross-account signal.</description>
         <label>Query Duplicate by Email</label>
         <locationX>176</locationX>
-        <locationY>480</locationY>
+        <locationY>600</locationY>
         <name>Get_Duplicate_By_Email</name>
         <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
         <connector>
@@ -131,12 +117,37 @@
         <queriedFields>LastName</queriedFields>
         <storeOutputAutomatically>false</storeOutputAutomatically>
     </recordLookups>
-
+    <decisions>
+        <description>Route the Flow based on whether the Account validation query returned an accessible Account record. A missing Account exits cleanly before any Contact duplicate query or create DML.</description>
+        <label>Check Account Found</label>
+        <locationX>176</locationX>
+        <locationY>240</locationY>
+        <name>Check_Account_Found</name>
+        <defaultConnector>
+            <targetReference>Set_Fault_Account_Not_Found</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Account Not Found</defaultConnectorLabel>
+        <rules>
+            <name>Account_Found</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_Account.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Get_Duplicate_By_Name</targetReference>
+            </connector>
+            <label>Account Found</label>
+        </rules>
+    </decisions>
     <decisions>
         <description>Gate the email-based duplicate query. Only execute if the Email input variable is not blank. An empty Email input must not generate a Get Records query because Email equals null returns misleading results.</description>
         <label>Check Email Populated</label>
         <locationX>176</locationX>
-        <locationY>360</locationY>
+        <locationY>480</locationY>
         <name>Check_Email_Populated</name>
         <defaultConnector>
             <targetReference>Evaluate_Duplicate_Results</targetReference>
@@ -165,32 +176,16 @@
             <label>Email Not Blank</label>
         </rules>
     </decisions>
-
     <decisions>
-        <description>Determine if the Account validation failed or if any duplicate signal was detected. If either duplicate query returned a record, set duplicate outputs and exit before creating. The name-match signal takes precedence for the duplicate contact display.</description>
+        <description>Determine if any duplicate signal was detected. If either query returned a record, set duplicate outputs and exit before creating. The name-match signal takes precedence for the duplicate contact display.</description>
         <label>Evaluate Duplicate Results</label>
         <locationX>176</locationX>
-        <locationY>600</locationY>
+        <locationY>720</locationY>
         <name>Evaluate_Duplicate_Results</name>
         <defaultConnector>
             <targetReference>Create_Contact</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>No Duplicate</defaultConnectorLabel>
-        <rules>
-            <name>Account_Not_Found</name>
-            <conditionLogic>and</conditionLogic>
-            <conditions>
-                <leftValueReference>var_Account.Id</leftValueReference>
-                <operator>IsNull</operator>
-                <rightValue>
-                    <booleanValue>true</booleanValue>
-                </rightValue>
-            </conditions>
-            <connector>
-                <targetReference>Set_Fault_Account_Not_Found</targetReference>
-            </connector>
-            <label>Account Not Found</label>
-        </rules>
         <rules>
             <name>Duplicate_Found_By_Name</name>
             <conditionLogic>and</conditionLogic>
@@ -222,12 +217,11 @@
             <label>Duplicate Found by Email only</label>
         </rules>
     </decisions>
-
     <assignments>
         <description>Populate output variables when a duplicate is detected by name at the same account. Do not proceed to Create.</description>
         <label>Set Duplicate Found - Name Match</label>
         <locationX>44</locationX>
-        <locationY>720</locationY>
+        <locationY>840</locationY>
         <name>Set_Duplicate_Name_Match</name>
         <assignmentItems>
             <assignToReference>DuplicateFound</assignToReference>
@@ -258,12 +252,11 @@
             </value>
         </assignmentItems>
     </assignments>
-
     <assignments>
         <description>Populate output variables when a duplicate is detected by email across accounts. Do not proceed to Create.</description>
         <label>Set Duplicate Found - Email Match</label>
         <locationX>308</locationX>
-        <locationY>720</locationY>
+        <locationY>840</locationY>
         <name>Set_Duplicate_Email_Match</name>
         <assignmentItems>
             <assignToReference>DuplicateFound</assignToReference>
@@ -294,12 +287,11 @@
             </value>
         </assignmentItems>
     </assignments>
-
     <assignments>
-        <description>Set error outputs when the AccountName input does not resolve to an accessible Account record. The running user may lack record access.</description>
+        <description>Set error outputs when the AccountId input does not resolve to an accessible Account record. The running user may lack record access.</description>
         <label>Set Fault - Account Not Found</label>
         <locationX>44</locationX>
-        <locationY>840</locationY>
+        <locationY>960</locationY>
         <name>Set_Fault_Account_Not_Found</name>
         <assignmentItems>
             <assignToReference>Success</assignToReference>
@@ -319,16 +311,15 @@
             <assignToReference>ErrorMessage</assignToReference>
             <operator>Assign</operator>
             <value>
-                <stringValue>Account not found. Verify the account name and your record access.</stringValue>
+                <stringValue>Account not found or not accessible. Verify the account ID and your record access.</stringValue>
             </value>
         </assignmentItems>
     </assignments>
-
     <assignments>
         <description>Set error outputs when the Create Records element faults. Do not rethrow the fault because a failed Contact Create must not roll back any upstream DML. Capture the fault message.</description>
         <label>Set Fault - Create Failed</label>
         <locationX>836</locationX>
-        <locationY>840</locationY>
+        <locationY>960</locationY>
         <name>Set_Fault_Create_Failed</name>
         <assignmentItems>
             <assignToReference>Success</assignToReference>
@@ -352,12 +343,11 @@
             </value>
         </assignmentItems>
     </assignments>
-
     <assignments>
         <description>Populate output variables on successful Contact creation.</description>
         <label>Set Success Outputs</label>
         <locationX>572</locationX>
-        <locationY>840</locationY>
+        <locationY>960</locationY>
         <name>Set_Success_Outputs</name>
         <assignmentItems>
             <assignToReference>Success</assignToReference>
@@ -388,12 +378,11 @@
             </value>
         </assignmentItems>
     </assignments>
-
     <recordCreates>
-        <description>Create the new Contact record. The Contact parent Account field is set from the resolved Account record. FirstName, LastName, Title, Email, Phone, and MobilePhone are set from input variables.</description>
+        <description>Create the new Contact record. All input variables are mapped to the corresponding Contact fields and no fields outside the approved PRD list are set.</description>
         <label>Create Contact</label>
         <locationX>572</locationX>
-        <locationY>720</locationY>
+        <locationY>840</locationY>
         <name>Create_Contact</name>
         <assignRecordIdToReference>var_CreatedContactId</assignRecordIdToReference>
         <connector>
@@ -405,7 +394,7 @@
         <inputAssignments>
             <field>AccountId</field>
             <value>
-                <elementReference>var_Account.Id</elementReference>
+                <elementReference>AccountId</elementReference>
             </value>
         </inputAssignments>
         <inputAssignments>
@@ -446,37 +435,32 @@
         </inputAssignments>
         <object>Contact</object>
     </recordCreates>
-
     <formulas>
         <description>Full name output for the created Contact.</description>
         <name>Formula_CreatedContactName</name>
         <dataType>String</dataType>
         <expression>{!FirstName} &amp; &quot; &quot; &amp; {!LastName}</expression>
     </formulas>
-
     <formulas>
         <description>Full name output for the name-match duplicate Contact.</description>
         <name>Formula_DuplicateNameMatchName</name>
         <dataType>String</dataType>
         <expression>{!var_DuplicateByName.FirstName} &amp; &quot; &quot; &amp; {!var_DuplicateByName.LastName}</expression>
     </formulas>
-
     <formulas>
         <description>Full name output for the email-match duplicate Contact.</description>
         <name>Formula_DuplicateEmailMatchName</name>
         <dataType>String</dataType>
         <expression>{!var_DuplicateByEmail.FirstName} &amp; &quot; &quot; &amp; {!var_DuplicateByEmail.LastName}</expression>
     </formulas>
-
     <variables>
-        <description>Name of the parent Account as extracted from the user's request, for example 'Pfizer'. Used to look up the Account record by Name.</description>
-        <name>AccountName</name>
+        <description>18-character Salesforce Record ID of the parent Account resolved by the agent before invoking this Flow.</description>
+        <name>AccountId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
         <isOutput>false</isOutput>
     </variables>
-
     <variables>
         <description>Contact first name extracted from the user's request.</description>
         <name>FirstName</name>
@@ -485,7 +469,6 @@
         <isInput>true</isInput>
         <isOutput>false</isOutput>
     </variables>
-
     <variables>
         <description>Contact last name extracted from the user's request.</description>
         <name>LastName</name>
@@ -494,7 +477,6 @@
         <isInput>true</isInput>
         <isOutput>false</isOutput>
     </variables>
-
     <variables>
         <description>Optional Contact job title extracted from the user's request.</description>
         <name>Title</name>
@@ -503,7 +485,6 @@
         <isInput>true</isInput>
         <isOutput>false</isOutput>
     </variables>
-
     <variables>
         <description>Optional Contact email address extracted from the user's request. When populated, it gates the email duplicate query.</description>
         <name>Email</name>
@@ -512,7 +493,6 @@
         <isInput>true</isInput>
         <isOutput>false</isOutput>
     </variables>
-
     <variables>
         <description>Optional Contact work phone number extracted from the user's request.</description>
         <name>Phone</name>
@@ -521,7 +501,6 @@
         <isInput>true</isInput>
         <isOutput>false</isOutput>
     </variables>
-
     <variables>
         <description>Optional Contact mobile phone number extracted from the user's request.</description>
         <name>MobilePhone</name>
@@ -530,7 +509,6 @@
         <isInput>true</isInput>
         <isOutput>false</isOutput>
     </variables>
-
     <variables>
         <description>True if the Contact was created successfully. False on duplicate or fault paths.</description>
         <name>Success</name>
@@ -539,7 +517,6 @@
         <isInput>false</isInput>
         <isOutput>true</isOutput>
     </variables>
-
     <variables>
         <description>18-character Salesforce Record ID of the newly created Contact. Blank unless Success is true.</description>
         <name>CreatedContactId</name>
@@ -548,7 +525,6 @@
         <isInput>false</isInput>
         <isOutput>true</isOutput>
     </variables>
-
     <variables>
         <description>Full name of the created Contact for the agent confirmation message. Blank unless Success is true.</description>
         <name>CreatedContactName</name>
@@ -557,7 +533,6 @@
         <isInput>false</isInput>
         <isOutput>true</isOutput>
     </variables>
-
     <variables>
         <description>True if a potential duplicate Contact was found by name or email. False on success and fault paths.</description>
         <name>DuplicateFound</name>
@@ -566,7 +541,6 @@
         <isInput>false</isInput>
         <isOutput>true</isOutput>
     </variables>
-
     <variables>
         <description>Full name of the first potential duplicate Contact found. Blank if no duplicate was found.</description>
         <name>DuplicateContactName</name>
@@ -575,7 +549,6 @@
         <isInput>false</isInput>
         <isOutput>true</isOutput>
     </variables>
-
     <variables>
         <description>18-character Salesforce Record ID of the first potential duplicate Contact found. Blank if no duplicate was found.</description>
         <name>DuplicateContactId</name>
@@ -584,7 +557,6 @@
         <isInput>false</isInput>
         <isOutput>true</isOutput>
     </variables>
-
     <variables>
         <description>Error message returned on fault paths when Success is false and DuplicateFound is false.</description>
         <name>ErrorMessage</name>
@@ -593,7 +565,6 @@
         <isInput>false</isInput>
         <isOutput>true</isOutput>
     </variables>
-
     <variables>
         <description>Account record returned by the Account validation query.</description>
         <name>var_Account</name>
@@ -603,7 +574,6 @@
         <isOutput>false</isOutput>
         <objectType>Account</objectType>
     </variables>
-
     <variables>
         <description>Contact record returned by the duplicate-by-name query.</description>
         <name>var_DuplicateByName</name>
@@ -613,7 +583,6 @@
         <isOutput>false</isOutput>
         <objectType>Contact</objectType>
     </variables>
-
     <variables>
         <description>Contact record returned by the duplicate-by-email query.</description>
         <name>var_DuplicateByEmail</name>
@@ -623,7 +592,6 @@
         <isOutput>false</isOutput>
         <objectType>Contact</objectType>
     </variables>
-
     <variables>
         <description>Stores the Contact ID returned by the Create Records element.</description>
         <name>var_CreatedContactId</name>
@@ -632,5 +600,4 @@
         <isInput>false</isInput>
         <isOutput>false</isOutput>
     </variables>
-
 </Flow>
