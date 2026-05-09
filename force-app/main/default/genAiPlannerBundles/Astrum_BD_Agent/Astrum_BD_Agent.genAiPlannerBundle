@@ -13,25 +13,25 @@
             <developerName>show_key_contacts_at_novartis</developerName>
             <language xsi:nil="true"/>
             <masterLabel>Show key contacts at Novartis</masterLabel>
-            <utterance>Add a new contact to the Pfizer account. Her name is Sarah Chen, she is Head of Clinical Operations.</utterance>
+            <utterance>Show me the key contacts at Novartis.</utterance>
         </aiPluginUtterances>
         <aiPluginUtterances>
             <developerName>update_industry_astrazeneca_uk</developerName>
             <language xsi:nil="true"/>
             <masterLabel>Update AstraZeneca UK industry</masterLabel>
-            <utterance>Find all accounts in the Biotechnology industry.</utterance>
+            <utterance>Update the Industry field on AstraZeneca UK to Pharmaceuticals.</utterance>
         </aiPluginUtterances>
         <aiPluginUtterances>
             <developerName>add_contact_to_pfizer</developerName>
             <language xsi:nil="true"/>
             <masterLabel>Add contact to Pfizer</masterLabel>
-            <utterance>Who is the procurement lead at Roche Basel?</utterance>
+            <utterance>Add a new contact to the Pfizer account. Her name is Sarah Chen, she is Head of Clinical Operations.</utterance>
         </aiPluginUtterances>
         <aiPluginUtterances>
             <developerName>procurement_lead_roche_basel</developerName>
             <language xsi:nil="true"/>
             <masterLabel>Procurement lead at Roche Basel</masterLabel>
-            <utterance>Show me the key contacts at Novartis.</utterance>
+            <utterance>Who is the procurement lead at Roche Basel?</utterance>
         </aiPluginUtterances>
         <aiPluginUtterances>
             <developerName>summary_eli_lilly_account</developerName>
@@ -43,13 +43,25 @@
             <developerName>update_sarah_chen_title</developerName>
             <language xsi:nil="true"/>
             <masterLabel>Update Sarah Chen title</masterLabel>
-            <utterance>Update the Industry field on AstraZeneca UK to Pharmaceuticals.</utterance>
+            <utterance>Update Sarah Chen&apos;s job title to Senior Director.</utterance>
         </aiPluginUtterances>
         <aiPluginUtterances>
             <developerName>find_biotechnology_accounts</developerName>
             <language xsi:nil="true"/>
             <masterLabel>Find biotechnology accounts</masterLabel>
-            <utterance>Update Sarah Chen&apos;s job title to Senior Director.</utterance>
+            <utterance>Find all accounts in the Biotechnology industry.</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_0_1778316237407</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_0_1778316237407</masterLabel>
+            <utterance>Give me an account intelligence profile for Pfizer.</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>utterance_1_1778316237414</developerName>
+            <language>en_US</language>
+            <masterLabel>utterance_1_1778316237414</masterLabel>
+            <utterance>Give me an account intelligence profile for Novartis.</utterance>
         </aiPluginUtterances>
         <canEscalate>false</canEscalate>
         <description>Handles requests to look up, view, update, create, and summarise account and contact records in Salesforce. Use this subagent when the user asks about a specific company, organisation, sponsor, or CRO target account, wants to update a field on an account or contact record, needs to find contacts at a specific organisation, wants to add a new contact to an account, or requests an account intelligence summary or profile.
@@ -121,52 +133,59 @@ Do not use this subagent for managing opportunities, updating deal stages, captu
         </genAiPluginInstructions>
         <genAiPluginInstructions>
             <description>If the user requests a change to Account Owner or Parent Account, flag this as a significant structural change and require explicit typed confirmation from the user before proceeding.</description>
-            <developerName>never_create_account</developerName>
-            <language xsi:nil="true"/>
-            <masterLabel>Never create account</masterLabel>
+            <developerName>instructions_0_1778316113644</developerName>
+            <language>en_US</language>
+            <masterLabel>instructions_0_1778316113644</masterLabel>
             <sortOrder>9</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
             <description>If a search returns more than 10 matching records, display the top 5 most recently modified and ask the user to refine their search criteria before proceeding.</description>
-            <developerName>never_delete_records</developerName>
+            <developerName>never_create_account</developerName>
             <language xsi:nil="true"/>
-            <masterLabel>Never delete records</masterLabel>
+            <masterLabel>Never create account</masterLabel>
             <sortOrder>10</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
             <description>If the user&apos;s request is ambiguous about which record to act on, present a candidate list and wait for selection before invoking any update or creation action.</description>
-            <developerName>never_update_outside_sharing</developerName>
+            <developerName>never_delete_records</developerName>
             <language xsi:nil="true"/>
-            <masterLabel>Never update outside sharing</masterLabel>
+            <masterLabel>Never delete records</masterLabel>
             <sortOrder>11</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
             <description>If the user asks about opportunities, deal stages, close dates, or next steps on a deal, inform them this is handled by the Opportunity Management capability and offer to assist with account or contact questions.</description>
-            <developerName>never_update_without_confirmation</developerName>
+            <developerName>never_update_outside_sharing</developerName>
             <language xsi:nil="true"/>
-            <masterLabel>Never update without confirmation</masterLabel>
+            <masterLabel>Never update outside sharing</masterLabel>
             <sortOrder>12</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
             <description>If the user requests a data quality report, pipeline audit, or hygiene check, inform them this is handled by the Data Quality capability.</description>
-            <developerName>opportunity_boundary</developerName>
+            <developerName>never_update_without_confirmation</developerName>
             <language xsi:nil="true"/>
-            <masterLabel>Opportunity boundary</masterLabel>
+            <masterLabel>Never update without confirmation</masterLabel>
             <sortOrder>13</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
             <description>When the user asks to view, summarise, or update an existing account record, retrieve the account record and display key fields before making changes. For new contact creation requests, skip this step and invoke Create_Contact_with_Duplicate_Check directly without a prior account lookup.</description>
-            <developerName>search_result_refinement</developerName>
+            <developerName>opportunity_boundary</developerName>
             <language xsi:nil="true"/>
-            <masterLabel>Search result refinement</masterLabel>
+            <masterLabel>Opportunity boundary</masterLabel>
             <sortOrder>14</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
             <description>When the user asks to view, update, or find an existing contact record, retrieve the contact record and display name, title, account, and contact fields before making changes. For new contact creation, skip this step and invoke Create_Contact_with_Duplicate_Check directly.</description>
+            <developerName>search_result_refinement</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Search result refinement</masterLabel>
+            <sortOrder>15</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>When the user asks for an account summary, account intelligence summary, account profile, or account overview, always call Get_Account_Details first to retrieve the full Account record for the named account. Then invoke Generate_Account_Intelligence_Summary, passing the Account record returned by Get_Account_Details as the Input:Account parameter. Do not invoke Generate_Account_Intelligence_Summary without a prior Get_Account_Details call.</description>
             <developerName>structural_change_confirmation</developerName>
             <language xsi:nil="true"/>
             <masterLabel>Structural change confirmation</masterLabel>
-            <sortOrder>15</sortOrder>
+            <sortOrder>16</sortOrder>
         </genAiPluginInstructions>
         <language>en_US</language>
         <localActionLinks>
@@ -267,7 +286,7 @@ Do not use this subagent for managing opportunities, updating deal stages, captu
         </localActions>
         <localActions>
             <fullName>Generate_Account_Intelligence_Summary_179UD000000mHPx</fullName>
-            <description>Generates a concise AI-powered summary of a named account using Salesforce record data only. Invoke when the user asks for an account intelligence summary, account profile, or account overview. Requires the Account ID or name as input. Do not invoke for contact lookups, field updates, or opportunity queries.</description>
+            <description>Generates a concise AI-powered summary of a named account using Salesforce record data only. Invoke when the user asks for an account intelligence summary, account intelligence profile, account profile, account overview, or account summary. Always requires Get_Account_Details to have been called first — pass the returned Account record as the Input:Account parameter. Do not invoke for contact lookups, field updates, or opportunity queries.</description>
             <developerName>Generate_Account_Intelligence_Summary_179UD000000mHPx</developerName>
             <invocationTarget>AGENT_AccountIntelligenceSummary</invocationTarget>
             <invocationTargetType>generatePromptResponse</invocationTargetType>
