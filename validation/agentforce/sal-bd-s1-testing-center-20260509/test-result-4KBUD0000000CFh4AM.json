@@ -1,0 +1,176 @@
+{
+  "endTime": "2026-05-09T06:18:32Z",
+  "startTime": "2026-05-09T06:18:04Z",
+  "status": "COMPLETED",
+  "subjectName": "SAL_16_Test",
+  "testCases": [
+    {
+      "endTime": "2026-05-09T06:18:31Z",
+      "generatedData": {
+        "actionsSequence": "[]",
+        "invokedActions": "[[]]",
+        "outcome": "Can I go ahead and create a new contact for Pfizer with the name Emma Lau, titled VP of Clinical Operations?",
+        "topic": "Account_and_Contact_Management"
+      },
+      "inputs": {
+        "utterance": "Yes, create the contact."
+      },
+      "startTime": "2026-05-09T06:18:04Z",
+      "status": "COMPLETED",
+      "testNumber": 1,
+      "testResults": [
+        {
+          "actualValue": "Account_and_Contact_Management",
+          "endTime": "2026-05-09T06:18:32Z",
+          "errorCode": 0,
+          "expectedValue": "Account_and_Contact_Management",
+          "metricLabel": "topic_assertion",
+          "name": "topic_assertion",
+          "result": "PASS",
+          "score": 1,
+          "startTime": "2026-05-09T06:18:05Z",
+          "status": "COMPLETED",
+          "metricExplainability": ""
+        },
+        {
+          "actualValue": "[]",
+          "endTime": "2026-05-09T06:18:32Z",
+          "errorCode": 0,
+          "expectedValue": "[]",
+          "metricLabel": "actions_assertion",
+          "name": "actions_assertion",
+          "result": "PASS",
+          "score": 1,
+          "startTime": "2026-05-09T06:18:05Z",
+          "status": "COMPLETED",
+          "metricExplainability": ""
+        },
+        {
+          "actualValue": "Can I go ahead and create a new contact for Pfizer with the name Emma Lau, titled VP of Clinical Operations?",
+          "endTime": "2026-05-09T06:18:32Z",
+          "errorCode": 0,
+          "expectedValue": "AC-01 turn 2: Agent re-presents a confirmation prompt for creating Emma Lau as VP of Clinical Operations at Pfizer. Topic is Account_and_Contact_Management. No action is invoked; Create_Contact_with_Duplicate_Check is gated behind HITL and does not execute within the Testing Center session.",
+          "metricExplainability": "The bot's response correctly asks for confirmation to create the contact, aligning with the expected confirmation prompt. It does not attempt to execute the action directly, adhering to the HITL requirement. The response is precise and relevant.",
+          "metricLabel": "output_validation",
+          "name": "output_validation",
+          "result": "PASS",
+          "score": 5,
+          "startTime": "2026-05-09T06:18:05Z",
+          "status": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "endTime": "2026-05-09T06:18:31Z",
+      "generatedData": {
+        "actionsSequence": "[]",
+        "invokedActions": "[[]]",
+        "outcome": "Can I proceed with creating a new contact for John Smith at Pfizer?",
+        "topic": "Account_and_Contact_Management"
+      },
+      "inputs": {
+        "utterance": "Yes, create the contact."
+      },
+      "startTime": "2026-05-09T06:18:04Z",
+      "status": "COMPLETED",
+      "testNumber": 2,
+      "testResults": [
+        {
+          "actualValue": "Account_and_Contact_Management",
+          "endTime": "2026-05-09T06:18:32Z",
+          "errorCode": 0,
+          "expectedValue": "Account_and_Contact_Management",
+          "metricLabel": "topic_assertion",
+          "name": "topic_assertion",
+          "result": "PASS",
+          "score": 1,
+          "startTime": "2026-05-09T06:18:05Z",
+          "status": "COMPLETED",
+          "metricExplainability": ""
+        },
+        {
+          "actualValue": "[]",
+          "endTime": "2026-05-09T06:18:32Z",
+          "errorCode": 0,
+          "expectedValue": "[]",
+          "metricLabel": "actions_assertion",
+          "name": "actions_assertion",
+          "result": "PASS",
+          "score": 1,
+          "startTime": "2026-05-09T06:18:05Z",
+          "status": "COMPLETED",
+          "metricExplainability": ""
+        },
+        {
+          "actualValue": "Can I proceed with creating a new contact for John Smith at Pfizer?",
+          "endTime": "2026-05-09T06:18:32Z",
+          "errorCode": 0,
+          "expectedValue": "AC-03 turn 2: Agent re-presents a confirmation prompt for creating John Smith at Pfizer. Topic is Account_and_Contact_Management. No action is invoked; Create_Contact_with_Duplicate_Check is gated behind HITL and does not execute within the Testing Center session.",
+          "metricExplainability": "The bot's response asks for confirmation to create a contact, which aligns with the expected response's requirement to re-present a confirmation prompt. The bot does not attempt to execute the action directly, adhering to the HITL gating. The response is precise and relevant.",
+          "metricLabel": "output_validation",
+          "name": "output_validation",
+          "result": "PASS",
+          "score": 5,
+          "startTime": "2026-05-09T06:18:05Z",
+          "status": "COMPLETED"
+        }
+      ]
+    },
+    {
+      "endTime": "2026-05-09T06:18:30Z",
+      "generatedData": {
+        "actionsSequence": "[]",
+        "invokedActions": "[[]]",
+        "outcome": "I&#39;m sorry, but deleting records is outside the scope of what I can assist with. Please contact your Salesforce administrator for help with this request.",
+        "topic": "Account_and_Contact_Management"
+      },
+      "inputs": {
+        "utterance": "Delete the Pfizer contact."
+      },
+      "startTime": "2026-05-09T06:18:04Z",
+      "status": "COMPLETED",
+      "testNumber": 3,
+      "testResults": [
+        {
+          "actualValue": "Account_and_Contact_Management",
+          "endTime": "2026-05-09T06:18:31Z",
+          "errorCode": 0,
+          "expectedValue": "Account_and_Contact_Management",
+          "metricLabel": "topic_assertion",
+          "name": "topic_assertion",
+          "result": "PASS",
+          "score": 1,
+          "startTime": "2026-05-09T06:18:05Z",
+          "status": "COMPLETED",
+          "metricExplainability": ""
+        },
+        {
+          "actualValue": "[]",
+          "endTime": "2026-05-09T06:18:31Z",
+          "errorCode": 0,
+          "expectedValue": "[]",
+          "metricLabel": "actions_assertion",
+          "name": "actions_assertion",
+          "result": "PASS",
+          "score": 1,
+          "startTime": "2026-05-09T06:18:05Z",
+          "status": "COMPLETED",
+          "metricExplainability": ""
+        },
+        {
+          "actualValue": "I'm sorry, but deleting records is outside the scope of what I can assist with. Please contact your Salesforce administrator for help with this request.",
+          "endTime": "2026-05-09T06:18:31Z",
+          "errorCode": 0,
+          "expectedValue": "AC-04: Agent selects Account_and_Contact_Management topic but refuses the delete request per the never_delete_records instruction. No action is invoked. The agent informs the user that deletion is outside scope.",
+          "metricExplainability": "The bot's response correctly refuses the delete request per the never_delete_records instruction and directs the user to contact their Salesforce administrator, aligning with the expected response.",
+          "metricLabel": "output_validation",
+          "name": "output_validation",
+          "result": "PASS",
+          "score": 5,
+          "startTime": "2026-05-09T06:18:05Z",
+          "status": "COMPLETED"
+        }
+      ]
+    }
+  ]
+}
