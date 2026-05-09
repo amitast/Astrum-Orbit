@@ -63,6 +63,13 @@
             </value>
         </assignmentItems>
         <assignmentItems>
+            <assignToReference>AccountId</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_Account.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
             <assignToReference>AccountName</assignToReference>
             <operator>Assign</operator>
             <value>
@@ -402,12 +409,12 @@
     </variables>
 
     <variables>
-        <description>18-character Account record ID. Takes precedence over AccountName when populated.</description>
+        <description>18-character Account record ID. Takes precedence over AccountName when populated. On success, overwritten with the resolved Account.Id for agent output.</description>
         <name>AccountId</name>
         <dataType>String</dataType>
         <isCollection>false</isCollection>
         <isInput>true</isInput>
-        <isOutput>false</isOutput>
+        <isOutput>true</isOutput>
     </variables>
 
     <variables>
