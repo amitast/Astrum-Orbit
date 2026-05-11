@@ -1,20 +1,13 @@
 {
-  "required" : [],
+  "required" : [ "accountName" ],
   "unevaluatedProperties" : false,
   "properties" : {
     "accountName" : {
       "title" : "Account Name",
-      "description" : "Name of the account to summarise, as stated by the user. Use when the account ID is not in context. Pass the account name exactly as the user stated it.",
+      "description" : "Name of the account to summarise. Pass the name exactly as the user stated it.",
       "lightning:type" : "lightning__textType",
       "lightning:isPII" : false,
       "copilotAction:isUserInput" : true
-    },
-    "accountId" : {
-      "title" : "Account ID",
-      "description" : "18-character Salesforce Account record ID. Use only if already available from a prior action. Leave blank when only the account name is known — the action resolves the account internally.",
-      "lightning:type" : "lightning__textType",
-      "lightning:isPII" : false,
-      "copilotAction:isUserInput" : false
     }
   },
   "lightning:type" : "lightning__objectType"

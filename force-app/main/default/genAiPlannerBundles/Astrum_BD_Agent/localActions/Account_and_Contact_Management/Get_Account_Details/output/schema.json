@@ -10,15 +10,6 @@
       "copilotAction:isUsedByPlanner" : true,
       "copilotAction:useHydratedPrompt" : false
     },
-    "AccountId" : {
-      "title" : "AccountId",
-      "description" : "The 18-character Salesforce Account record Id. When calling Generate_Account_Intelligence_Summary, use this value as the id field of the Input:Account parameter (set sObjectInfo.apiName to Account and id to this AccountId string). The id must not be null.",
-      "lightning:type" : "lightning__textType",
-      "lightning:isPII" : false,
-      "copilotAction:isDisplayable" : false,
-      "copilotAction:isUsedByPlanner" : true,
-      "copilotAction:useHydratedPrompt" : false
-    },
     "AccountName" : {
       "title" : "AccountName",
       "description" : "Name of the retrieved Account.",

@@ -88,9 +88,9 @@ Always append the flow type to the Flow Label and API Name (e.g., Set_Account_Ac
 Always include descriptions for any new custom fields, objects, validation rules, or Flow elements.
 Never deploy metadata to a production environment. Deployments must always be restricted to Developer Sandboxes or Scratch Orgs
 
-## Three-Operator Coordination
+## Two-AI-Agent Coordination
 
-This project uses a three-operator operating model. Full protocol: `docs/dual-agent-protocol.md`. Operator instructions: `AGENTS.md`.
+This project uses a two-AI-agent operating model (updated 2026-05-09 post-S1 retro). Full protocol: `AGENTS.md`.
 
 ### Claude Code (Architect) — this agent's responsibilities
 - PRD authoring and approval
@@ -98,28 +98,20 @@ This project uses a three-operator operating model. Full protocol: `docs/dual-ag
 - Review of all Codex-produced metadata before Human approval
 - Linear updates: requirement summary, PRD status, blockers, open decisions, review findings, recommended next step
 - Does not implement Flow XML or run deployments
+- Always leads recommendations with one clear preferred option aligned to fastest safe path to production
 
 ### Codex (Builder) — the other agent's responsibilities
-- Flow XML implementation per approved PRD only
-- Apex test class authoring and smoke test execution
+- Apex and Flow implementation per approved PRD or explicit approved prompt only
+- Apex test class authoring and sandbox validate-only execution
 - Linear updates: files changed, implementation summary, tests run, validation evidence, deploy ID, known risks
 - Does not design, author PRDs, or make deployment decisions
-- Governed by `AGENTS.md` — do not edit that file
-
-### Agentforce Vibes (Validator) — this agent's responsibilities
-- Salesforce-native validation: Agentforce DX checks, Code Analyzer, org-aware metadata inspection
-- Agentforce Testing Center preparation and sandbox-safe test execution (approved specs only)
-- Org state verification: deployed metadata, bot activation, permission set assignments, SOQL queries
-- Produces structured validation evidence for Claude review
-- Does not deploy, activate agents, or modify metadata without explicit Human approval after Claude review
-- Does not target astrum-prod under any circumstances
 - Governed by `AGENTS.md` — do not edit that file
 
 ### Human (Approver) — sole authority for
 - All production deployments
 - Linear status transitions to Done, Closed, or Production Ready
-- Business decision sign-off (BD-01 through BD-10)
-- Sandbox smoke test sign-off (7/7 scenarios required)
+- Business decision sign-off
+- Sandbox smoke test sign-off
 - Merge to main
 
 ### Linear governance (all AI operators)
@@ -127,3 +119,13 @@ This project uses a three-operator operating model. Full protocol: `docs/dual-ag
 - Additive comments only — never rewrite description unless explicitly instructed
 - Every comment must include: agent name, date, action, evidence reference
 - No AI operator may set status to Done, Closed, or Production Ready
+
+## Architect Approach
+
+Claude Code aligns every recommendation to agile delivery: incremental value,
+shortest safe path to production, minimum viable governance.
+
+When presenting options:
+- State one clear recommendation first — "I recommend X because…"
+- List alternatives only as fallbacks, not equal choices
+- Align to fastest path that meets quality and governance standards

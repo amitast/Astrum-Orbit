@@ -1,13 +1,16 @@
-# AGENTS.md - Three-Operator Governance Instructions
+# AGENTS.md - Two-AI-Agent Governance Instructions
 
 ## 1. Purpose
 
-This repository uses a controlled three-operator workflow for Salesforce delivery work.
-The goal is to keep requirement design, implementation, org-native validation, Linear
-updates, deployment authority, and release authority clearly separated.
+This repository uses a controlled two-AI-agent workflow for Salesforce delivery work.
+The goal is to keep requirement design, implementation, Linear updates, deployment
+authority, and release authority clearly separated.
 
-These instructions apply to Claude Code, Codex, Agentforce Vibes, and Human operators
-working in this repo.
+These instructions apply to Claude Code, Codex, and Human operators working in this repo.
+
+> **Note (2026-05-09):** Following the Astrum BD Agent S1 retrospective, Agentforce Vibes
+> has been removed as a routine execution operator. It may be used for ad-hoc exploratory
+> org inspection only, when explicitly directed by the Human. See Section 5.
 
 ## 2. Role Split
 
@@ -15,7 +18,6 @@ working in this repo.
 |---|---|
 | Claude Code | Architect + Reviewer + Linear design/status updater |
 | Codex | Builder + Test Executor + Linear implementation-evidence updater |
-| Agentforce Vibes | Salesforce-native Validator + Org-aware Inspector + Testing Center operator |
 | Human | Approval + Deployment + Release Authority |
 
 Only one AI agent may edit files at a time. Every agent output must declare the
@@ -41,6 +43,24 @@ Claude Code must not:
   Human instruction.
 - Make business decisions on behalf of the Human.
 
+### Architectural recommendation style
+
+This programme follows agile delivery principles: incremental value, shortest safe
+path to production, minimum viable governance. Claude Code must apply these principles
+when presenting architectural options or remediation paths:
+
+- **Lead with a recommendation.** Always state one preferred option first and
+  plainly — "I recommend Option X because…" The Human's role is approval and business
+  sign-off, not option analysis.
+- **Alternatives are fallbacks, not equal choices.** List them only to be complete;
+  briefly explain why they are not the primary recommendation.
+- **When options are genuinely equal**, say so explicitly and state the single
+  deciding criterion the Human should use.
+- **Align to the fastest path to production** that meets quality and governance
+  standards. Slower paths require explicit justification.
+- **Do not pad analysis with caveats that obscure the recommendation.** State risks
+  once, concisely, then commit to the recommendation.
+
 ## 4. Codex Responsibilities
 
 Codex owns controlled implementation and test execution.
@@ -64,46 +84,21 @@ Codex must:
   evidence-based comment.
 - If Linear MCP is unavailable, produce a paste-ready Linear comment.
 
-## 5. Agentforce Vibes Responsibilities
+## 5. Agentforce Vibes — Retired as Execution Operator
 
-Agentforce Vibes owns Salesforce-native validation, org-aware inspection, and
-Agentforce DX tooling. It acts as the org-side verification layer between Codex
-implementation and Human approval.
+Agentforce Vibes has been removed from the routine delivery workflow as of 2026-05-09.
 
-Agentforce Vibes may:
-- Run SF CLI and Agentforce DX read commands against the sandbox org.
-- Run Code Analyzer (sf scanner) against source files in the local workspace.
-- Inspect org state: deployed metadata, bot activation status, permission set
-  assignments, SOQL queries, agent topic and action wiring.
-- Prepare Agentforce Testing Center test-spec YAMLs for Claude review before any
-  execution.
-- Run Agentforce Testing Center tests against the sandbox only, after the test
-  spec has been reviewed and approved by Claude and the Human.
-- Produce structured validation evidence for Claude review.
-- Update Linear with validation evidence when explicitly instructed.
+**Reason:** During the Astrum BD Agent S1 delivery (SAL-15 through SAL-21), Agentforce
+Vibes added a fourth context-switch environment for the Human without delivering
+proportionate execution velocity. Codex ran Tooling API queries and CLI-based org
+inspections more reliably. Evidence files produced by Agentforce Vibes were
+indistinguishable in format and quality from those produced by Codex. The overhead of
+managing four operators outweighed the governance value.
 
-Agentforce Vibes must not:
-- Deploy metadata to any org without explicit Human approval after Claude review.
-- Activate, deactivate, or publish agents without explicit Human approval.
-- Modify any Salesforce metadata files in the local workspace.
-- Target astrum-prod (production) under any circumstances.
-- Use isConfirmationRequired = false for any agent write action.
-- Run Agentforce Testing Center tests that invoke live write actions without a
-  reviewed and Human-approved test spec.
-- Create, update, or delete Salesforce records (Accounts, Contacts, Leads, or
-  any object) outside an approved test context.
-- Set any Linear issue to Done, Closed, Production Ready, or equivalent without
-  Human instruction.
-- Edit AGENTS.md, CLAUDE.md, or AI_WORKFLOW.md.
-
-Agentforce Vibes environment requirements (must verify before every session):
-- SF CLI binary: `%APPDATA%\npm\sf.cmd` — must resolve to
-  @salesforce/cli/2.131.7 or newer.
-- Default target org: `amit.kumar@astrumcro.com.astrumpar` (sandbox).
-- Must confirm `IsSandbox = true` via SOQL before running any org command.
-- Must confirm `target-org` is not `astrum-prod` before any session.
-- Git branch must be `feature/astrum-bd-agent-build` or the active feature branch
-  declared by the Human.
+**Current status:** Agentforce Vibes may be used for ad-hoc exploratory org inspection
+when the Human explicitly directs it for a specific question that neither Claude Code
+nor Codex can answer through available evidence. It is not a delivery operator and must
+not be used to build, deploy, test, or produce primary delivery evidence.
 
 ## 6. Human Responsibilities
 
@@ -134,12 +129,6 @@ Codex updates Linear only when instructed for:
 - Implementation complete evidence.
 - Remaining implementation risks.
 
-Agentforce Vibes updates Linear only when instructed for:
-- Org validation evidence (org state, deployed metadata, agent activation).
-- Agentforce Testing Center test results.
-- Code Analyzer scan results.
-- Post-deploy sandbox verification evidence.
-
 Before any Linear update:
 - Read the current Linear issue when MCP is available.
 - Append comments only unless explicitly instructed otherwise.
@@ -166,16 +155,68 @@ These guardrails apply to all Salesforce work in this repo:
 - Never move a Linear issue to Done, Closed, Production Ready, or equivalent
   without Human instruction.
 
-Agentforce Vibes additional guardrails:
-- astrum-prod must never be the target-org in any Agentforce Vibes session.
-- Agentforce Vibes must run `SELECT IsSandbox FROM Organization` before every
-  org session and halt if IsSandbox is false.
-- All agent write actions invoked via Agentforce Vibes must have
-  isConfirmationRequired = true (Confirm HITL enforced).
-- No bulk record operations without per-record Human confirmation.
-- Agent-invoked Flows must use the AGENT_ prefix and run in user context.
-- No Account creation through the agent.
-- No delete actions through the agent.
+### Production deploy flag rules
+
+- Never use `--test-level NoTestRun` against a production org. This flag is
+  sandbox-only. Using it in production causes an immediate `INVALID_OPERATION` error.
+- Use `--test-level RunLocalTests` for all production deploys, including non-Apex
+  metadata types (Flows, permission sets, planner bundles). This ensures Apex coverage
+  is verified on every production validate-only job.
+
+**Exception — RunSpecifiedTests:** `--test-level RunSpecifiedTests` is permitted
+when ALL four conditions are confirmed by evidence:
+1. All local tests pass with zero failures in the most recent sandbox validate-only.
+2. Every Apex class in the deployment package individually has ≥75% coverage
+   (verified by `ApexCodeCoverageAggregate` query).
+3. The org-wide average failure is caused by classes NOT in the deployment package
+   (Salesforce template, scaffold, or unowned legacy classes — confirmed by
+   `ApexCodeCoverageAggregate`).
+4. The Human has explicitly approved `RunSpecifiedTests` for this specific deploy.
+
+When `RunSpecifiedTests` is used, specify all test classes whose corresponding
+production classes are included in the deployment package. Do not omit any.
+
+### Autolaunched Flow status after CLI deploy
+
+Autolaunched Flows deployed via Salesforce CLI land with `Status = Draft` in the
+Tooling API. This is expected Salesforce platform behaviour and does not prevent the
+agent planner from invoking them at runtime. Do not report Draft status as a failure.
+Do not attempt to activate autolaunched Flows via the CLI. Confirm agent capability
+via smoke test, not via status query.
+
+### Apex invocable pattern for AI summary actions
+
+Do not use `generatePromptResponse` as a direct agent planner action for capabilities
+that require resolving a record by name or text input. The agent planner's type system
+cannot reliably bind a text account name to a valid SObject `id`, causing
+`INVALID_RUNTIME_VALUE` errors at runtime.
+
+Use Apex invocable actions for any agent summary that requires SOQL resolution:
+- Accept a text input (e.g. account name).
+- Resolve the record internally via SOQL with `AccessLevel.USER_MODE`.
+- Build or invoke the summary within Apex.
+- Return the result as a text output.
+
+This pattern is confirmed working in production via `AGENT_AccountIntelligenceSummary`.
+
+### GenAiPromptTemplate deploy pattern
+
+The correct metadata type is `GenAiPromptTemplate`, not `PromptTemplate`. Using the
+wrong type causes a `TypeInferenceError` on deploy.
+
+Before writing any `GenAiPromptTemplate` XML, retrieve an existing template from the
+target org to confirm the XML schema. Do not write template XML without a
+retrieve-and-compare step — the schema is not consistently documented and differs from
+the standard `PromptTemplate` type.
+
+```powershell
+& "$env:APPDATA\npm\sf.cmd" project retrieve start `
+  --metadata "GenAiPromptTemplate:[ExistingTemplateName]" `
+  --target-org amit.kumar@astrumcro.com.astrumpar
+```
+
+When a planner binding risk exists (SObject id resolution from text), use the Apex
+invocable pattern above instead of a direct Prompt Template action.
 
 ## 9. Security And Compliance Rules
 
@@ -192,12 +233,11 @@ Agentforce Vibes additional guardrails:
 
 ## 10. Required Output Footer
 
-Every Claude Code, Codex, or Agentforce Vibes response that hands work to another
-operator must end with:
+Every Claude Code or Codex response that hands work to another operator must end with:
 
 ```markdown
 ## Next Operator
-- Run next in: [Claude / Codex / Agentforce Vibes / Human]
+- Run next in: [Claude Code / Codex / Human]
 - Reason: [why this operator is next]
 - Next prompt: [paste-ready prompt or action]
 ```
@@ -355,3 +395,92 @@ Deploy ID: 0AfXXXXXXXXXXXXXX
 Target org: astrum--astrumpar.sandbox.my.salesforce.com
 Timestamp: YYYY-MM-DDTHH:MM:SSZ
 Components deployed: [list]
+
+## 16. Deployment Dependency Audit
+
+A Dependency Readiness Checklist is mandatory before every planner bundle validate-only,
+in both sandbox and production. No planner bundle validate-only may proceed while any
+row shows NOT READY.
+
+Codex populates the checklist. Claude Code reviews it. Human approves the deploy only
+after Claude Code confirms all rows are READY.
+
+### Checklist template
+
+```markdown
+## Dependency Readiness Checklist — [Bundle API Name] — [Target Org] — [Date]
+
+| Dependency | Type | Required By | Present in [org] | Deploy ID or Confirmation | Status |
+|---|---|---|---|---|---|
+| AGENT_[name] | Flow | [Action name in bundle] | [org alias] | [Deploy ID or "sf org list metadata confirmed"] | READY / NOT READY |
+| AGENT_[name] | Apex | [Action name in bundle] | [org alias] | [Deploy ID] | READY / NOT READY |
+| [TemplateName] | GenAiPromptTemplate | [Action name, if referenced] | [org alias] | [Deploy ID] | READY / NOT READY |
+| [PermSetName] | PermissionSet | Permission boundary | [org alias] | [Deploy ID] | READY / NOT READY |
+```
+
+### Queries to confirm presence
+
+Flow presence (Tooling API):
+```powershell
+& "$env:APPDATA\npm\sf.cmd" data query `
+  --query "SELECT Id, ApiName, Status FROM FlowDefinition WHERE ApiName IN ('AGENT_X','AGENT_Y')" `
+  --target-org [alias] --use-tooling-api
+```
+
+Apex presence:
+```powershell
+& "$env:APPDATA\npm\sf.cmd" data query `
+  --query "SELECT Id, Name, Status FROM ApexClass WHERE Name IN ('AGENT_X','AGENT_Y')" `
+  --target-org [alias]
+```
+
+GenAiPromptTemplate presence (metadata listing — Tooling API query not reliable for this type):
+```powershell
+& "$env:APPDATA\npm\sf.cmd" org list metadata --metadata-type GenAiPromptTemplate --target-org [alias]
+```
+
+### Deployment sequencing
+
+Deploy Agentforce components in this order. One deploy job per phase.
+
+1. Apex classes (all agent-invoked classes).
+2. Flows (all agent-invoked Flows).
+3. GenAiPromptTemplate (only if referenced by a direct Prompt Template action).
+4. Permission set.
+5. GenAiPlannerBundle.
+
+Include ALL Apex classes referenced in the planner bundle in Phase 1, not only those
+new to the current sprint. Missing a previously built class from the deploy scope is
+a known cause of remediation cycles.
+
+## 17. Mandatory Business Summary Standard
+
+Every Claude Code and Codex output — including evidence files, review findings,
+readiness reports, and dependency checklists — must include the following block.
+All five fields must be completed. Use "None at this time." if a field has no content.
+
+```markdown
+## Business Summary
+
+- **What was done:** [One or two sentences in plain English. No CLI syntax or metadata type names.]
+- **What was found:** [Key result: pass, fail, blocker, coverage %, deploy ID.]
+- **What this means:** [One sentence on programme progress — is it safe to proceed?]
+- **What is next:** [Who does what next.]
+- **Decision needed from Human:** [One sentence if a Human decision is required, or "None at this time."]
+```
+
+Example — production validate-only pass:
+
+> - **What was done:** Ran a validate-only check of the Astrum BD Agent planner bundle against the production org.
+> - **What was found:** Validation passed. All 8 actions resolved correctly. No component errors.
+> - **What this means:** The planner bundle is safe to deploy to production.
+> - **What is next:** Claude Code to review this evidence. Human to approve quick deploy.
+> - **Decision needed from Human:** Approve or reject production live deploy of GenAiPlannerBundle:Astrum_BD_Agent.
+
+Example — dependency failure:
+
+> - **What was done:** Ran a validate-only check of the Astrum BD Agent planner bundle against the production org.
+> - **What was found:** Validation failed. `AGENT_GetContactDetails` Flow is not present in production.
+> - **What this means:** The planner bundle cannot deploy until `AGENT_GetContactDetails` is present in production. A remediation deploy is required first.
+> - **What is next:** Claude Code to review this evidence and authorise a targeted remediation deploy.
+> - **Decision needed from Human:** Approve remediation deploy of `AGENT_GetContactDetails` to production.

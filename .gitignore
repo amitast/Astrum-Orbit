@@ -28,6 +28,7 @@ Thumbs.db
 # VS Code local workspace noise
 .vscode/.ropeproject/
 .vscode/settings.local.json
+.claude/settings.local.json
 
 # Coverage and test output
 coverage/
@@ -37,6 +38,7 @@ coverage/
 tmp/
 temp/
 .cache/
+handoff/_docx_render_*/
 
 # Quarantined: sandbox-retrieved metadata not owned by this branch
 quarantine/

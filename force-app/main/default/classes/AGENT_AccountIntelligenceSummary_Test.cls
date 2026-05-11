@@ -156,4 +156,48 @@ private class AGENT_AccountIntelligenceSummary_Test {
         System.assert(summary.contains('London'), 'Must contain city');
         System.assert(!summary.contains('Key contacts'), 'Should not mention contacts when none exist');
     }
+
+    @isTest
+    static void testIsDataSparseTrue() {
+        Account sparse = new Account(Name = 'Sparse Corp');
+        insert sparse;
+
+        AGENT_AccountIntelligenceSummary.SummaryRequest req =
+            new AGENT_AccountIntelligenceSummary.SummaryRequest();
+        req.accountName = 'Sparse Corp';
+
+        Test.startTest();
+        List<AGENT_AccountIntelligenceSummary.SummaryResult> results =
+            AGENT_AccountIntelligenceSummary.generateSummary(
+                new List<AGENT_AccountIntelligenceSummary.SummaryRequest>{ req }
+            );
+        Test.stopTest();
+
+        System.assertEquals(1, results.size());
+        System.assertEquals(true, results[0].success, 'Sparse account lookup should succeed');
+        System.assertEquals(true, results[0].isDataSparse,
+            'isDataSparse must be true when Industry, Type, BillingCity, BillingCountry, and Description are all blank');
+    }
+
+    @isTest
+    static void testSparseAccountReturnsSparseFlag() {
+        Account acc = new Account(Name = 'Sparse Account AG');
+        insert acc;
+
+        AGENT_AccountIntelligenceSummary.SummaryRequest req =
+            new AGENT_AccountIntelligenceSummary.SummaryRequest();
+        req.accountId = acc.Id;
+
+        Test.startTest();
+        List<AGENT_AccountIntelligenceSummary.SummaryResult> results =
+            AGENT_AccountIntelligenceSummary.generateSummary(
+                new List<AGENT_AccountIntelligenceSummary.SummaryRequest>{ req }
+            );
+        Test.stopTest();
+
+        System.assertEquals(1, results.size(), 'Expected one result');
+        System.assertEquals(true, results[0].success, 'Expected sparse account summary to succeed');
+        System.assertEquals(true, results[0].isDataSparse, 'Expected sparse account flag when key account fields are blank');
+        System.assert(results[0].summary.contains('Sparse Account AG'), 'Summary must contain account name');
+    }
 }

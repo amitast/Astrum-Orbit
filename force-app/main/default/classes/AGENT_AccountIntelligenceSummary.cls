@@ -91,6 +91,7 @@ public with sharing class AGENT_AccountIntelligenceSummary {
             result.success = true;
             result.accountName = acc.Name;
             result.accountId = acc.Id;
+            result.isDataSparse = isAccountDataSparse(acc);
 
         } catch (Exception e) {
             result.success = false;
@@ -98,6 +99,14 @@ public with sharing class AGENT_AccountIntelligenceSummary {
         }
 
         return result;
+    }
+
+    private static Boolean isAccountDataSparse(Account acc) {
+        return String.isBlank(acc.Industry)
+            && String.isBlank(acc.Type)
+            && String.isBlank(acc.BillingCity)
+            && String.isBlank(acc.BillingCountry)
+            && String.isBlank(acc.Description);
     }
 
     @TestVisible
@@ -224,5 +233,8 @@ public with sharing class AGENT_AccountIntelligenceSummary {
 
         @InvocableVariable(label='Error Message' description='Error message if success is false.')
         public String errorMessage;
+
+        @InvocableVariable(label='Is Data Sparse' description='True when key account fields (Industry, Type, BillingCity, BillingCountry, Description) are all blank. When true, call Web_Enrich_Account with the account name to supplement the summary with publicly available information.')
+        public Boolean isDataSparse;
     }
 }

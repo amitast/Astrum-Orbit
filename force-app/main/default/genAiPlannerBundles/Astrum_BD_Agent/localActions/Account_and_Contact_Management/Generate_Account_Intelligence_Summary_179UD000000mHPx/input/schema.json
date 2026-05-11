@@ -4,7 +4,7 @@
   "properties" : {
     "Input:Account" : {
       "title" : "Account",
-      "description" : "The Salesforce Account record to summarise. Resolve the account from the user's request — use Get_Account_Details first if the Account ID is not already in context, then pass the returned Account record as this input. Use the AccountId output from Get_Account_Details as the id field.",
+      "description" : "The Salesforce Account record to summarise. Resolve the account from the user's request — use Get_Account_Details first if the Account ID is not already in context, then pass the returned Account record as this input.",
       "lightning:type" : "lightning__recordInfoType",
       "lightning:sObjectInfo" : {
         "apiName" : "Account"

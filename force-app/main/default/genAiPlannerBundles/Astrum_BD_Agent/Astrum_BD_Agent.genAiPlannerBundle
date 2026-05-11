@@ -181,11 +181,18 @@ Do not use this subagent for managing opportunities, updating deal stages, captu
             <sortOrder>15</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
-            <description>When the user asks for an account intelligence summary, account profile, account overview, or account summary for a named account, call Generate_Account_Intelligence_Summary with accountName set to the account name from the user's request. This action resolves the account and generates the summary in one step — do not call Get_Account_Details before invoking it for summaries. Present the returned summary field directly to the user.</description>
+            <description>When the user asks for an account summary, account intelligence summary, account profile, or account overview, always call Get_Account_Details first to retrieve the full Account record for the named account. Then invoke Generate_Account_Intelligence_Summary passing the accountId returned by Get_Account_Details as the accountId parameter. Do not pass the Account SObject — pass the ID string only. Do not invoke Generate_Account_Intelligence_Summary without a prior Get_Account_Details call.</description>
             <developerName>structural_change_confirmation</developerName>
             <language xsi:nil="true"/>
             <masterLabel>Structural change confirmation</masterLabel>
             <sortOrder>16</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>When Generate_Account_Intelligence_Summary returns isDataSparse = true, supplement the Salesforce account summary by drawing on your own training knowledge about the named company. Add a clearly labelled section immediately after the Salesforce summary: 'AI Knowledge Overview (general knowledge — verify before relying on it):' followed by 2–3 sentences covering the company's likely industry, approximate size or employee count, and headquarters location. If you have no knowledge of the company, state that. Inform the user that the Salesforce record is missing key data fields and recommend they update it once they can verify the information.</description>
+            <developerName>sparse_account_ai_enrichment</developerName>
+            <language xsi:nil="true"/>
+            <masterLabel>Sparse account AI enrichment</masterLabel>
+            <sortOrder>17</sortOrder>
         </genAiPluginInstructions>
         <language>en_US</language>
         <localActionLinks>
@@ -286,7 +293,7 @@ Do not use this subagent for managing opportunities, updating deal stages, captu
         </localActions>
         <localActions>
             <fullName>Generate_Account_Intelligence_Summary</fullName>
-            <description>Generates a concise account intelligence summary for a named account using Salesforce record data only. Invoke when the user asks for an account intelligence summary, account profile, account overview, or account summary. Pass AccountName from the user's request — this action resolves the account and generates the summary internally. Do not call Get_Account_Details before invoking this action. Do not invoke for contact lookups, field updates, or opportunity queries.</description>
+            <description>Generates a concise account intelligence summary for a named account using Salesforce record data only. Invoke when the user asks for an account intelligence summary, account profile, or account overview. Pass the accountId from Get_Account_Details if available; otherwise pass the accountName as stated by the user. Do not pass an Account SObject — pass the ID or name as text.</description>
             <developerName>Generate_Account_Intelligence_Summary</developerName>
             <invocationTarget>AGENT_AccountIntelligenceSummary</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>
