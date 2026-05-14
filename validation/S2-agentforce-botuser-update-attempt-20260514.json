@@ -1,0 +1,17 @@
+﻿{
+  "name": "CANNOT_INSERT_UPDATE_ACTIVATE_ENTITY",
+  "message": "entity type cannot be updated: Bot",
+  "exitCode": 1,
+  "context": "Update",
+  "data": {
+    "message": "entity type cannot be updated: Bot",
+    "errorCode": "CANNOT_INSERT_UPDATE_ACTIVATE_ENTITY",
+    "fields": []
+  },
+  "stack": "CANNOT_INSERT_UPDATE_ACTIVATE_ENTITY: entity type cannot be updated: Bot\n    at SfCommandError.from (file:///C:/Users/Amit%20Asthana/AppData/Roaming/npm/node_modules/@salesforce/cli/node_modules/@salesforce/sf-plugins-core/lib/SfCommandError.js:48:16)\n    at Update.catch (file:///C:/Users/Amit%20Asthana/AppData/Roaming/npm/node_modules/@salesforce/cli/node_modules/@salesforce/sf-plugins-core/lib/sfCommand.js:332:47)\n    at Update._run (C:\\Users\\Amit Asthana\\AppData\\Roaming\\npm\\node_modules\\@salesforce\\cli\\node_modules\\@oclif\\core\\lib\\command.js:186:29)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async Config.runCommand (C:\\Users\\Amit Asthana\\AppData\\Roaming\\npm\\node_modules\\@salesforce\\cli\\node_modules\\@oclif\\core\\lib\\config\\config.js:445:25)\n    at async run (C:\\Users\\Amit Asthana\\AppData\\Roaming\\npm\\node_modules\\@salesforce\\cli\\node_modules\\@oclif\\core\\lib\\main.js:97:16)\n    at async file:///C:/Users/Amit%20Asthana/AppData/Roaming/npm/node_modules/@salesforce/cli/bin/run.js:15:1",
+  "cause": "CANNOT_INSERT_UPDATE_ACTIVATE_ENTITY: entity type cannot be updated: Bot\n    at HttpApi.getError (C:\\Users\\Amit Asthana\\AppData\\Roaming\\npm\\node_modules\\@salesforce\\cli\\node_modules\\@jsforce\\jsforce-node\\lib\\http-api.js:315:15)\n    at process.processTicksAndRejections (node:internal/process/task_queues:104:5)\n    at async C:\\Users\\Amit Asthana\\AppData\\Roaming\\npm\\node_modules\\@salesforce\\cli\\node_modules\\@jsforce\\jsforce-node\\lib\\http-api.js:127:33\n    at async Update.run (file:///C:/Users/Amit%20Asthana/AppData/Roaming/npm/node_modules/@salesforce/cli/node_modules/@salesforce/plugin-data/lib/commands/data/update/record.js:82:28)\n    at async Update._run (C:\\Users\\Amit Asthana\\AppData\\Roaming\\npm\\node_modules\\@salesforce\\cli\\node_modules\\@oclif\\core\\lib\\command.js:182:22)\n    at async Config.runCommand (C:\\Users\\Amit Asthana\\AppData\\Roaming\\npm\\node_modules\\@salesforce\\cli\\node_modules\\@oclif\\core\\lib\\config\\config.js:445:25)\n    at async run (C:\\Users\\Amit Asthana\\AppData\\Roaming\\npm\\node_modules\\@salesforce\\cli\\node_modules\\@oclif\\core\\lib\\main.js:97:16)\n    at async file:///C:/Users/Amit%20Asthana/AppData/Roaming/npm/node_modules/@salesforce/cli/bin/run.js:15:1 {\n  data: {\n    message: 'entity type cannot be updated: Bot',\n    errorCode: 'CANNOT_INSERT_UPDATE_ACTIVATE_ENTITY',\n    fields: []\n  },\n  errorCode: 'CANNOT_INSERT_UPDATE_ACTIVATE_ENTITY'\n}",
+  "warnings": [],
+  "code": "1",
+  "status": 1,
+  "commandName": "Update"
+}

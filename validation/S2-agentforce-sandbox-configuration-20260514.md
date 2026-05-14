@@ -27,6 +27,7 @@ Codex implemented the S2 Agent Builder setup through supported metadata instead 
 - Updated `Astrum_BD_Agent_PS` with S2 Apex access and mandatory create-field FLS. Opportunity Delete remains false.
 - Deployed the S2 planner bundle to the confirmed sandbox.
 - Activated `Astrum_BD_Agent` version 1 in the confirmed sandbox.
+- Assigned `Astrum_BD_Agent_PS` to Agent Lead (`005UD00000OkslyYAB`) after Human direction.
 
 ## Why This Differs From The Handoff UI Path
 
@@ -61,7 +62,12 @@ The summary capability is implemented as `AGENT_OpportunityStatusSummaryAction` 
 | Post-deploy S2 Apex tests | `validation/S2-agentforce-apex-test-run-20260514.json` | PASS - test run `707UD00000rYLUg`, 8/8 tests, 0 failures |
 | Sandbox activation | `validation/S2-agentforce-activate-sandbox-20260514.json` | PASS - `Astrum_BD_Agent` version 1 activated |
 | BotVersion after activation | `validation/S2-agentforce-botversion-after-activate-20260514.json` | PASS - version 1 `Active` |
+| Agent Lead permission-set assignment | `validation/S2-agentforce-agentlead-permset-assign-20260514.json` and `validation/S2-agentforce-agentlead-permset-confirm-20260514.json` | PASS - `Astrum_BD_Agent_PS` assigned to Agent Lead |
+| BotUserId standard API update attempt | `validation/S2-agentforce-botuser-update-attempt-20260514.json` | BLOCKED - Salesforce returned `entity type cannot be updated: Bot` |
+| BotUserId Tooling API update attempt | `validation/S2-agentforce-botuser-tooling-update-attempt-20260514.txt` | BLOCKED - Salesforce returned `NOT_FOUND` |
+| BotUserId after update attempts | `validation/S2-agentforce-botuser-after-update-attempts-20260514.json` | BLOCKED - `BotUserId` remains null |
 | CLI preview start | `validation/S2-agentforce-preview-start-after-activate-20260514.json` | BLOCKED - `Invalid user ID provided on start session` |
+| CLI preview start after Agent Lead permission set | `validation/S2-agentforce-preview-start-after-agentlead-20260514.json` | BLOCKED - `Invalid user ID provided on start session` |
 | Bot user check | `validation/S2-agentforce-botuser-before-update-20260514.json` | BLOCKED - `BotUserId` is null |
 | Agent API start session | `validation/S2-agentforce-agent-api-start-session-20260514.json` | BLOCKED - HTTP 404 through direct Agent API attempt |
 
@@ -88,17 +94,17 @@ The summary capability is implemented as `AGENT_OpportunityStatusSummaryAction` 
 Bad Request: Invalid user ID provided on start session
 ```
 
-Evidence shows `BotDefinition.BotUserId = null`. The `BotDefinition` describe marks `BotUserId` and the object itself as not updateable through the standard data API. No `AiAuthoringBundle` exists in the sandbox. Direct Agent API session start with `bypassUser=false` returned HTTP 404, so Codex could not complete published-agent scenario execution from this session.
+Evidence shows `BotDefinition.BotUserId = null`. Agent Lead now has `Astrum_BD_Agent_PS`, but Salesforce rejected both supported API attempts to set `BotUserId`: the standard data API returned `entity type cannot be updated: Bot`, and the Tooling REST endpoint returned `NOT_FOUND`. The `BotDefinition` describe marks `BotUserId` and the object itself as not updateable through the standard data API. No `AiAuthoringBundle` exists in the sandbox. Direct Agent API session start with `bypassUser=false` returned HTTP 404, so Codex could not complete published-agent scenario execution from this session.
 
 ## Business Summary
 
-- **What was done:** Codex configured S2 Opportunity Management in the sandbox through metadata, deployed the action layer, permission set, and planner bundle, and activated the sandbox agent version for testing.
-- **What was found:** Metadata/action validation passed. Runtime preview remains blocked because the active sandbox agent has no Bot User assigned and the preview API rejects the session.
+- **What was done:** Codex configured S2 Opportunity Management in the sandbox through metadata, deployed the action layer, permission set, and planner bundle, activated the sandbox agent version, and assigned `Astrum_BD_Agent_PS` to Agent Lead.
+- **What was found:** Metadata/action validation passed. Runtime preview remains blocked because the active sandbox agent has no Bot User assigned and Salesforce does not allow Codex to set `BotUserId` through standard or Tooling API.
 - **What this means:** The S2 configuration is deployed and sandbox-ready at metadata/action level, but final Agentforce runtime UAT cannot complete until the sandbox agent user is assigned.
-- **What is next:** Human or Salesforce Admin assigns the sandbox agent/bot user in Agent Builder or Setup, then reruns the ten runtime scenarios.
-- **Decision needed from Human:** Confirm the correct sandbox agent user to assign for `Astrum_BD_Agent`.
+- **What is next:** Human or Salesforce Admin sets Agent Lead as the sandbox agent/bot user in Agent Builder or Setup, then Codex reruns the ten runtime scenarios.
+- **Decision needed from Human:** Assign Agent Lead as Bot User / Agent User through the Salesforce UI.
 
 ## Next Operator
 - Run next in: Human
-- Reason: The remaining blocker is org-admin Agent Builder/Setup assignment of the sandbox agent user; `BotDefinition.BotUserId` is null and not updateable through the standard data API.
-- Next prompt: Assign the correct sandbox Bot User / Agent User for `Astrum_BD_Agent`, then ask Codex to rerun `sf agent preview start --api-name Astrum_BD_Agent --target-org amit.kumar@astrumcro.com.astrumpar` and execute the ten S2 UAT scenarios.
+- Reason: The remaining blocker is org-admin Agent Builder/Setup assignment of the sandbox agent user; `BotDefinition.BotUserId` is null and Salesforce rejected standard and Tooling API update attempts.
+- Next prompt: Set Agent Lead (`005UD00000OkslyYAB`) as the Bot User / Agent User for `Astrum_BD_Agent` in Salesforce Setup or Agent Builder, then ask Codex to rerun `sf agent preview start --api-name Astrum_BD_Agent --target-org amit.kumar@astrumcro.com.astrumpar` and execute the ten S2 UAT scenarios.

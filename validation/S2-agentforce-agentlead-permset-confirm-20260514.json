@@ -1,0 +1,33 @@
+﻿{
+  "status": 0,
+  "result": {
+    "records": [
+      {
+        "attributes": {
+          "type": "PermissionSetAssignment",
+          "url": "/services/data/v66.0/sobjects/PermissionSetAssignment/0PaUD00000JawCH0AZ"
+        },
+        "Id": "0PaUD00000JawCH0AZ",
+        "PermissionSet": {
+          "attributes": {
+            "type": "PermissionSet",
+            "url": "/services/data/v66.0/sobjects/PermissionSet/0PSUD00000107wz4AA"
+          },
+          "Name": "Astrum_BD_Agent_PS"
+        },
+        "Assignee": {
+          "attributes": {
+            "type": "User",
+            "url": "/services/data/v66.0/sobjects/User/005UD00000OkslyYAB"
+          },
+          "Id": "005UD00000OkslyYAB",
+          "Name": "Agent Lead",
+          "Username": "sdr_digital_agent-s4ahbarhynuf@00dud000007zf69.ext"
+        }
+      }
+    ],
+    "totalSize": 1,
+    "done": true
+  },
+  "warnings": []
+}

@@ -126,15 +126,15 @@ Runtime configuration evidence is recorded in `validation/S2-agentforce-sandbox-
 | Item | Status | Owner |
 |---|---|---|
 | Agent Builder topic/action setup | Completed through metadata by Codex | Codex |
-| Agentforce Testing Center run | Blocked - active sandbox agent has null `BotUserId`, preview cannot start | Human / Salesforce Admin after agent user assignment |
+| Agentforce Testing Center run | Blocked - active sandbox agent has null `BotUserId`, preview cannot start even after Agent Lead received `Astrum_BD_Agent_PS` | Human / Salesforce Admin after agent user assignment |
 | Create Opportunity mandatory-field handling | ORG-VALIDATION REQUIRED | Human / Salesforce Admin |
 | `Opportunity_ID_18__c` in sandbox | ORG-VALIDATION REQUIRED | Salesforce Admin / Human |
 | Low-privilege BD user runtime test | Blocked until sandbox agent user assignment allows runtime sessions | Human / Salesforce Admin |
 
 ## Business Summary
 
-- **What was done:** Configured and deployed S2 Opportunity Management in the confirmed sandbox through Apex, Flow, permission set, and planner bundle metadata.
-- **What was found:** S2 action tests and planner deployment passed, and sandbox agent version 1 was activated. Runtime preview remains blocked because `BotDefinition.BotUserId` is null.
+- **What was done:** Configured and deployed S2 Opportunity Management in the confirmed sandbox through Apex, Flow, permission set, and planner bundle metadata, then assigned `Astrum_BD_Agent_PS` to Agent Lead.
+- **What was found:** S2 action tests and planner deployment passed, sandbox agent version 1 was activated, and Agent Lead has the agent permission set. Runtime preview remains blocked because `BotDefinition.BotUserId` is still null and Salesforce rejected API update attempts.
 - **What this means:** S2 is sandbox-ready at metadata/action level, but final Agentforce runtime UAT is blocked by agent user assignment.
-- **What is next:** Human or Salesforce Admin assigns the sandbox agent/bot user, then Codex reruns the ten runtime scenarios.
-- **Decision needed from Human:** Confirm the correct sandbox agent user to assign for `Astrum_BD_Agent`.
+- **What is next:** Human or Salesforce Admin sets Agent Lead as the sandbox agent/bot user in Agent Builder or Setup, then Codex reruns the ten runtime scenarios.
+- **Decision needed from Human:** Set Agent Lead (`005UD00000OkslyYAB`) as Bot User / Agent User through the Salesforce UI.

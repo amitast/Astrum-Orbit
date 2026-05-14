@@ -1,0 +1,63 @@
+﻿{
+  "status": 0,
+  "result": {
+    "done": true,
+    "fileProperties": [
+      {
+        "createdById": "005UD00000ONYJcYAP",
+        "createdByName": "Mayank G",
+        "createdDate": "2026-03-19T03:25:42.000Z",
+        "fileName": "unpackaged/bots/Sales_Representative_Agent.bot",
+        "fullName": "Sales_Representative_Agent",
+        "id": "0XxUD0000000rNh0AI",
+        "lastModifiedById": "005UD00000ONYJcYAP",
+        "lastModifiedByName": "Mayank G",
+        "lastModifiedDate": "2026-03-19T03:25:42.000Z",
+        "type": "Bot"
+      },
+      {
+        "createdById": "005UD00000ONYJcYAP",
+        "createdByName": "Mayank G",
+        "createdDate": "2026-03-16T13:35:19.000Z",
+        "fileName": "unpackaged/bots/Copilot_for_Salesforce.bot",
+        "fullName": "Copilot_for_Salesforce",
+        "id": "0XxUD0000000q1p0AA",
+        "lastModifiedById": "005UD00000ONYJcYAP",
+        "lastModifiedByName": "Mayank G",
+        "lastModifiedDate": "2026-03-16T13:35:19.000Z",
+        "type": "Bot"
+      },
+      {
+        "createdById": "005UD00000ONYJcYAP",
+        "createdByName": "Mayank G",
+        "createdDate": "2026-03-23T11:59:06.000Z",
+        "fileName": "unpackaged/bots/Agentforce_Sales_Development_Rep.bot",
+        "fullName": "Agentforce_Sales_Development_Rep",
+        "id": "0XxUD0000000rcD0AQ",
+        "lastModifiedById": "005UD00000ONYJcYAP",
+        "lastModifiedByName": "Mayank G",
+        "lastModifiedDate": "2026-03-23T11:59:06.000Z",
+        "type": "Bot"
+      },
+      {
+        "createdById": "005d1000002tlefAAA",
+        "createdByName": "Amit Kumar",
+        "createdDate": "2026-05-14T20:25:02.490Z",
+        "fileName": "unpackaged/package.xml",
+        "fullName": "unpackaged/package.xml",
+        "id": "",
+        "lastModifiedById": "005d1000002tlefAAA",
+        "lastModifiedByName": "Amit Kumar",
+        "lastModifiedDate": "2026-05-14T20:25:02.490Z",
+        "manageableState": "unmanaged",
+        "type": "Package"
+      }
+    ],
+    "id": "09SUD00000JCiwo2AD",
+    "status": "Succeeded",
+    "success": true,
+    "messages": [],
+    "files": []
+  },
+  "warnings": []
+}
