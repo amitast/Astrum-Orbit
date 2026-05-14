@@ -1,0 +1,20 @@
+﻿{
+  "status": 0,
+  "result": {
+    "records": [
+      {
+        "attributes": {
+          "type": "BotDefinition",
+          "url": "/services/data/v66.0/sobjects/BotDefinition/0XxUD0000000wlZ0AQ"
+        },
+        "Id": "0XxUD0000000wlZ0AQ",
+        "DeveloperName": "Astrum_BD_Agent",
+        "BotUserId": null,
+        "BotUser": null
+      }
+    ],
+    "totalSize": 1,
+    "done": true
+  },
+  "warnings": []
+}

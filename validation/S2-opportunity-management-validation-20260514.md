@@ -108,33 +108,33 @@ Salesforce describe marked these fields as not field-permissionable in this org,
 
 | Scenario | Description | Expected | Actual | Status |
 |---|---|---|---|---|
-| 1 | User asks for current status of a named opportunity | Agent retrieves Opportunity details | Not run - S2 topic/actions not configured and agent preview returned `No valid version available` | BLOCKED |
-| 2 | User searches opportunities by account name | Agent returns candidate list | Not run - S2 topic/actions not configured and agent preview returned `No valid version available` | BLOCKED |
-| 3 | User asks to move a deal to Proposal Sent | Agent retrieves current values, prompts for next step, confirms, updates | Not run - S2 topic/actions not configured and agent preview returned `No valid version available` | BLOCKED |
-| 4 | User asks to change close date to a past date | Agent warns and requires explicit confirmation | `CloseDateIsPast` output built; runtime not run because agent preview returned `No valid version available` | BLOCKED |
-| 5 | User asks to add next step only | Agent displays current/proposed values, confirms, updates | Not run - S2 topic/actions not configured and agent preview returned `No valid version available` | BLOCKED |
-| 6 | User asks to delete an opportunity | Agent refuses and directs to Salesforce admin | Static metadata confirms no Opportunity Delete permission and no delete action in S2 metadata; runtime not run | PASS STATIC / BLOCKED RUNTIME |
-| 7 | User asks for pipeline hygiene report | Routes or redirects to S3 | Not run - S2 topic/actions not configured and agent preview returned `No valid version available` | BLOCKED |
-| 8 | User asks for account contact details | Routes or redirects to S1 | Not run - S2 topic/actions not configured and agent preview returned `No valid version available` | BLOCKED |
-| 9 | User asks for Opportunity Status Summary | Prompt uses only retrieved Salesforce fields and excludes D365 notes and Description | Static Prompt Template confirms exclusions; runtime not run | PASS STATIC / BLOCKED RUNTIME |
-| 10 | User gives partial opportunity name with multiple matches | Agent presents candidates and waits for selection | Not run - S2 topic/actions not configured and agent preview returned `No valid version available` | BLOCKED |
+| 1 | User asks for current status of a named opportunity | Agent retrieves Opportunity details | `AGENT_GetOpportunityDetails` deployed and tested. Published-agent preview blocked by null `BotUserId`. | PASS ACTION / BLOCKED RUNTIME |
+| 2 | User searches opportunities by account name | Agent returns candidate list | `AGENT_SearchOpportunities` deployed and tested. Published-agent preview blocked by null `BotUserId`. | PASS ACTION / BLOCKED RUNTIME |
+| 3 | User asks to move a deal to Proposal Sent | Agent retrieves current values, prompts for next step, confirms, updates | Planner action wired to `AGENT_UpdateOpportunityProgress` with Confirm required. Runtime preview blocked by null `BotUserId`. | PASS CONFIG / BLOCKED RUNTIME |
+| 4 | User asks to change close date to a past date | Agent warns and requires explicit confirmation | `CloseDateIsPast` output exists and planner action requires Confirm. Runtime preview blocked by null `BotUserId`. | PASS CONFIG / BLOCKED RUNTIME |
+| 5 | User asks to add next step only | Agent displays current/proposed values, confirms, updates | Planner action wired to `AGENT_CaptureNextSteps` with Confirm required. Runtime preview blocked by null `BotUserId`. | PASS CONFIG / BLOCKED RUNTIME |
+| 6 | User asks to delete an opportunity | Agent refuses and directs to Salesforce admin | No delete action is configured, topic instruction refuses delete, and permission set has Opportunity Delete false. Runtime preview blocked by null `BotUserId`. | PASS CONFIG / BLOCKED RUNTIME |
+| 7 | User asks for pipeline hygiene report | Routes or redirects to S3 | S2 topic instruction redirects to Data Quality and Hygiene. No S3 topic exists in the retrieved local bundle. Runtime preview blocked by null `BotUserId`. | ORG-VALIDATION REQUIRED |
+| 8 | User asks for account contact details | Routes or redirects to S1 | S1 and S2 topics are both present and S2 instruction redirects account/contact requests to S1. Runtime preview blocked by null `BotUserId`. | PASS CONFIG / BLOCKED RUNTIME |
+| 9 | User asks for Opportunity Status Summary | Prompt uses only retrieved Salesforce fields and excludes D365 notes and Description | `AGENT_OpportunityStatusSummaryAction` deployed and tested; prohibited fields are exclusion text only. Runtime preview blocked by null `BotUserId`. | PASS ACTION / BLOCKED RUNTIME |
+| 10 | User gives partial opportunity name with multiple matches | Agent presents candidates and waits for selection | Apex tests cover multiple-match candidate summaries. Runtime preview blocked by null `BotUserId`. | PASS ACTION / BLOCKED RUNTIME |
 
-Runtime attempt evidence is recorded in `validation/S2-agent-builder-configuration-and-test-attempt-20260514.md`.
+Runtime configuration evidence is recorded in `validation/S2-agentforce-sandbox-configuration-20260514.md`.
 
 ## Open Validation Items
 
 | Item | Status | Owner |
 |---|---|---|
-| Agent Builder topic/action setup | Pending | Human |
-| Agentforce Testing Center run | Blocked - no S2 test definition and no valid agent preview version | Human after Agent Builder setup |
+| Agent Builder topic/action setup | Completed through metadata by Codex | Codex |
+| Agentforce Testing Center run | Blocked - active sandbox agent has null `BotUserId`, preview cannot start | Human / Salesforce Admin after agent user assignment |
 | Create Opportunity mandatory-field handling | ORG-VALIDATION REQUIRED | Human / Salesforce Admin |
 | `Opportunity_ID_18__c` in sandbox | ORG-VALIDATION REQUIRED | Salesforce Admin / Human |
-| Low-privilege BD user runtime test | Blocked until Agent Builder setup and valid sandbox agent version are available | Human / Salesforce Admin |
+| Low-privilege BD user runtime test | Blocked until sandbox agent user assignment allows runtime sessions | Human / Salesforce Admin |
 
 ## Business Summary
 
-- **What was done:** Validated and deployed the S2 Opportunity Management metadata foundation to the confirmed sandbox, then attempted Agent Builder/runtime validation through available Agentforce CLI commands.
-- **What was found:** The S2 metadata deploy passed with 4 components and no component errors. Runtime UAT is blocked because the sandbox agent has no valid active preview version and S2 topic/action setup remains Human-only in Agent Builder.
-- **What this means:** The deployable S2 metadata foundation is sandbox-ready, but S2 agent runtime behaviour is not yet validated.
-- **What is next:** Human configures the Opportunity Management topic/actions using `handoff/S2-agent-builder-human-setup.md`, makes a valid sandbox test version available, then runs UAT/Testing Center prompts.
-- **Decision needed from Human:** Confirm standard Create Opportunity mandatory-field handling in Agent Builder, decide whether to deploy `Opportunity_ID_18__c` to sandbox for record-link support, and decide whether to activate/publish a sandbox agent version for UAT.
+- **What was done:** Configured and deployed S2 Opportunity Management in the confirmed sandbox through Apex, Flow, permission set, and planner bundle metadata.
+- **What was found:** S2 action tests and planner deployment passed, and sandbox agent version 1 was activated. Runtime preview remains blocked because `BotDefinition.BotUserId` is null.
+- **What this means:** S2 is sandbox-ready at metadata/action level, but final Agentforce runtime UAT is blocked by agent user assignment.
+- **What is next:** Human or Salesforce Admin assigns the sandbox agent/bot user, then Codex reruns the ten runtime scenarios.
+- **Decision needed from Human:** Confirm the correct sandbox agent user to assign for `Astrum_BD_Agent`.

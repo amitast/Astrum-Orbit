@@ -1,0 +1,606 @@
+﻿{
+  "status": 0,
+  "result": {
+    "checkOnly": false,
+    "completedDate": "2026-05-14T15:59:44.000Z",
+    "createdBy": "005d1000002tlef",
+    "createdByName": "Amit Kumar",
+    "createdDate": "2026-05-14T15:59:40.000Z",
+    "details": {
+      "componentSuccesses": [
+        {
+          "changed": true,
+          "componentType": "ApexClass",
+          "created": true,
+          "createdDate": "2026-05-14T15:59:41.000Z",
+          "deleted": false,
+          "fileName": "classes/AGENT_AccountIntelligenceSummary.cls",
+          "fullName": "AGENT_AccountIntelligenceSummary",
+          "id": "01pUD00000GWTTtYAP",
+          "success": true
+        },
+        {
+          "changed": true,
+          "componentType": "ApexClass",
+          "created": true,
+          "createdDate": "2026-05-14T15:59:42.000Z",
+          "deleted": false,
+          "fileName": "classes/AGENT_AccountIntelligenceSummary_Test.cls",
+          "fullName": "AGENT_AccountIntelligenceSummary_Test",
+          "id": "01pUD00000GWTTuYAP",
+          "success": true
+        },
+        {
+          "changed": true,
+          "componentType": "",
+          "created": false,
+          "createdDate": "2026-05-14T15:59:42.000Z",
+          "deleted": false,
+          "fileName": "package.xml",
+          "fullName": "package.xml",
+          "success": true
+        }
+      ],
+      "runTestResult": {
+        "codeCoverage": [
+          {
+            "id": "01pUD00000GWTTtYAP",
+            "locationsNotCovered": [
+              {
+                "column": 0,
+                "line": 151,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 171,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 172,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 173,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 174,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 177,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 178,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 179,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 180,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 181,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 183,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 197,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 198,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 199,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 200,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 202,
+                "numExecutions": 0,
+                "time": -1
+              }
+            ],
+            "name": "AGENT_AccountIntelligenceSummary",
+            "namespace": null,
+            "numLocations": 111,
+            "numLocationsNotCovered": 16,
+            "type": "Class",
+            "dmlInfo": [],
+            "methodInfo": [],
+            "soqlInfo": [],
+            "soslInfo": []
+          }
+        ],
+        "flowCoverage": [
+          {
+            "elementsNotCovered": [
+              "set_fault_update_failed",
+              "get_opportunity",
+              "check_new_next_specific_action_provided",
+              "assign_new_next_specific_action",
+              "check_new_date_of_next_action_provided",
+              "check_opportunity_found",
+              "update_opportunity",
+              "set_success_outputs",
+              "capture_current_values",
+              "assign_new_person_responsible",
+              "check_new_person_responsible_provided",
+              "assign_new_date_of_next_action",
+              "set_fault_opportunity_not_found"
+            ],
+            "flowId": "301UD00000Wkc4i",
+            "flowName": "AGENT_CaptureNextSteps",
+            "flowNamespace": null,
+            "numElements": 13,
+            "numElementsNotCovered": 13,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "set_duplicate_email_match",
+              "create_contact",
+              "get_account",
+              "set_duplicate_name_match",
+              "set_fault_account_not_found",
+              "set_fault_create_failed",
+              "check_account_found",
+              "evaluate_duplicate_results",
+              "check_email_populated",
+              "get_duplicate_by_email",
+              "get_duplicate_by_name",
+              "set_success_outputs"
+            ],
+            "flowId": "301UD00000WMMCO",
+            "flowName": "AGENT_CreateContact",
+            "flowNamespace": null,
+            "numElements": 12,
+            "numElementsNotCovered": 12,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "set_account_not_found",
+              "evaluate_account_result",
+              "set_fault_query_failed",
+              "get_owner",
+              "get_account_by_name",
+              "check_accountid_provided",
+              "get_account_by_id",
+              "set_success_outputs"
+            ],
+            "flowId": "301UD00000W9OX5",
+            "flowName": "AGENT_GetAccountDetails",
+            "flowNamespace": null,
+            "numElements": 8,
+            "numElementsNotCovered": 8,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "check_contactid_provided",
+              "evaluate_contact_result",
+              "set_fault_query_failed",
+              "check_accountname_provided",
+              "get_contact_by_id",
+              "get_owner",
+              "set_contact_not_found",
+              "get_contact_by_lastname_and_account",
+              "get_input_account",
+              "get_related_account",
+              "get_contact_by_lastname",
+              "set_success_outputs"
+            ],
+            "flowId": "301UD00000W9OX6",
+            "flowName": "AGENT_GetContactDetails",
+            "flowNamespace": null,
+            "numElements": 12,
+            "numElementsNotCovered": 12,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "set_fault_update_failed",
+              "check_new_close_date_provided",
+              "get_opportunity",
+              "assign_new_close_date",
+              "set_close_date_is_past",
+              "check_new_next_specific_action_provided",
+              "assign_new_next_specific_action",
+              "check_new_date_of_next_action_provided",
+              "check_opportunity_found",
+              "update_opportunity",
+              "set_success_outputs",
+              "assign_new_stage",
+              "capture_current_values",
+              "check_new_next_step_provided",
+              "check_new_stage_provided",
+              "assign_new_person_responsible",
+              "check_close_date_is_past",
+              "check_new_person_responsible_provided",
+              "assign_new_date_of_next_action",
+              "assign_new_next_step",
+              "set_fault_opportunity_not_found"
+            ],
+            "flowId": "301UD00000Wkc4j",
+            "flowName": "AGENT_UpdateOpportunityProgress",
+            "flowNamespace": null,
+            "numElements": 21,
+            "numElementsNotCovered": 21,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "create_account"
+            ],
+            "flowId": "301UD00000VaF6l",
+            "flowName": "AUTO_Create_Account",
+            "flowNamespace": null,
+            "numElements": 1,
+            "numElementsNotCovered": 1,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "get_records"
+            ],
+            "flowId": "301UD00000VcdzN",
+            "flowName": "AUTO_Fatch_Account",
+            "flowNamespace": null,
+            "numElements": 1,
+            "numElementsNotCovered": 1,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "get_contact",
+              "subject_template_email",
+              "get_opportunity",
+              "get_account",
+              "email_result",
+              "get_lead",
+              "prompt_template_action"
+            ],
+            "flowId": "301UD00000U54eQ",
+            "flowName": "AUTO_Send_Follow_UP_Email",
+            "flowNamespace": null,
+            "numElements": 7,
+            "numElementsNotCovered": 7,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "send_email_through_agent"
+            ],
+            "flowId": "301UD00000TyIBG",
+            "flowName": "AUTO_Send_Mail_Flow",
+            "flowNamespace": null,
+            "numElements": 1,
+            "numElementsNotCovered": 1,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "update_account"
+            ],
+            "flowId": "301UD00000VcdrM",
+            "flowName": "Auto_Account_Update",
+            "flowNamespace": null,
+            "numElements": 1,
+            "numElementsNotCovered": 1,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "handle_send_fault",
+              "check_notification_idempotency",
+              "mark_notification_sent",
+              "check_bypass_permission",
+              "get_opportunity_detail",
+              "send_closed_lost_review",
+              "check_business_category"
+            ],
+            "flowId": "301UD00000WaTp4",
+            "flowName": "Notify_Closed_Lost_Review_After_Save",
+            "flowNamespace": null,
+            "numElements": 7,
+            "numElementsNotCovered": 7,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "handle_send_fault",
+              "check_phase_i_nis_fees",
+              "send_closed_won_phase_i_nis_high",
+              "send_closed_won_phase_i_unit_high",
+              "send_closed_won_phase_i_nis_low",
+              "check_phase_i_unit_fees",
+              "check_bypass_permission",
+              "get_opportunity_detail",
+              "send_closed_won_phase_i_unit_low",
+              "check_business_category"
+            ],
+            "flowId": "301UD00000Vi2CO",
+            "flowName": "Notify_Closed_Won_After_Save",
+            "flowNamespace": null,
+            "numElements": 10,
+            "numElementsNotCovered": 10,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "handle_send_fault",
+              "send_critical_stage_alert",
+              "check_bypass_permission",
+              "get_opportunity_detail"
+            ],
+            "flowId": "301UD00000WaVZ8",
+            "flowName": "Notify_Critical_Stage_Progression_After_Save",
+            "flowNamespace": null,
+            "numElements": 4,
+            "numElementsNotCovered": 4,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "updating_opp_code_counter_records",
+              "updating_the_triggered_oppcode_record",
+              "opp_code_counter_increase",
+              "business_type",
+              "updating_the_previous_opp_code",
+              "custom_metadata"
+            ],
+            "flowId": "301UD00000SkVgh",
+            "flowName": "Oppty_Code",
+            "flowNamespace": null,
+            "numElements": 6,
+            "numElementsNotCovered": 6,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "checking_closed_won_or_loss_stage",
+              "update_records_est_close_date",
+              "update_records_contract_sign_date"
+            ],
+            "flowId": "301UD00000Sx14o",
+            "flowName": "Oppty_Probability_update_record_flow",
+            "flowNamespace": null,
+            "numElements": 3,
+            "numElementsNotCovered": 3,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "checking_closed_won_or_loss_stage",
+              "update_records_est_close_date",
+              "update_records_contract_sign_date"
+            ],
+            "flowId": "301UD00000SwmKA",
+            "flowName": "Quote_fields",
+            "flowNamespace": null,
+            "numElements": 3,
+            "numElementsNotCovered": 3,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "update_lead_record"
+            ],
+            "flowId": "301UD00000UECeZ",
+            "flowName": "updateQualLead_0XxUD0000000rcD",
+            "flowNamespace": null,
+            "numElements": 1,
+            "numElementsNotCovered": 1,
+            "processType": "AutoLaunchedFlow"
+          }
+        ],
+        "numFailures": 0,
+        "numTestsRun": 9,
+        "successes": [
+          {
+            "id": "01pUD00000GWTTuYAP",
+            "methodName": "testAccountNotFound",
+            "name": "AGENT_AccountIntelligenceSummary_Test",
+            "namespace": null,
+            "testCategory": {
+              "$": {
+                "xsi:nil": "true"
+              }
+            },
+            "time": 53
+          },
+          {
+            "id": "01pUD00000GWTTuYAP",
+            "methodName": "testBuildSummaryNoContactsNoOpps",
+            "name": "AGENT_AccountIntelligenceSummary_Test",
+            "namespace": null,
+            "testCategory": {
+              "$": {
+                "xsi:nil": "true"
+              }
+            },
+            "time": 57
+          },
+          {
+            "id": "01pUD00000GWTTuYAP",
+            "methodName": "testEmptyRequestList",
+            "name": "AGENT_AccountIntelligenceSummary_Test",
+            "namespace": null,
+            "testCategory": {
+              "$": {
+                "xsi:nil": "true"
+              }
+            },
+            "time": 64
+          },
+          {
+            "id": "01pUD00000GWTTuYAP",
+            "methodName": "testExceptionHandling",
+            "name": "AGENT_AccountIntelligenceSummary_Test",
+            "namespace": null,
+            "testCategory": {
+              "$": {
+                "xsi:nil": "true"
+              }
+            },
+            "time": 70
+          },
+          {
+            "id": "01pUD00000GWTTuYAP",
+            "methodName": "testIsDataSparseTrue",
+            "name": "AGENT_AccountIntelligenceSummary_Test",
+            "namespace": null,
+            "testCategory": {
+              "$": {
+                "xsi:nil": "true"
+              }
+            },
+            "time": 169
+          },
+          {
+            "id": "01pUD00000GWTTuYAP",
+            "methodName": "testNoInputProvided",
+            "name": "AGENT_AccountIntelligenceSummary_Test",
+            "namespace": null,
+            "testCategory": {
+              "$": {
+                "xsi:nil": "true"
+              }
+            },
+            "time": 58
+          },
+          {
+            "id": "01pUD00000GWTTuYAP",
+            "methodName": "testSparseAccountReturnsSparseFlag",
+            "name": "AGENT_AccountIntelligenceSummary_Test",
+            "namespace": null,
+            "testCategory": {
+              "$": {
+                "xsi:nil": "true"
+              }
+            },
+            "time": 141
+          },
+          {
+            "id": "01pUD00000GWTTuYAP",
+            "methodName": "testSummaryById",
+            "name": "AGENT_AccountIntelligenceSummary_Test",
+            "namespace": null,
+            "testCategory": {
+              "$": {
+                "xsi:nil": "true"
+              }
+            },
+            "time": 107
+          },
+          {
+            "id": "01pUD00000GWTTuYAP",
+            "methodName": "testSummaryByName",
+            "name": "AGENT_AccountIntelligenceSummary_Test",
+            "namespace": null,
+            "testCategory": {
+              "$": {
+                "xsi:nil": "true"
+              }
+            },
+            "time": 102
+          }
+        ],
+        "totalTime": 1192,
+        "codeCoverageWarnings": [],
+        "failures": [],
+        "flowCoverageWarnings": []
+      },
+      "componentFailures": []
+    },
+    "done": true,
+    "id": "0AfUD00000H3vET0AZ",
+    "ignoreWarnings": false,
+    "lastModifiedDate": "2026-05-14T15:59:44.000Z",
+    "numberComponentErrors": 0,
+    "numberComponentsDeployed": 2,
+    "numberComponentsTotal": 2,
+    "numberFiles": "6",
+    "numberTestErrors": 0,
+    "numberTestsCompleted": 9,
+    "numberTestsTotal": 9,
+    "rollbackOnError": true,
+    "runTestsEnabled": true,
+    "startDate": "2026-05-14T15:59:41.000Z",
+    "status": "Succeeded",
+    "success": true,
+    "zipSize": 5486,
+    "files": [
+      {
+        "fullName": "AGENT_AccountIntelligenceSummary",
+        "type": "ApexClass",
+        "state": "Created",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\classes\\AGENT_AccountIntelligenceSummary.cls"
+      },
+      {
+        "fullName": "AGENT_AccountIntelligenceSummary",
+        "type": "ApexClass",
+        "state": "Created",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\classes\\AGENT_AccountIntelligenceSummary.cls-meta.xml"
+      },
+      {
+        "fullName": "AGENT_AccountIntelligenceSummary_Test",
+        "type": "ApexClass",
+        "state": "Created",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\classes\\AGENT_AccountIntelligenceSummary_Test.cls"
+      },
+      {
+        "fullName": "AGENT_AccountIntelligenceSummary_Test",
+        "type": "ApexClass",
+        "state": "Created",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\classes\\AGENT_AccountIntelligenceSummary_Test.cls-meta.xml"
+      }
+    ],
+    "zipFileCount": 5,
+    "deployUrl": "https://astrum--astrumpar.sandbox.my.salesforce.com/lightning/setup/DeployStatus/page?address=%2Fchangemgmt%2FmonitorDeploymentsDetails.apexp%3FasyncId%3D0AfUD00000H3vET0AZ%26retURL%3D%252Fchangemgmt%252FmonitorDeployment.apexp"
+  },
+  "warnings": []
+}

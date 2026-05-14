@@ -1,0 +1,26 @@
+﻿{
+  "status": 0,
+  "result": {
+    "records": [
+      {
+        "attributes": {
+          "type": "BotVersion",
+          "url": "/services/data/v66.0/sobjects/BotVersion/0X9UD0000000lAD0AY"
+        },
+        "Id": "0X9UD0000000lAD0AY",
+        "BotDefinition": {
+          "attributes": {
+            "type": "BotDefinition",
+            "url": "/services/data/v66.0/sobjects/BotDefinition/0XxUD0000000wlZ0AQ"
+          },
+          "DeveloperName": "Astrum_BD_Agent"
+        },
+        "Status": "Active",
+        "VersionNumber": 1
+      }
+    ],
+    "totalSize": 1,
+    "done": true
+  },
+  "warnings": []
+}

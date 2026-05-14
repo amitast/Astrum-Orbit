@@ -1,0 +1,18 @@
+﻿{
+  "status": 0,
+  "result": {
+    "records": [
+      {
+        "attributes": {
+          "type": "PermissionSet",
+          "url": "/services/data/v66.0/sobjects/PermissionSet/0PSUD00000107wz4AA"
+        },
+        "Id": "0PSUD00000107wz4AA",
+        "Name": "Astrum_BD_Agent_PS"
+      }
+    ],
+    "totalSize": 1,
+    "done": true
+  },
+  "warnings": []
+}

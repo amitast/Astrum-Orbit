@@ -1,0 +1,909 @@
+﻿{
+  "status": 0,
+  "result": {
+    "checkOnly": true,
+    "completedDate": "2026-05-14T15:55:44.000Z",
+    "createdBy": "005d1000002tlef",
+    "createdByName": "Amit Kumar",
+    "createdDate": "2026-05-14T15:55:34.000Z",
+    "details": {
+      "componentSuccesses": [
+        {
+          "changed": true,
+          "componentType": "ApexClass",
+          "created": true,
+          "createdDate": "2026-05-14T15:55:36.000Z",
+          "deleted": false,
+          "fileName": "classes/AGENT_CreateOpportunity.cls",
+          "fullName": "AGENT_CreateOpportunity",
+          "id": "01pUD00000GWTQfYAP",
+          "success": true
+        },
+        {
+          "changed": true,
+          "componentType": "ApexClass",
+          "created": true,
+          "createdDate": "2026-05-14T15:55:36.000Z",
+          "deleted": false,
+          "fileName": "classes/AGENT_GetOpportunityDetails.cls",
+          "fullName": "AGENT_GetOpportunityDetails",
+          "id": "01pUD00000GWTQgYAP",
+          "success": true
+        },
+        {
+          "changed": true,
+          "componentType": "ApexClass",
+          "created": true,
+          "createdDate": "2026-05-14T15:55:36.000Z",
+          "deleted": false,
+          "fileName": "classes/AGENT_OpportunityActions_Test.cls",
+          "fullName": "AGENT_OpportunityActions_Test",
+          "id": "01pUD00000GWTQhYAP",
+          "success": true
+        },
+        {
+          "changed": true,
+          "componentType": "ApexClass",
+          "created": true,
+          "createdDate": "2026-05-14T15:55:36.000Z",
+          "deleted": false,
+          "fileName": "classes/AGENT_OpportunityStatusSummaryAction.cls",
+          "fullName": "AGENT_OpportunityStatusSummaryAction",
+          "id": "01pUD00000GWTQiYAP",
+          "success": true
+        },
+        {
+          "changed": true,
+          "componentType": "ApexClass",
+          "created": true,
+          "createdDate": "2026-05-14T15:55:36.000Z",
+          "deleted": false,
+          "fileName": "classes/AGENT_SearchOpportunities.cls",
+          "fullName": "AGENT_SearchOpportunities",
+          "id": "01pUD00000GWTQjYAP",
+          "success": true
+        },
+        {
+          "changed": true,
+          "componentType": "",
+          "created": false,
+          "createdDate": "2026-05-14T15:55:36.000Z",
+          "deleted": false,
+          "fileName": "package.xml",
+          "fullName": "package.xml",
+          "success": true
+        }
+      ],
+      "runTestResult": {
+        "codeCoverage": [
+          {
+            "id": "01pUD00000GWTQjYAP",
+            "locationsNotCovered": [
+              {
+                "column": 0,
+                "line": 6,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 7,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 8,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 9,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 10,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 11,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 46,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 47,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 66,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 67,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 68,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 69,
+                "numExecutions": 0,
+                "time": -1
+              }
+            ],
+            "name": "AGENT_SearchOpportunities",
+            "namespace": null,
+            "numLocations": 66,
+            "numLocationsNotCovered": 12,
+            "type": "Class",
+            "dmlInfo": [],
+            "methodInfo": [],
+            "soqlInfo": [],
+            "soslInfo": []
+          },
+          {
+            "id": "01pUD00000GWTQiYAP",
+            "locationsNotCovered": [
+              {
+                "column": 0,
+                "line": 6,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 7,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 8,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 9,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 10,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 42,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 43,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 69,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 70,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 75,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 106,
+                "numExecutions": 0,
+                "time": -1
+              }
+            ],
+            "name": "AGENT_OpportunityStatusSummaryAction",
+            "namespace": null,
+            "numLocations": 113,
+            "numLocationsNotCovered": 11,
+            "type": "Class",
+            "dmlInfo": [],
+            "methodInfo": [],
+            "soqlInfo": [],
+            "soslInfo": []
+          },
+          {
+            "id": "01pUD00000GWTQgYAP",
+            "locationsNotCovered": [
+              {
+                "column": 0,
+                "line": 52,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 53,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 77,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 78,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 85,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 86,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 91,
+                "numExecutions": 0,
+                "time": -1
+              }
+            ],
+            "name": "AGENT_GetOpportunityDetails",
+            "namespace": null,
+            "numLocations": 104,
+            "numLocationsNotCovered": 7,
+            "type": "Class",
+            "dmlInfo": [],
+            "methodInfo": [],
+            "soqlInfo": [],
+            "soslInfo": []
+          },
+          {
+            "id": "01pUD00000GWTQfYAP",
+            "locationsNotCovered": [
+              {
+                "column": 0,
+                "line": 6,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 7,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 8,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 9,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 10,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 32,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 33,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 53,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 56,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 64,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 65,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 83,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 84,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 93,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 94,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 120,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 121,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 124,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 128,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 129,
+                "numExecutions": 0,
+                "time": -1
+              },
+              {
+                "column": 0,
+                "line": 131,
+                "numExecutions": 0,
+                "time": -1
+              }
+            ],
+            "name": "AGENT_CreateOpportunity",
+            "namespace": null,
+            "numLocations": 92,
+            "numLocationsNotCovered": 21,
+            "type": "Class",
+            "dmlInfo": [],
+            "methodInfo": [],
+            "soqlInfo": [],
+            "soslInfo": []
+          }
+        ],
+        "flowCoverage": [
+          {
+            "elementsNotCovered": [
+              "set_fault_update_failed",
+              "get_opportunity",
+              "check_new_next_specific_action_provided",
+              "assign_new_next_specific_action",
+              "check_new_date_of_next_action_provided",
+              "check_opportunity_found",
+              "update_opportunity",
+              "set_success_outputs",
+              "capture_current_values",
+              "assign_new_person_responsible",
+              "check_new_person_responsible_provided",
+              "assign_new_date_of_next_action",
+              "set_fault_opportunity_not_found"
+            ],
+            "flowId": "301UD00000Wkc4i",
+            "flowName": "AGENT_CaptureNextSteps",
+            "flowNamespace": null,
+            "numElements": 13,
+            "numElementsNotCovered": 13,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "set_duplicate_email_match",
+              "create_contact",
+              "get_account",
+              "set_duplicate_name_match",
+              "set_fault_account_not_found",
+              "set_fault_create_failed",
+              "check_account_found",
+              "evaluate_duplicate_results",
+              "check_email_populated",
+              "get_duplicate_by_email",
+              "get_duplicate_by_name",
+              "set_success_outputs"
+            ],
+            "flowId": "301UD00000WMMCO",
+            "flowName": "AGENT_CreateContact",
+            "flowNamespace": null,
+            "numElements": 12,
+            "numElementsNotCovered": 12,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "set_account_not_found",
+              "evaluate_account_result",
+              "set_fault_query_failed",
+              "get_owner",
+              "get_account_by_name",
+              "check_accountid_provided",
+              "get_account_by_id",
+              "set_success_outputs"
+            ],
+            "flowId": "301UD00000W9OX5",
+            "flowName": "AGENT_GetAccountDetails",
+            "flowNamespace": null,
+            "numElements": 8,
+            "numElementsNotCovered": 8,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "check_contactid_provided",
+              "evaluate_contact_result",
+              "set_fault_query_failed",
+              "check_accountname_provided",
+              "get_contact_by_id",
+              "get_owner",
+              "set_contact_not_found",
+              "get_contact_by_lastname_and_account",
+              "get_input_account",
+              "get_related_account",
+              "get_contact_by_lastname",
+              "set_success_outputs"
+            ],
+            "flowId": "301UD00000W9OX6",
+            "flowName": "AGENT_GetContactDetails",
+            "flowNamespace": null,
+            "numElements": 12,
+            "numElementsNotCovered": 12,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "set_fault_update_failed",
+              "check_new_close_date_provided",
+              "get_opportunity",
+              "assign_new_close_date",
+              "set_close_date_is_past",
+              "check_new_next_specific_action_provided",
+              "assign_new_next_specific_action",
+              "check_new_date_of_next_action_provided",
+              "check_opportunity_found",
+              "update_opportunity",
+              "set_success_outputs",
+              "assign_new_stage",
+              "capture_current_values",
+              "check_new_next_step_provided",
+              "check_new_stage_provided",
+              "assign_new_person_responsible",
+              "check_close_date_is_past",
+              "check_new_person_responsible_provided",
+              "assign_new_date_of_next_action",
+              "assign_new_next_step",
+              "set_fault_opportunity_not_found"
+            ],
+            "flowId": "301UD00000Wkc4j",
+            "flowName": "AGENT_UpdateOpportunityProgress",
+            "flowNamespace": null,
+            "numElements": 21,
+            "numElementsNotCovered": 21,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "create_account"
+            ],
+            "flowId": "301UD00000VaF6l",
+            "flowName": "AUTO_Create_Account",
+            "flowNamespace": null,
+            "numElements": 1,
+            "numElementsNotCovered": 1,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "get_records"
+            ],
+            "flowId": "301UD00000VcdzN",
+            "flowName": "AUTO_Fatch_Account",
+            "flowNamespace": null,
+            "numElements": 1,
+            "numElementsNotCovered": 1,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "get_contact",
+              "subject_template_email",
+              "get_opportunity",
+              "get_account",
+              "email_result",
+              "get_lead",
+              "prompt_template_action"
+            ],
+            "flowId": "301UD00000U54eQ",
+            "flowName": "AUTO_Send_Follow_UP_Email",
+            "flowNamespace": null,
+            "numElements": 7,
+            "numElementsNotCovered": 7,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "send_email_through_agent"
+            ],
+            "flowId": "301UD00000TyIBG",
+            "flowName": "AUTO_Send_Mail_Flow",
+            "flowNamespace": null,
+            "numElements": 1,
+            "numElementsNotCovered": 1,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "update_account"
+            ],
+            "flowId": "301UD00000VcdrM",
+            "flowName": "Auto_Account_Update",
+            "flowNamespace": null,
+            "numElements": 1,
+            "numElementsNotCovered": 1,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "handle_send_fault",
+              "check_notification_idempotency",
+              "mark_notification_sent",
+              "check_bypass_permission",
+              "get_opportunity_detail",
+              "send_closed_lost_review",
+              "check_business_category"
+            ],
+            "flowId": "301UD00000WaTp4",
+            "flowName": "Notify_Closed_Lost_Review_After_Save",
+            "flowNamespace": null,
+            "numElements": 7,
+            "numElementsNotCovered": 7,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "handle_send_fault",
+              "check_phase_i_nis_fees",
+              "send_closed_won_phase_i_nis_high",
+              "send_closed_won_phase_i_unit_high",
+              "send_closed_won_phase_i_nis_low",
+              "check_phase_i_unit_fees",
+              "check_bypass_permission",
+              "get_opportunity_detail",
+              "send_closed_won_phase_i_unit_low",
+              "check_business_category"
+            ],
+            "flowId": "301UD00000Vi2CO",
+            "flowName": "Notify_Closed_Won_After_Save",
+            "flowNamespace": null,
+            "numElements": 10,
+            "numElementsNotCovered": 10,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "handle_send_fault",
+              "send_critical_stage_alert",
+              "check_bypass_permission",
+              "get_opportunity_detail"
+            ],
+            "flowId": "301UD00000WaVZ8",
+            "flowName": "Notify_Critical_Stage_Progression_After_Save",
+            "flowNamespace": null,
+            "numElements": 4,
+            "numElementsNotCovered": 4,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "updating_the_previous_opp_code"
+            ],
+            "flowId": "301UD00000SkVgh",
+            "flowName": "Oppty_Code",
+            "flowNamespace": null,
+            "numElements": 6,
+            "numElementsNotCovered": 1,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "checking_closed_won_or_loss_stage",
+              "update_records_est_close_date",
+              "update_records_contract_sign_date"
+            ],
+            "flowId": "301UD00000Sx14o",
+            "flowName": "Oppty_Probability_update_record_flow",
+            "flowNamespace": null,
+            "numElements": 3,
+            "numElementsNotCovered": 3,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "checking_closed_won_or_loss_stage",
+              "update_records_est_close_date",
+              "update_records_contract_sign_date"
+            ],
+            "flowId": "301UD00000SwmKA",
+            "flowName": "Quote_fields",
+            "flowNamespace": null,
+            "numElements": 3,
+            "numElementsNotCovered": 3,
+            "processType": "AutoLaunchedFlow"
+          },
+          {
+            "elementsNotCovered": [
+              "update_lead_record"
+            ],
+            "flowId": "301UD00000UECeZ",
+            "flowName": "updateQualLead_0XxUD0000000rcD",
+            "flowNamespace": null,
+            "numElements": 1,
+            "numElementsNotCovered": 1,
+            "processType": "AutoLaunchedFlow"
+          }
+        ],
+        "numFailures": 0,
+        "numTestsRun": 8,
+        "successes": [
+          {
+            "id": "01pUD00000GWTQhYAP",
+            "methodName": "createOpportunityInsertsSingleRecordWhenAllFieldsProvided",
+            "name": "AGENT_OpportunityActions_Test",
+            "namespace": null,
+            "testCategory": {
+              "$": {
+                "xsi:nil": "true"
+              }
+            },
+            "time": 2326
+          },
+          {
+            "id": "01pUD00000GWTQhYAP",
+            "methodName": "createOpportunityValidatesMandatoryFieldsBeforeDml",
+            "name": "AGENT_OpportunityActions_Test",
+            "namespace": null,
+            "testCategory": {
+              "$": {
+                "xsi:nil": "true"
+              }
+            },
+            "time": 123
+          },
+          {
+            "id": "01pUD00000GWTQhYAP",
+            "methodName": "getOpportunityDetailsByIdReturnsGroundedFields",
+            "name": "AGENT_OpportunityActions_Test",
+            "namespace": null,
+            "testCategory": {
+              "$": {
+                "xsi:nil": "true"
+              }
+            },
+            "time": 557
+          },
+          {
+            "id": "01pUD00000GWTQhYAP",
+            "methodName": "getOpportunityDetailsHandlesNoInputNoMatchAndMultipleMatches",
+            "name": "AGENT_OpportunityActions_Test",
+            "namespace": null,
+            "testCategory": {
+              "$": {
+                "xsi:nil": "true"
+              }
+            },
+            "time": 959
+          },
+          {
+            "id": "01pUD00000GWTQhYAP",
+            "methodName": "searchOpportunitiesByNameReturnsCandidate",
+            "name": "AGENT_OpportunityActions_Test",
+            "namespace": null,
+            "testCategory": {
+              "$": {
+                "xsi:nil": "true"
+              }
+            },
+            "time": 560
+          },
+          {
+            "id": "01pUD00000GWTQhYAP",
+            "methodName": "searchOpportunitiesSupportsFiltersAndValidation",
+            "name": "AGENT_OpportunityActions_Test",
+            "namespace": null,
+            "testCategory": {
+              "$": {
+                "xsi:nil": "true"
+              }
+            },
+            "time": 580
+          },
+          {
+            "id": "01pUD00000GWTQhYAP",
+            "methodName": "statusSummaryHandlesMultipleMatchesAndRiskSignals",
+            "name": "AGENT_OpportunityActions_Test",
+            "namespace": null,
+            "testCategory": {
+              "$": {
+                "xsi:nil": "true"
+              }
+            },
+            "time": 1003
+          },
+          {
+            "id": "01pUD00000GWTQhYAP",
+            "methodName": "statusSummaryOmitProhibitedLongTextFields",
+            "name": "AGENT_OpportunityActions_Test",
+            "namespace": null,
+            "testCategory": {
+              "$": {
+                "xsi:nil": "true"
+              }
+            },
+            "time": 604
+          }
+        ],
+        "totalTime": 6820,
+        "codeCoverageWarnings": [],
+        "failures": [],
+        "flowCoverageWarnings": []
+      },
+      "componentFailures": []
+    },
+    "done": true,
+    "id": "0AfUD00000H3uyL0AR",
+    "ignoreWarnings": false,
+    "lastModifiedDate": "2026-05-14T15:55:44.000Z",
+    "numberComponentErrors": 0,
+    "numberComponentsDeployed": 5,
+    "numberComponentsTotal": 5,
+    "numberFiles": "12",
+    "numberTestErrors": 0,
+    "numberTestsCompleted": 8,
+    "numberTestsTotal": 8,
+    "rollbackOnError": true,
+    "runTestsEnabled": true,
+    "startDate": "2026-05-14T15:55:34.000Z",
+    "status": "Succeeded",
+    "success": true,
+    "zipSize": "42901",
+    "files": [
+      {
+        "fullName": "AGENT_CreateOpportunity",
+        "type": "ApexClass",
+        "state": "Created",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\classes\\AGENT_CreateOpportunity.cls"
+      },
+      {
+        "fullName": "AGENT_CreateOpportunity",
+        "type": "ApexClass",
+        "state": "Created",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\classes\\AGENT_CreateOpportunity.cls-meta.xml"
+      },
+      {
+        "fullName": "AGENT_GetOpportunityDetails",
+        "type": "ApexClass",
+        "state": "Created",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\classes\\AGENT_GetOpportunityDetails.cls"
+      },
+      {
+        "fullName": "AGENT_GetOpportunityDetails",
+        "type": "ApexClass",
+        "state": "Created",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\classes\\AGENT_GetOpportunityDetails.cls-meta.xml"
+      },
+      {
+        "fullName": "AGENT_OpportunityActions_Test",
+        "type": "ApexClass",
+        "state": "Created",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\classes\\AGENT_OpportunityActions_Test.cls"
+      },
+      {
+        "fullName": "AGENT_OpportunityActions_Test",
+        "type": "ApexClass",
+        "state": "Created",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\classes\\AGENT_OpportunityActions_Test.cls-meta.xml"
+      },
+      {
+        "fullName": "AGENT_OpportunityStatusSummaryAction",
+        "type": "ApexClass",
+        "state": "Created",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\classes\\AGENT_OpportunityStatusSummaryAction.cls"
+      },
+      {
+        "fullName": "AGENT_OpportunityStatusSummaryAction",
+        "type": "ApexClass",
+        "state": "Created",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\classes\\AGENT_OpportunityStatusSummaryAction.cls-meta.xml"
+      },
+      {
+        "fullName": "AGENT_SearchOpportunities",
+        "type": "ApexClass",
+        "state": "Created",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\classes\\AGENT_SearchOpportunities.cls"
+      },
+      {
+        "fullName": "AGENT_SearchOpportunities",
+        "type": "ApexClass",
+        "state": "Created",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\classes\\AGENT_SearchOpportunities.cls-meta.xml"
+      }
+    ],
+    "deployUrl": "https://astrum--astrumpar.sandbox.my.salesforce.com/lightning/setup/DeployStatus/page?address=%2Fchangemgmt%2FmonitorDeploymentsDetails.apexp%3FasyncId%3D0AfUD00000H3uyL0AR%26retURL%3D%252Fchangemgmt%252FmonitorDeployment.apexp"
+  },
+  "warnings": []
+}

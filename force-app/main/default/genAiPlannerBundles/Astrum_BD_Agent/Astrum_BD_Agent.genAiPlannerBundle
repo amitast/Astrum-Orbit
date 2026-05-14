@@ -7,6 +7,9 @@
     <localTopicLinks>
         <genAiPluginName>Account_and_Contact_Management</genAiPluginName>
     </localTopicLinks>
+    <localTopicLinks>
+        <genAiPluginName>Opportunity_Management</genAiPluginName>
+    </localTopicLinks>
     <localTopics>
         <fullName>Account_and_Contact_Management</fullName>
         <aiPluginUtterances>
@@ -319,6 +322,242 @@ Do not use this subagent for managing opportunities, updating deal stages, captu
         <masterLabel>Account and Contact Management</masterLabel>
         <pluginType>Topic</pluginType>
         <scope>Handles requests to look up, view, update, create, and summarise account and contact records in Salesforce. Use this subagent when the user asks about a specific company, organisation, sponsor, or CRO target account, wants to update a field on an account or contact record, needs to find contacts at a specific organisation, wants to add a new contact to an account, or requests an account intelligence summary or profile. Do not use this subagent for managing opportunities, updating deal stages, capturing next steps on deals, changing close dates, creating forecast views, or running data quality audits across multiple records.</scope>
+    </localTopics>
+    <localTopics>
+        <fullName>Opportunity_Management</fullName>
+        <aiPluginUtterances>
+            <developerName>show_roche_phase_i_opportunity_details</developerName>
+            <language>en_US</language>
+            <masterLabel>Show Roche Phase I opportunity details</masterLabel>
+            <utterance>Show me the details for the Roche Phase I opportunity.</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>which_roche_deals_are_active</developerName>
+            <language>en_US</language>
+            <masterLabel>Which Roche deals are active</masterLabel>
+            <utterance>Which Roche deals are we working on?</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>move_msd_deal_to_proposal_sent</developerName>
+            <language>en_US</language>
+            <masterLabel>Move MSD deal to Proposal Sent</masterLabel>
+            <utterance>Move the MSD deal to Proposal Sent.</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>update_az_close_date</developerName>
+            <language>en_US</language>
+            <masterLabel>Update AZ close date</masterLabel>
+            <utterance>Update the close date on the AZ Full Service opportunity to 31 August 2026.</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>add_next_step_biontech</developerName>
+            <language>en_US</language>
+            <masterLabel>Add next step BioNTech</masterLabel>
+            <utterance>Add a next step to the BioNTech deal: send revised protocol by end of this week.</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>create_pfizer_phase_ii_opportunity</developerName>
+            <language>en_US</language>
+            <masterLabel>Create Pfizer Phase II opportunity</masterLabel>
+            <utterance>Create a new opportunity for Pfizer. Phase II full service. Close end of year.</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>summarise_eli_lilly_opportunity</developerName>
+            <language>en_US</language>
+            <masterLabel>Summarise Eli Lilly opportunity</masterLabel>
+            <utterance>Summarise the current status of the Eli Lilly opportunity.</utterance>
+        </aiPluginUtterances>
+        <canEscalate>false</canEscalate>
+        <description>Handles requests to look up, search, create, update, and summarise individual Salesforce Opportunity records. Use this topic when the user asks about a specific deal, opportunity stage, close date, forecast category, service fees, probability, next step, next specific action, or opportunity status summary.
+
+Do not use this topic for account or contact management, cross-pipeline hygiene reports, bulk Opportunity updates, deletion requests, pipeline forecasting views, or external-channel actions. This topic acts on one Opportunity record at a time and every write action must require user confirmation before saving.</description>
+        <developerName>Opportunity_Management</developerName>
+        <genAiPluginInstructions>
+            <description>Always retrieve and display the current Opportunity record before proposing an update.</description>
+            <developerName>retrieve_before_update</developerName>
+            <language>en_US</language>
+            <masterLabel>Retrieve before update</masterLabel>
+            <sortOrder>0</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Always confirm the exact Opportunity identity before writing. If the user's request matches more than one Opportunity, present a candidate list and wait for the user to select one.</description>
+            <developerName>confirm_opportunity_identity</developerName>
+            <language>en_US</language>
+            <masterLabel>Confirm Opportunity identity</masterLabel>
+            <sortOrder>1</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Never update more than one Opportunity in a single action. If the user asks for a bulk update, explain that the agent can update one Opportunity at a time with confirmation.</description>
+            <developerName>no_bulk_opportunity_updates</developerName>
+            <language>en_US</language>
+            <masterLabel>No bulk Opportunity updates</masterLabel>
+            <sortOrder>2</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Never delete an Opportunity. If the user asks to delete a deal, explain that deletion is outside scope and must be handled by a Salesforce administrator.</description>
+            <developerName>never_delete_opportunity</developerName>
+            <language>en_US</language>
+            <masterLabel>Never delete Opportunity</masterLabel>
+            <sortOrder>3</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Never use standard Probability or Probability__c. Use only Opp_Probability__c when discussing probability.</description>
+            <developerName>use_opp_probability_only</developerName>
+            <language>en_US</language>
+            <masterLabel>Use Opp Probability only</masterLabel>
+            <sortOrder>4</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>Never pass D365_Opportunity_Notes__c, Description, migration notes, or raw long text fields into a Prompt Template or summary response.</description>
+            <developerName>exclude_long_text_notes</developerName>
+            <language>en_US</language>
+            <masterLabel>Exclude long text notes</masterLabel>
+            <sortOrder>5</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>For stage or close-date changes, use Update Opportunity Progress and require Confirm HITL before saving.</description>
+            <developerName>confirm_progress_updates</developerName>
+            <language>en_US</language>
+            <masterLabel>Confirm progress updates</masterLabel>
+            <sortOrder>6</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>If the proposed close date is in the past and the Flow returns CloseDateIsPast = true, warn the user that the proposed close date has already passed and require explicit confirmation before proceeding.</description>
+            <developerName>warn_past_close_date</developerName>
+            <language>en_US</language>
+            <masterLabel>Warn past close date</masterLabel>
+            <sortOrder>7</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>For next-step-only changes, use Capture Next Steps and require Confirm HITL before saving.</description>
+            <developerName>confirm_next_step_updates</developerName>
+            <language>en_US</language>
+            <masterLabel>Confirm next step updates</masterLabel>
+            <sortOrder>8</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>When stage is progressed, ask for next step information if the user has not provided it.</description>
+            <developerName>ask_next_step_on_stage_progression</developerName>
+            <language>en_US</language>
+            <masterLabel>Ask next step on progression</masterLabel>
+            <sortOrder>9</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>When the user asks for a pipeline hygiene report, overdue deal list, missing data report, or cross-record quality check, route or redirect to Data Quality and Hygiene.</description>
+            <developerName>data_quality_boundary_opportunity</developerName>
+            <language>en_US</language>
+            <masterLabel>Data quality boundary Opportunity</masterLabel>
+            <sortOrder>10</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>When the user asks for account or contact details, route or redirect to Account and Contact Management.</description>
+            <developerName>account_contact_boundary_opportunity</developerName>
+            <language>en_US</language>
+            <masterLabel>Account contact boundary Opportunity</masterLabel>
+            <sortOrder>11</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>When generating an Opportunity Status Summary, use only retrieved Salesforce Opportunity and related Account data. Omit blank fields instead of saying unknown.</description>
+            <developerName>summary_grounding_only</developerName>
+            <language>en_US</language>
+            <masterLabel>Summary grounding only</masterLabel>
+            <sortOrder>12</sortOrder>
+        </genAiPluginInstructions>
+        <language>en_US</language>
+        <localActionLinks>
+            <functionName>Get_Opportunity_Details</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Search_Opportunities</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Create_Opportunity</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Update_Opportunity_Progress</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Capture_Next_Steps</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Opportunity_Status_Summary</functionName>
+        </localActionLinks>
+        <localActions>
+            <fullName>Get_Opportunity_Details</fullName>
+            <description>Retrieve details for a specific Opportunity by ID, Opportunity Code, name, or account name. Returns stage, close date, forecast category, amount, service fees, Opp_Probability__c, business category, therapeutic area, next step fields, Opportunity Code, and related Account name, client type, and segment. Do not use D365 notes, Description, raw migration notes, or standard Probability.</description>
+            <developerName>Get_Opportunity_Details</developerName>
+            <invocationTarget>AGENT_GetOpportunityDetails</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Get_Opportunity_Details</localDeveloperName>
+            <masterLabel>Get Opportunity Details</masterLabel>
+            <progressIndicatorMessage>Retrieving opportunity details</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Search_Opportunities</fullName>
+            <description>Search for Opportunity records by opportunity name, account name, stage, owner name, or Opportunity Code. Returns up to 10 candidates with account, stage, close date, Opp_Probability__c, Opportunity Code, owner, and record ID. Use when the user provides a partial opportunity or account name and needs candidates.</description>
+            <developerName>Search_Opportunities</developerName>
+            <invocationTarget>AGENT_SearchOpportunities</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Search_Opportunities</localDeveloperName>
+            <masterLabel>Search Opportunities</masterLabel>
+            <progressIndicatorMessage>Searching opportunities</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Create_Opportunity</fullName>
+            <description>Create a single Opportunity after explicit user confirmation. Requires AccountId or exact AccountName, Name, CloseDate, StageName, ForecastCategoryName, Business_Category__c, Entities_Providing_Services__c, Project_Category__c, Project_Start_Work__c, Project_End_Work__c, RfP_Received_Date__c, RfP_Due_Sent_Date__c, Study_Phase_Type__c, and Therapeutic_Area__c. Do not create incomplete Opportunity records.</description>
+            <developerName>Create_Opportunity</developerName>
+            <invocationTarget>AGENT_CreateOpportunity</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>true</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Create_Opportunity</localDeveloperName>
+            <masterLabel>Create Opportunity</masterLabel>
+            <progressIndicatorMessage>Creating opportunity</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Update_Opportunity_Progress</fullName>
+            <description>Update stage, close date, and next-step progress fields on one existing Opportunity. Requires explicit user confirmation before any save. If CloseDateIsPast is true, warn the user before confirming. Never use this action for bulk updates.</description>
+            <developerName>Update_Opportunity_Progress</developerName>
+            <invocationTarget>AGENT_UpdateOpportunityProgress</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>true</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Update_Opportunity_Progress</localDeveloperName>
+            <masterLabel>Update Opportunity Progress</masterLabel>
+            <progressIndicatorMessage>Updating opportunity progress</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Capture_Next_Steps</fullName>
+            <description>Capture or update the next step and optional next action fields on one existing Opportunity. Requires explicit user confirmation before any save. Use for next-step-only updates.</description>
+            <developerName>Capture_Next_Steps</developerName>
+            <invocationTarget>AGENT_CaptureNextSteps</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>true</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Capture_Next_Steps</localDeveloperName>
+            <masterLabel>Capture Next Steps</masterLabel>
+            <progressIndicatorMessage>Capturing next steps</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Opportunity_Status_Summary</fullName>
+            <description>Summarise current deal status, next action, and visible risk signals using only Salesforce Opportunity fields and related Account.Name, Client_Type__c, and Account_Segment__c. Omit blank values and never use D365 notes, Description, migration notes, external web data, standard Probability, or Probability__c.</description>
+            <developerName>Opportunity_Status_Summary</developerName>
+            <invocationTarget>AGENT_OpportunityStatusSummaryAction</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Opportunity_Status_Summary</localDeveloperName>
+            <masterLabel>Opportunity Status Summary</masterLabel>
+            <progressIndicatorMessage>Generating opportunity status summary</progressIndicatorMessage>
+        </localActions>
+        <localDeveloperName>Opportunity_Management</localDeveloperName>
+        <masterLabel>Opportunity Management</masterLabel>
+        <pluginType>Topic</pluginType>
+        <scope>Handles requests to look up, search, create, update, and summarise individual Salesforce Opportunity records. Use this topic when the user asks about a specific deal, opportunity stage, close date, forecast category, service fees, probability, next step, next specific action, or opportunity status summary. Do not use this topic for account or contact management, cross-pipeline hygiene reports, bulk Opportunity updates, deletion requests, pipeline forecasting views, or external-channel actions.</scope>
     </localTopics>
     <masterLabel>Astrum BD Agent</masterLabel>
     <plannerActions>

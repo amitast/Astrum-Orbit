@@ -1,0 +1,75 @@
+﻿{
+  "status": 0,
+  "result": {
+    "checkOnly": false,
+    "completedDate": "2026-05-14T15:57:04.000Z",
+    "createdBy": "005d1000002tlef",
+    "createdByName": "Amit Kumar",
+    "createdDate": "2026-05-14T15:57:00.000Z",
+    "details": {
+      "componentSuccesses": [
+        {
+          "changed": true,
+          "componentType": "PermissionSet",
+          "created": false,
+          "createdDate": "2026-05-14T15:57:03.000Z",
+          "deleted": false,
+          "fileName": "permissionsets/Astrum_BD_Agent_PS.permissionset",
+          "fullName": "Astrum_BD_Agent_PS",
+          "id": "0PSUD00000107wz4AA",
+          "success": true
+        },
+        {
+          "changed": true,
+          "componentType": "",
+          "created": false,
+          "createdDate": "2026-05-14T15:57:03.000Z",
+          "deleted": false,
+          "fileName": "package.xml",
+          "fullName": "package.xml",
+          "success": true
+        }
+      ],
+      "runTestResult": {
+        "numFailures": 0,
+        "numTestsRun": 0,
+        "totalTime": 0,
+        "codeCoverage": [],
+        "codeCoverageWarnings": [],
+        "failures": [],
+        "flowCoverage": [],
+        "flowCoverageWarnings": [],
+        "successes": []
+      },
+      "componentFailures": []
+    },
+    "done": true,
+    "id": "0AfUD00000H3v6P0AR",
+    "ignoreWarnings": false,
+    "lastModifiedDate": "2026-05-14T15:57:04.000Z",
+    "numberComponentErrors": 0,
+    "numberComponentsDeployed": 1,
+    "numberComponentsTotal": 1,
+    "numberFiles": "3",
+    "numberTestErrors": 0,
+    "numberTestsCompleted": 0,
+    "numberTestsTotal": 0,
+    "rollbackOnError": true,
+    "runTestsEnabled": false,
+    "startDate": "2026-05-14T15:57:01.000Z",
+    "status": "Succeeded",
+    "success": true,
+    "zipSize": 1760,
+    "files": [
+      {
+        "fullName": "Astrum_BD_Agent_PS",
+        "type": "PermissionSet",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\permissionsets\\Astrum_BD_Agent_PS.permissionset-meta.xml"
+      }
+    ],
+    "zipFileCount": 2,
+    "deployUrl": "https://astrum--astrumpar.sandbox.my.salesforce.com/lightning/setup/DeployStatus/page?address=%2Fchangemgmt%2FmonitorDeploymentsDetails.apexp%3FasyncId%3D0AfUD00000H3v6P0AR%26retURL%3D%252Fchangemgmt%252FmonitorDeployment.apexp"
+  },
+  "warnings": []
+}
