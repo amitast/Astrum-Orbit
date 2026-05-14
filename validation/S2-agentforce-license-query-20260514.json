@@ -1,0 +1,274 @@
+﻿{
+  "status": 0,
+  "result": {
+    "records": [
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLUD00000049r74AA"
+        },
+        "Id": "0PLUD00000049r74AA",
+        "DeveloperName": "StandardEinsteinActivityCapture2Psl",
+        "MasterLabel": "StandardEinsteinActivityCapture2Psl",
+        "TotalLicenses": 15,
+        "UsedLicenses": 0,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLUD00000049r84AA"
+        },
+        "Id": "0PLUD00000049r84AA",
+        "DeveloperName": "TaskBasedAgentsPsl",
+        "MasterLabel": "Task-Based Agents",
+        "TotalLicenses": 50,
+        "UsedLicenses": 0,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLUD0000004Utx4AE"
+        },
+        "Id": "0PLUD0000004Utx4AE",
+        "DeveloperName": "BrandCenterForAgentforcePsl",
+        "MasterLabel": "BrandCenterForAgentforce",
+        "TotalLicenses": 1,
+        "UsedLicenses": 0,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLUD0000004Uty4AE"
+        },
+        "Id": "0PLUD0000004Uty4AE",
+        "DeveloperName": "CustomerEngagementAgentPsl",
+        "MasterLabel": "Customer Engagement Agent",
+        "TotalLicenses": 20,
+        "UsedLicenses": 0,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLUD0000004Utz4AE"
+        },
+        "Id": "0PLUD0000004Utz4AE",
+        "DeveloperName": "BrandCenterForAgentforce",
+        "MasterLabel": "Brand Center For Agentforce",
+        "TotalLicenses": 1,
+        "UsedLicenses": 0,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLUD0000004Uu04AE"
+        },
+        "Id": "0PLUD0000004Uu04AE",
+        "DeveloperName": "CustomerEngagementAccessPsl",
+        "MasterLabel": "Customer Engagement Agent Access",
+        "TotalLicenses": 100,
+        "UsedLicenses": 0,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLd1000000ReCmGAK"
+        },
+        "Id": "0PLd1000000ReCmGAK",
+        "DeveloperName": "StandardEinsteinActivityCapturePsl",
+        "MasterLabel": "Standard Einstein Activity Capture User",
+        "TotalLicenses": 100,
+        "UsedLicenses": 4,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLd1000000ReCtGAK"
+        },
+        "Id": "0PLd1000000ReCtGAK",
+        "DeveloperName": "MySearchPsl",
+        "MasterLabel": "Einstein Search",
+        "TotalLicenses": 15,
+        "UsedLicenses": 0,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLd1000000SKOoGAO"
+        },
+        "Id": "0PLd1000000SKOoGAO",
+        "DeveloperName": "MCETAgentActionsPsl",
+        "MasterLabel": "Marketing Cloud Engagement Agent Actions",
+        "TotalLicenses": 1,
+        "UsedLicenses": 1,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLd1000000SKOpGAO"
+        },
+        "Id": "0PLd1000000SKOpGAO",
+        "DeveloperName": "AgentforceServiceAgentBuilderPsl",
+        "MasterLabel": "Agentforce Service Agent Builder",
+        "TotalLicenses": 10000,
+        "UsedLicenses": 2,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLd1000000SKOqGAO"
+        },
+        "Id": "0PLd1000000SKOqGAO",
+        "DeveloperName": "EinsteinSdrAgentPsl",
+        "MasterLabel": "Agentforce SDR Agent",
+        "TotalLicenses": 200,
+        "UsedLicenses": 8,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLd1000000SKP0GAO"
+        },
+        "Id": "0PLd1000000SKP0GAO",
+        "DeveloperName": "EinsteinGPTPromptTemplatesPsl",
+        "MasterLabel": "Einstein Prompt Templates",
+        "TotalLicenses": 100000,
+        "UsedLicenses": 4,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLd1000000SKP9GAO"
+        },
+        "Id": "0PLd1000000SKP9GAO",
+        "DeveloperName": "CallCoachingStandardPsl",
+        "MasterLabel": "Einstein Conversation Insights Standard",
+        "TotalLicenses": 2000,
+        "UsedLicenses": 0,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLd1000000SKPCGA4"
+        },
+        "Id": "0PLd1000000SKPCGA4",
+        "DeveloperName": "EinsteinGPTGroundingStructuredDataPsl",
+        "MasterLabel": "Einstein GPT Metadata Studio",
+        "TotalLicenses": 2550,
+        "UsedLicenses": 0,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLd1000000SKPFGA4"
+        },
+        "Id": "0PLd1000000SKPFGA4",
+        "DeveloperName": "GenerativeAISummarizationPsl",
+        "MasterLabel": "Einstein for Service Innovations",
+        "TotalLicenses": 100000,
+        "UsedLicenses": 3,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLd1000000SKPIGA4"
+        },
+        "Id": "0PLd1000000SKPIGA4",
+        "DeveloperName": "EinsteinCoachAgentPsl",
+        "MasterLabel": "Agentforce Sales Coach",
+        "TotalLicenses": 200,
+        "UsedLicenses": 2,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLd1000000SKPJGA4"
+        },
+        "Id": "0PLd1000000SKPJGA4",
+        "DeveloperName": "EinsteinCoachAccessPsl",
+        "MasterLabel": "Agentforce Sales Coach User",
+        "TotalLicenses": 100000,
+        "UsedLicenses": 2,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLd1000000SKPKGA4"
+        },
+        "Id": "0PLd1000000SKPKGA4",
+        "DeveloperName": "InboundLeadGenAgentPsl",
+        "MasterLabel": "Inbound Lead Generation Agent",
+        "TotalLicenses": 1,
+        "UsedLicenses": 1,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLd1000000SKPLGA4"
+        },
+        "Id": "0PLd1000000SKPLGA4",
+        "DeveloperName": "AgentforceServiceAgentUserPsl",
+        "MasterLabel": "Agentforce Service Agent User",
+        "TotalLicenses": 200,
+        "UsedLicenses": 1,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLd1000000SKPOGA4"
+        },
+        "Id": "0PLd1000000SKPOGA4",
+        "DeveloperName": "EinsteinSdrAccessPsl",
+        "MasterLabel": "Agentforce SDR Access",
+        "TotalLicenses": 10000,
+        "UsedLicenses": 8,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLd1000000SKPPGA4"
+        },
+        "Id": "0PLd1000000SKPPGA4",
+        "DeveloperName": "AgentPlatformBuilderPsl",
+        "MasterLabel": "Agent platform builder",
+        "TotalLicenses": 2000,
+        "UsedLicenses": 3,
+        "Status": "Active"
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetLicense",
+          "url": "/services/data/v66.0/sobjects/PermissionSetLicense/0PLd1000000SKPTGA4"
+        },
+        "Id": "0PLd1000000SKPTGA4",
+        "DeveloperName": "TableauEinsteinIncludedAppPsl",
+        "MasterLabel": "Tableau Einstein Included App",
+        "TotalLicenses": 1000,
+        "UsedLicenses": 0,
+        "Status": "Active"
+      }
+    ],
+    "totalSize": 22,
+    "done": true
+  },
+  "warnings": []
+}

@@ -1,0 +1,29 @@
+﻿[
+    {
+        "Field":  "Name",
+        "Present":  true,
+        "Type":  "string",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  false,
+        "Values":  ""
+    },
+    {
+        "Field":  "Client_Type__c",
+        "Present":  true,
+        "Type":  "picklist",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  true,
+        "Values":  "Biotech; Consultant; Generics/Biosimilar; MedTech/Medical Devices; Nutraceuticals/Cosmetics; Other CRO; Other Vendor; Pharma"
+    },
+    {
+        "Field":  "Account_Segment__c",
+        "Present":  true,
+        "Type":  "picklist",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  true,
+        "Values":  "Strategic Account; Standard Account; Key Account"
+    }
+]

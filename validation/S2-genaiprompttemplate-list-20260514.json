@@ -1,0 +1,71 @@
+﻿{
+  "status": 0,
+  "result": [
+    {
+      "createdById": "005UD00000ONYJcYAP",
+      "createdByName": "Mayank G",
+      "createdDate": "2026-03-16T13:47:12.000Z",
+      "fileName": "genAiPromptTemplates/Opportunity_Follow_Up_Email.genAiPromptTemplate",
+      "fullName": "Opportunity_Follow_Up_Email",
+      "id": "0hfUD000000dMThYAM",
+      "lastModifiedById": "005UD00000ONYJcYAP",
+      "lastModifiedByName": "Mayank G",
+      "lastModifiedDate": "2026-03-19T07:32:36.000Z",
+      "manageableState": "unmanaged",
+      "type": "GenAiPromptTemplate"
+    },
+    {
+      "createdById": "005d1000002tlefAAA",
+      "createdByName": "Amit Kumar",
+      "createdDate": "2026-05-08T14:00:21.000Z",
+      "fileName": "genAiPromptTemplates/AGENT_AccountIntelligenceSummary.genAiPromptTemplate",
+      "fullName": "AGENT_AccountIntelligenceSummary",
+      "id": "0hfUD000000gi33YAA",
+      "lastModifiedById": "005d1000002tlefAAA",
+      "lastModifiedByName": "Amit Kumar",
+      "lastModifiedDate": "2026-05-08T15:25:52.000Z",
+      "manageableState": "unmanaged",
+      "type": "GenAiPromptTemplate"
+    },
+    {
+      "createdById": "005UD00000ONYJcYAP",
+      "createdByName": "Mayank G",
+      "createdDate": "2026-03-25T07:06:27.000Z",
+      "fileName": "genAiPromptTemplates/Astrum_CRO_Response.genAiPromptTemplate",
+      "fullName": "Astrum_CRO_Response",
+      "id": "0hfUD000000dvBJYAY",
+      "lastModifiedById": "005UD00000ONYJcYAP",
+      "lastModifiedByName": "Mayank G",
+      "lastModifiedDate": "2026-03-25T07:08:07.000Z",
+      "manageableState": "unmanaged",
+      "type": "GenAiPromptTemplate"
+    },
+    {
+      "createdById": "005UD00000ONYJcYAP",
+      "createdByName": "Mayank G",
+      "createdDate": "2026-03-23T12:37:54.000Z",
+      "fileName": "genAiPromptTemplates/QualifyLead_0XxUD0000000rcD.genAiPromptTemplate",
+      "fullName": "QualifyLead_0XxUD0000000rcD",
+      "id": "0hfUD000000dojJYAQ",
+      "lastModifiedById": "005UD00000ONYJcYAP",
+      "lastModifiedByName": "Mayank G",
+      "lastModifiedDate": "2026-03-23T12:37:55.000Z",
+      "manageableState": "unmanaged",
+      "type": "GenAiPromptTemplate"
+    },
+    {
+      "createdById": "005UD00000ONYJcYAP",
+      "createdByName": "Mayank G",
+      "createdDate": "2026-03-16T13:53:44.000Z",
+      "fileName": "genAiPromptTemplates/Subject_template.genAiPromptTemplate",
+      "fullName": "Subject_template",
+      "id": "0hfUD000000dNETYA2",
+      "lastModifiedById": "005UD00000ONYJcYAP",
+      "lastModifiedByName": "Mayank G",
+      "lastModifiedDate": "2026-03-19T07:16:50.000Z",
+      "manageableState": "unmanaged",
+      "type": "GenAiPromptTemplate"
+    }
+  ],
+  "warnings": []
+}

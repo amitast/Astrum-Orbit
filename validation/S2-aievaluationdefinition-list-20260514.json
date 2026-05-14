@@ -1,0 +1,32 @@
+﻿{
+  "status": 0,
+  "result": [
+    {
+      "createdById": "005d1000002tlefAAA",
+      "createdByName": "Amit Kumar",
+      "createdDate": "2026-04-29T11:44:42.000Z",
+      "fileName": "aiEvaluationDefinitions/SAL_16_Test.aiEvaluationDefinition",
+      "fullName": "SAL_16_Test",
+      "id": "4KCUD0000000dcT4AQ",
+      "lastModifiedById": "005d1000002tlefAAA",
+      "lastModifiedByName": "Amit Kumar",
+      "lastModifiedDate": "2026-05-09T06:17:00.000Z",
+      "manageableState": "unmanaged",
+      "type": "AiEvaluationDefinition"
+    },
+    {
+      "createdById": "005d1000002tlefAAA",
+      "createdByName": "Amit Kumar",
+      "createdDate": "2026-05-08T16:38:56.000Z",
+      "fileName": "aiEvaluationDefinitions/SAL_21_Account_Intelligence_Test.aiEvaluationDefinition",
+      "fullName": "SAL_21_Account_Intelligence_Test",
+      "id": "4KCUD0000000dqz4AA",
+      "lastModifiedById": "005d1000002tlefAAA",
+      "lastModifiedByName": "Amit Kumar",
+      "lastModifiedDate": "2026-05-09T07:58:59.000Z",
+      "manageableState": "unmanaged",
+      "type": "AiEvaluationDefinition"
+    }
+  ],
+  "warnings": []
+}

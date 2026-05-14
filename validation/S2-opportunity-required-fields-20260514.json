@@ -1,0 +1,200 @@
+﻿[
+    {
+        "Field":  "Id",
+        "Present":  true,
+        "Type":  "id",
+        "Createable":  false,
+        "Updateable":  false,
+        "Nillable":  false,
+        "Values":  ""
+    },
+    {
+        "Field":  "Name",
+        "Present":  true,
+        "Type":  "string",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  false,
+        "Values":  ""
+    },
+    {
+        "Field":  "AccountId",
+        "Present":  true,
+        "Type":  "reference",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  true,
+        "Values":  ""
+    },
+    {
+        "Field":  "StageName",
+        "Present":  true,
+        "Type":  "picklist",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  false,
+        "Values":  "Pre-Identification; Early Engagement; RFI in progress; RFI sent; Proposal On Hold; Proposal In Progress; Proposal Sent; Bid Defense; Verbal Award; Change Order; Contract Agreed; Closed Won; Closed Lost; Proposal/CO sent; Won (signed contract/CO); Lost/Cancelled/Declined to Bid; Proposal/CO on hold/No updates for long time; Contract/CO agreed but not yet signed; Early Discussions without budget sent"
+    },
+    {
+        "Field":  "CloseDate",
+        "Present":  true,
+        "Type":  "date",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  false,
+        "Values":  ""
+    },
+    {
+        "Field":  "ForecastCategoryName",
+        "Present":  true,
+        "Type":  "picklist",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  true,
+        "Values":  "Omitted; Pipeline; Best Case; Commit; Closed"
+    },
+    {
+        "Field":  "Amount",
+        "Present":  true,
+        "Type":  "currency",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  true,
+        "Values":  ""
+    },
+    {
+        "Field":  "Service_Fees__c",
+        "Present":  true,
+        "Type":  "currency",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  true,
+        "Values":  ""
+    },
+    {
+        "Field":  "Opp_Probability__c",
+        "Present":  true,
+        "Type":  "picklist",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  true,
+        "Values":  "0; 5; 10; 25; 50; 75; 90; 100"
+    },
+    {
+        "Field":  "Business_Category__c",
+        "Present":  true,
+        "Type":  "picklist",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  true,
+        "Values":  "Phase I-NIS; Phase I Unit; S\u0026PS; All Other Projects (Phase I - NIS); Phase I Clinical Conduct Portugal; Site \u0026 Patient Services (CRP \u0026 MissionTEC)"
+    },
+    {
+        "Field":  "Therapeutic_Area__c",
+        "Present":  true,
+        "Type":  "picklist",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  true,
+        "Values":  "Cardiology and Vascular Diseases; Congenital and Genetic Disorders; Cosmetics; Dentistry,Oral and Maxillofacial Diseases; Dermatology; Gastroenterology and Hepatology; Gynecology and Women’s Health; Hematology (Non-Malignant); Immunology and Rheumatology; Infectious diseases; Musculoskeletal and Orthopedics; Neurology and CNS Disorders; Nutrition; Oncology; Ophthalmology; Otorhinolaryngology (ENT); Psychiatry and Mental Health; Pulmonology and Respiratory Diseases; Radiology; Other; Urology and Nephrology; Endocrinology and Metabolic Disorders"
+    },
+    {
+        "Field":  "NextStep",
+        "Present":  true,
+        "Type":  "string",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  true,
+        "Values":  ""
+    },
+    {
+        "Field":  "Next_specific_action__c",
+        "Present":  true,
+        "Type":  "textarea",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  true,
+        "Values":  ""
+    },
+    {
+        "Field":  "Date_of_next_specific_action__c",
+        "Present":  true,
+        "Type":  "date",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  true,
+        "Values":  ""
+    },
+    {
+        "Field":  "Person_responsible_for_next_action__c",
+        "Present":  true,
+        "Type":  "string",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  true,
+        "Values":  ""
+    },
+    {
+        "Field":  "Last_client_interaction_date__c",
+        "Present":  true,
+        "Type":  "date",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  true,
+        "Values":  ""
+    },
+    {
+        "Field":  "Opportunity_Code__c",
+        "Present":  true,
+        "Type":  "string",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  true,
+        "Values":  ""
+    },
+    {
+        "Field":  "Opportunity_ID_18__c",
+        "Present":  false,
+        "Type":  "",
+        "Createable":  "",
+        "Updateable":  "",
+        "Nillable":  "",
+        "Values":  ""
+    },
+    {
+        "Field":  "Award_Date__c",
+        "Present":  true,
+        "Type":  "date",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  true,
+        "Values":  ""
+    },
+    {
+        "Field":  "Business_Type__c",
+        "Present":  true,
+        "Type":  "picklist",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  false,
+        "Values":  "Change Order; New Business"
+    },
+    {
+        "Field":  "Study_Phase_Type__c",
+        "Present":  true,
+        "Type":  "multipicklist",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  true,
+        "Values":  "Efficacy; Other NIS; Phase 0; Phase I; Phase I/II; Phase II; Phase II/III; Phase III; Phase IV; Pilot (Feasibility \u0026 Safety); Pivotal (Safety and performance/efficacy); Post-Marketing; Post-Marketing Surveillance; Preclinical (Design \u0026 Risk Analysis); Prospective/Retrospective; Prospective observational; Registry; Retrospective chart review; Safety \u0026 Tolerability; Phase I / Ib; NIS (Non-Interventional); Consultancy; Phase III / IIIb; Clinical Study - Medical Device; Phase II / IIb; Observational NO IMP (epidemiological); Dossier Analysis / Support; Non-trial related services (IT, HR, etc.); PMCF; Retrospective Observational"
+    },
+    {
+        "Field":  "D365_Opportunity_Notes__c",
+        "Present":  true,
+        "Type":  "textarea",
+        "Createable":  true,
+        "Updateable":  true,
+        "Nillable":  true,
+        "Values":  ""
+    }
+]

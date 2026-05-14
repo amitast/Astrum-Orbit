@@ -1,0 +1,40 @@
+﻿{
+  "status": 0,
+  "result": {
+    "records": [
+      {
+        "attributes": {
+          "type": "FlowDefinition",
+          "url": "/services/data/v66.0/tooling/sobjects/FlowDefinition/300UD00000QvVmUYAV"
+        },
+        "Id": "300UD00000QvVmUYAV",
+        "DeveloperName": "AGENT_CreateContact",
+        "ActiveVersionId": "301UD00000WMMCOYA5",
+        "LatestVersionId": "301UD00000WMMCOYA5"
+      },
+      {
+        "attributes": {
+          "type": "FlowDefinition",
+          "url": "/services/data/v66.0/tooling/sobjects/FlowDefinition/300UD00000R0z2LYAR"
+        },
+        "Id": "300UD00000R0z2LYAR",
+        "DeveloperName": "AGENT_GetAccountDetails",
+        "ActiveVersionId": "301UD00000W9OX5YAN",
+        "LatestVersionId": "301UD00000W9OX5YAN"
+      },
+      {
+        "attributes": {
+          "type": "FlowDefinition",
+          "url": "/services/data/v66.0/tooling/sobjects/FlowDefinition/300UD00000R0z2MYAR"
+        },
+        "Id": "300UD00000R0z2MYAR",
+        "DeveloperName": "AGENT_GetContactDetails",
+        "ActiveVersionId": "301UD00000W9OX6YAN",
+        "LatestVersionId": "301UD00000W9OX6YAN"
+      }
+    ],
+    "totalSize": 3,
+    "done": true
+  },
+  "warnings": []
+}

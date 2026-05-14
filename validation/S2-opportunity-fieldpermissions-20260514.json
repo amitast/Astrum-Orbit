@@ -1,0 +1,20 @@
+﻿{
+  "status": 0,
+  "result": {
+    "records": [
+      {
+        "attributes": {
+          "type": "FieldPermissions",
+          "url": "/services/data/v66.0/sobjects/FieldPermissions/01kUD00000d32LjYAI"
+        },
+        "Id": "01kUD00000d32LjYAI",
+        "Field": "Opportunity.Amount",
+        "PermissionsRead": true,
+        "PermissionsEdit": false
+      }
+    ],
+    "totalSize": 1,
+    "done": true
+  },
+  "warnings": []
+}

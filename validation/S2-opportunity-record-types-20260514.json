@@ -1,0 +1,9 @@
+﻿{
+    "name":  "Master",
+    "developerName":  "Master",
+    "recordTypeId":  "012000000000000AAA",
+    "active":  true,
+    "available":  true,
+    "master":  true,
+    "defaultRecordTypeMapping":  true
+}

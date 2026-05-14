@@ -1,0 +1,58 @@
+﻿{
+  "status": 0,
+  "result": [
+    {
+      "createdById": "005UD00000ONYJcYAP",
+      "createdByName": "Mayank G",
+      "createdDate": "2026-03-16T13:35:20.000Z",
+      "fileName": "genAiPlannerBundles/EmployeeCopilotPlanner.genAiPlannerBundle",
+      "fullName": "EmployeeCopilotPlanner",
+      "id": "16jUD0000005pebYAA",
+      "lastModifiedById": "005UD00000ONYJcYAP",
+      "lastModifiedByName": "Mayank G",
+      "lastModifiedDate": "2026-03-16T13:35:20.000Z",
+      "manageableState": "unmanaged",
+      "type": "GenAiPlannerBundle"
+    },
+    {
+      "createdById": "005UD00000ONYJcYAP",
+      "createdByName": "Mayank G",
+      "createdDate": "2026-03-23T11:59:08.000Z",
+      "fileName": "genAiPlannerBundles/Agentforce_Sales_Development_Rep.genAiPlannerBundle",
+      "fullName": "Agentforce_Sales_Development_Rep",
+      "id": "16jUD0000005sW1YAI",
+      "lastModifiedById": "005UD00000ONYJcYAP",
+      "lastModifiedByName": "Mayank G",
+      "lastModifiedDate": "2026-03-23T11:59:08.000Z",
+      "manageableState": "unmanaged",
+      "type": "GenAiPlannerBundle"
+    },
+    {
+      "createdById": "005d1000002tlefAAA",
+      "createdByName": "Amit Kumar",
+      "createdDate": "2026-04-28T18:33:48.000Z",
+      "fileName": "genAiPlannerBundles/Astrum_BD_Agent.genAiPlannerBundle",
+      "fullName": "Astrum_BD_Agent",
+      "id": "16jUD00000061hNYAQ",
+      "lastModifiedById": "005d1000002tlefAAA",
+      "lastModifiedByName": "Amit Kumar",
+      "lastModifiedDate": "2026-05-11T05:16:46.000Z",
+      "manageableState": "unmanaged",
+      "type": "GenAiPlannerBundle"
+    },
+    {
+      "createdById": "005UD00000ONYJcYAP",
+      "createdByName": "Mayank G",
+      "createdDate": "2026-03-19T03:25:44.000Z",
+      "fileName": "genAiPlannerBundles/Sales_Representative_Agent.genAiPlannerBundle",
+      "fullName": "Sales_Representative_Agent",
+      "id": "16jUD0000005r5JYAQ",
+      "lastModifiedById": "005UD00000ONYJcYAP",
+      "lastModifiedByName": "Mayank G",
+      "lastModifiedDate": "2026-03-19T03:25:44.000Z",
+      "manageableState": "unmanaged",
+      "type": "GenAiPlannerBundle"
+    }
+  ],
+  "warnings": []
+}

@@ -1,0 +1,122 @@
+﻿{
+  "status": 0,
+  "result": {
+    "records": [
+      {
+        "attributes": {
+          "type": "SetupEntityAccess",
+          "url": "/services/data/v66.0/sobjects/SetupEntityAccess/0J0UD000004fg930AA"
+        },
+        "Id": "0J0UD000004fg930AA",
+        "Parent": {
+          "attributes": {
+            "type": "PermissionSet",
+            "url": "/services/data/v66.0/sobjects/PermissionSet/0PSUD00000107wz4AA"
+          },
+          "Name": "Astrum_BD_Agent_PS"
+        },
+        "SetupEntityId": "01pUD00000GTUCpYAP",
+        "SetupEntityType": "ApexClass"
+      },
+      {
+        "attributes": {
+          "type": "SetupEntityAccess",
+          "url": "/services/data/v66.0/sobjects/SetupEntityAccess/0J0UD000004fg940AA"
+        },
+        "Id": "0J0UD000004fg940AA",
+        "Parent": {
+          "attributes": {
+            "type": "PermissionSet",
+            "url": "/services/data/v66.0/sobjects/PermissionSet/0PSUD00000107wz4AA"
+          },
+          "Name": "Astrum_BD_Agent_PS"
+        },
+        "SetupEntityId": "01pUD00000GTUCnYAP",
+        "SetupEntityType": "ApexClass"
+      },
+      {
+        "attributes": {
+          "type": "SetupEntityAccess",
+          "url": "/services/data/v66.0/sobjects/SetupEntityAccess/0J0UD000004fg950AA"
+        },
+        "Id": "0J0UD000004fg950AA",
+        "Parent": {
+          "attributes": {
+            "type": "PermissionSet",
+            "url": "/services/data/v66.0/sobjects/PermissionSet/0PSUD00000107wz4AA"
+          },
+          "Name": "Astrum_BD_Agent_PS"
+        },
+        "SetupEntityId": "01pUD00000GTUCtYAP",
+        "SetupEntityType": "ApexClass"
+      },
+      {
+        "attributes": {
+          "type": "SetupEntityAccess",
+          "url": "/services/data/v66.0/sobjects/SetupEntityAccess/0J0UD000004fg960AA"
+        },
+        "Id": "0J0UD000004fg960AA",
+        "Parent": {
+          "attributes": {
+            "type": "PermissionSet",
+            "url": "/services/data/v66.0/sobjects/PermissionSet/0PSUD00000107wz4AA"
+          },
+          "Name": "Astrum_BD_Agent_PS"
+        },
+        "SetupEntityId": "01pUD00000GTUCrYAP",
+        "SetupEntityType": "ApexClass"
+      },
+      {
+        "attributes": {
+          "type": "SetupEntityAccess",
+          "url": "/services/data/v66.0/sobjects/SetupEntityAccess/0J0UD000004bGQ50AM"
+        },
+        "Id": "0J0UD000004bGQ50AM",
+        "Parent": {
+          "attributes": {
+            "type": "PermissionSet",
+            "url": "/services/data/v66.0/sobjects/PermissionSet/0PSUD00000107wz4AA"
+          },
+          "Name": "Astrum_BD_Agent_PS"
+        },
+        "SetupEntityId": "300UD00000QvVmUYAV",
+        "SetupEntityType": "FlowDefinition"
+      },
+      {
+        "attributes": {
+          "type": "SetupEntityAccess",
+          "url": "/services/data/v66.0/sobjects/SetupEntityAccess/0J0UD000004fgdh0AA"
+        },
+        "Id": "0J0UD000004fgdh0AA",
+        "Parent": {
+          "attributes": {
+            "type": "PermissionSet",
+            "url": "/services/data/v66.0/sobjects/PermissionSet/0PSUD00000107wz4AA"
+          },
+          "Name": "Astrum_BD_Agent_PS"
+        },
+        "SetupEntityId": "300UD00000R0z2MYAR",
+        "SetupEntityType": "FlowDefinition"
+      },
+      {
+        "attributes": {
+          "type": "SetupEntityAccess",
+          "url": "/services/data/v66.0/sobjects/SetupEntityAccess/0J0UD000004fgdi0AA"
+        },
+        "Id": "0J0UD000004fgdi0AA",
+        "Parent": {
+          "attributes": {
+            "type": "PermissionSet",
+            "url": "/services/data/v66.0/sobjects/PermissionSet/0PSUD00000107wz4AA"
+          },
+          "Name": "Astrum_BD_Agent_PS"
+        },
+        "SetupEntityId": "300UD00000R0z2LYAR",
+        "SetupEntityType": "FlowDefinition"
+      }
+    ],
+    "totalSize": 7,
+    "done": true
+  },
+  "warnings": []
+}
