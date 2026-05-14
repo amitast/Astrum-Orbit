@@ -1,0 +1,150 @@
+﻿{
+  "status": 0,
+  "result": {
+    "records": [
+      {
+        "attributes": {
+          "type": "FieldPermissions",
+          "url": "/services/data/v66.0/sobjects/FieldPermissions/01kUD00000dz8tZYAQ"
+        },
+        "Id": "01kUD00000dz8tZYAQ",
+        "Field": "Opportunity.Award_Date__c",
+        "PermissionsRead": true,
+        "PermissionsEdit": false
+      },
+      {
+        "attributes": {
+          "type": "FieldPermissions",
+          "url": "/services/data/v66.0/sobjects/FieldPermissions/01kUD00000dz8teYAA"
+        },
+        "Id": "01kUD00000dz8teYAA",
+        "Field": "Opportunity.Business_Category__c",
+        "PermissionsRead": true,
+        "PermissionsEdit": false
+      },
+      {
+        "attributes": {
+          "type": "FieldPermissions",
+          "url": "/services/data/v66.0/sobjects/FieldPermissions/01kUD00000dz8tRYAQ"
+        },
+        "Id": "01kUD00000dz8tRYAQ",
+        "Field": "Opportunity.Service_Fees__c",
+        "PermissionsRead": true,
+        "PermissionsEdit": false
+      },
+      {
+        "attributes": {
+          "type": "FieldPermissions",
+          "url": "/services/data/v66.0/sobjects/FieldPermissions/01kUD00000dz8tYYAQ"
+        },
+        "Id": "01kUD00000dz8tYYAQ",
+        "Field": "Opportunity.Date_of_next_specific_action__c",
+        "PermissionsRead": true,
+        "PermissionsEdit": true
+      },
+      {
+        "attributes": {
+          "type": "FieldPermissions",
+          "url": "/services/data/v66.0/sobjects/FieldPermissions/01kUD00000dz8tbYAA"
+        },
+        "Id": "01kUD00000dz8tbYAA",
+        "Field": "Opportunity.Next_specific_action__c",
+        "PermissionsRead": true,
+        "PermissionsEdit": true
+      },
+      {
+        "attributes": {
+          "type": "FieldPermissions",
+          "url": "/services/data/v66.0/sobjects/FieldPermissions/01kUD00000dz8tSYAQ"
+        },
+        "Id": "01kUD00000dz8tSYAQ",
+        "Field": "Opportunity.Person_responsible_for_next_action__c",
+        "PermissionsRead": true,
+        "PermissionsEdit": true
+      },
+      {
+        "attributes": {
+          "type": "FieldPermissions",
+          "url": "/services/data/v66.0/sobjects/FieldPermissions/01kUD00000dz8tUYAQ"
+        },
+        "Id": "01kUD00000dz8tUYAQ",
+        "Field": "Opportunity.Last_client_interaction_date__c",
+        "PermissionsRead": true,
+        "PermissionsEdit": false
+      },
+      {
+        "attributes": {
+          "type": "FieldPermissions",
+          "url": "/services/data/v66.0/sobjects/FieldPermissions/01kUD00000dz8tXYAQ"
+        },
+        "Id": "01kUD00000dz8tXYAQ",
+        "Field": "Opportunity.Therapeutic_Area__c",
+        "PermissionsRead": true,
+        "PermissionsEdit": false
+      },
+      {
+        "attributes": {
+          "type": "FieldPermissions",
+          "url": "/services/data/v66.0/sobjects/FieldPermissions/01kUD00000dz8tTYAQ"
+        },
+        "Id": "01kUD00000dz8tTYAQ",
+        "Field": "Opportunity.Study_Phase_Type__c",
+        "PermissionsRead": true,
+        "PermissionsEdit": false
+      },
+      {
+        "attributes": {
+          "type": "FieldPermissions",
+          "url": "/services/data/v66.0/sobjects/FieldPermissions/01kUD00000dz8tWYAQ"
+        },
+        "Id": "01kUD00000dz8tWYAQ",
+        "Field": "Opportunity.Opportunity_Code__c",
+        "PermissionsRead": true,
+        "PermissionsEdit": false
+      },
+      {
+        "attributes": {
+          "type": "FieldPermissions",
+          "url": "/services/data/v66.0/sobjects/FieldPermissions/01kUD00000dz8tdYAA"
+        },
+        "Id": "01kUD00000dz8tdYAA",
+        "Field": "Opportunity.Opp_Probability__c",
+        "PermissionsRead": true,
+        "PermissionsEdit": false
+      },
+      {
+        "attributes": {
+          "type": "FieldPermissions",
+          "url": "/services/data/v66.0/sobjects/FieldPermissions/01kUD00000dz8taYAA"
+        },
+        "Id": "01kUD00000dz8taYAA",
+        "Field": "Opportunity.AccountId",
+        "PermissionsRead": true,
+        "PermissionsEdit": false
+      },
+      {
+        "attributes": {
+          "type": "FieldPermissions",
+          "url": "/services/data/v66.0/sobjects/FieldPermissions/01kUD00000dz8tcYAA"
+        },
+        "Id": "01kUD00000dz8tcYAA",
+        "Field": "Opportunity.Amount",
+        "PermissionsRead": true,
+        "PermissionsEdit": false
+      },
+      {
+        "attributes": {
+          "type": "FieldPermissions",
+          "url": "/services/data/v66.0/sobjects/FieldPermissions/01kUD00000dz8tVYAQ"
+        },
+        "Id": "01kUD00000dz8tVYAQ",
+        "Field": "Opportunity.NextStep",
+        "PermissionsRead": true,
+        "PermissionsEdit": true
+      }
+    ],
+    "totalSize": 14,
+    "done": true
+  },
+  "warnings": []
+}

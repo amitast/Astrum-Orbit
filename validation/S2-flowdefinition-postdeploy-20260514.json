@@ -1,0 +1,30 @@
+﻿{
+  "status": 0,
+  "result": {
+    "records": [
+      {
+        "attributes": {
+          "type": "FlowDefinition",
+          "url": "/services/data/v66.0/tooling/sobjects/FlowDefinition/300UD00000RbHIUYA3"
+        },
+        "Id": "300UD00000RbHIUYA3",
+        "DeveloperName": "AGENT_CaptureNextSteps",
+        "ActiveVersionId": "301UD00000Wkc4iYAB",
+        "LatestVersionId": "301UD00000Wkc4iYAB"
+      },
+      {
+        "attributes": {
+          "type": "FlowDefinition",
+          "url": "/services/data/v66.0/tooling/sobjects/FlowDefinition/300UD00000RbHIVYA3"
+        },
+        "Id": "300UD00000RbHIVYA3",
+        "DeveloperName": "AGENT_UpdateOpportunityProgress",
+        "ActiveVersionId": "301UD00000Wkc4jYAB",
+        "LatestVersionId": "301UD00000Wkc4jYAB"
+      }
+    ],
+    "totalSize": 2,
+    "done": true
+  },
+  "warnings": []
+}

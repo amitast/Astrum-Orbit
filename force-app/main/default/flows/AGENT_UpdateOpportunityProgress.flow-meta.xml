@@ -1,0 +1,668 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <description>Agentforce autolaunched Flow for Subagent 2. Updates one Opportunity record&apos;s progress fields in user context after Agentforce Confirm HITL. No screens, no delete elements, and no record-triggered bypass decision because this is not record-triggered.</description>
+    <environments>Default</environments>
+    <interviewLabel>AGENT_UpdateOpportunityProgress {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>AGENT_UpdateOpportunityProgress</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <runInMode>DefaultMode</runInMode>
+    <start>
+        <locationX>176</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Opportunity</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <recordLookups>
+        <description>Retrieve the Opportunity record that the agent resolved before invoking this Flow. Runs in user context and respects the running user&apos;s record access.</description>
+        <label>Get Opportunity</label>
+        <locationX>176</locationX>
+        <locationY>120</locationY>
+        <name>Get_Opportunity</name>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Opportunity_Found</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>OpportunityId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Opportunity</object>
+        <outputReference>var_Opportunity</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>StageName</queriedFields>
+        <queriedFields>CloseDate</queriedFields>
+        <queriedFields>NextStep</queriedFields>
+        <queriedFields>Next_specific_action__c</queriedFields>
+        <queriedFields>Date_of_next_specific_action__c</queriedFields>
+        <queriedFields>Person_responsible_for_next_action__c</queriedFields>
+        <storeOutputAutomatically>false</storeOutputAutomatically>
+    </recordLookups>
+    <decisions>
+        <description>Exit cleanly when the Opportunity ID does not resolve to an accessible record.</description>
+        <label>Check Opportunity Found</label>
+        <locationX>176</locationX>
+        <locationY>240</locationY>
+        <name>Check_Opportunity_Found</name>
+        <defaultConnector>
+            <targetReference>Set_Fault_Opportunity_Not_Found</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Opportunity Not Found</defaultConnectorLabel>
+        <rules>
+            <name>Opportunity_Found</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_Opportunity.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Capture_Current_Values</targetReference>
+            </connector>
+            <label>Opportunity Found</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Detect whether the submitted CloseDate is in the past. This does not block the update; the agent uses the output to warn during Confirm HITL.</description>
+        <label>Check Close Date Is Past</label>
+        <locationX>176</locationX>
+        <locationY>480</locationY>
+        <name>Check_Close_Date_Is_Past</name>
+        <defaultConnector>
+            <targetReference>Check_New_Stage_Provided</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Date OK or Blank</defaultConnectorLabel>
+        <rules>
+            <name>Close_Date_Is_Past</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>NewCloseDate</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>NewCloseDate</leftValueReference>
+                <operator>LessThan</operator>
+                <rightValue>
+                    <elementReference>$Flow.CurrentDate</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Close_Date_Is_Past</targetReference>
+            </connector>
+            <label>Close Date Is Past</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Only assign StageName when the agent supplied a non-blank stage value. This prevents blank inputs from clearing current data.</description>
+        <label>Check New Stage Provided</label>
+        <locationX>176</locationX>
+        <locationY>720</locationY>
+        <name>Check_New_Stage_Provided</name>
+        <defaultConnector>
+            <targetReference>Check_New_Close_Date_Provided</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Stage Blank</defaultConnectorLabel>
+        <rules>
+            <name>Stage_Provided</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>NewStageName</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>NewStageName</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_New_Stage</targetReference>
+            </connector>
+            <label>Stage Provided</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Only assign CloseDate when the agent supplied a date.</description>
+        <label>Check New Close Date Provided</label>
+        <locationX>176</locationX>
+        <locationY>960</locationY>
+        <name>Check_New_Close_Date_Provided</name>
+        <defaultConnector>
+            <targetReference>Check_New_Next_Step_Provided</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Close Date Blank</defaultConnectorLabel>
+        <rules>
+            <name>Close_Date_Provided</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>NewCloseDate</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_New_Close_Date</targetReference>
+            </connector>
+            <label>Close Date Provided</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Only assign NextStep when the agent supplied a non-blank value.</description>
+        <label>Check New Next Step Provided</label>
+        <locationX>176</locationX>
+        <locationY>1200</locationY>
+        <name>Check_New_Next_Step_Provided</name>
+        <defaultConnector>
+            <targetReference>Check_New_Next_Specific_Action_Provided</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Next Step Blank</defaultConnectorLabel>
+        <rules>
+            <name>Next_Step_Provided</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>NewNextStep</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>NewNextStep</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_New_Next_Step</targetReference>
+            </connector>
+            <label>Next Step Provided</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Only assign Next Specific Action when the agent supplied a non-blank value.</description>
+        <label>Check New Next Specific Action Provided</label>
+        <locationX>176</locationX>
+        <locationY>1440</locationY>
+        <name>Check_New_Next_Specific_Action_Provided</name>
+        <defaultConnector>
+            <targetReference>Check_New_Date_Of_Next_Action_Provided</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Next Specific Action Blank</defaultConnectorLabel>
+        <rules>
+            <name>Next_Specific_Action_Provided</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>NewNextSpecificAction</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>NewNextSpecificAction</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_New_Next_Specific_Action</targetReference>
+            </connector>
+            <label>Next Specific Action Provided</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Only assign Date of Next Action when the agent supplied a date.</description>
+        <label>Check New Date Of Next Action Provided</label>
+        <locationX>176</locationX>
+        <locationY>1680</locationY>
+        <name>Check_New_Date_Of_Next_Action_Provided</name>
+        <defaultConnector>
+            <targetReference>Check_New_Person_Responsible_Provided</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Date of Next Action Blank</defaultConnectorLabel>
+        <rules>
+            <name>Date_Of_Next_Action_Provided</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>NewDateOfNextAction</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_New_Date_Of_Next_Action</targetReference>
+            </connector>
+            <label>Date of Next Action Provided</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Only assign Person Responsible when the agent supplied a non-blank value.</description>
+        <label>Check New Person Responsible Provided</label>
+        <locationX>176</locationX>
+        <locationY>1920</locationY>
+        <name>Check_New_Person_Responsible_Provided</name>
+        <defaultConnector>
+            <targetReference>Update_Opportunity</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Person Responsible Blank</defaultConnectorLabel>
+        <rules>
+            <name>Person_Responsible_Provided</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>NewPersonResponsible</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>NewPersonResponsible</leftValueReference>
+                <operator>NotEqualTo</operator>
+                <rightValue>
+                    <stringValue></stringValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Assign_New_Person_Responsible</targetReference>
+            </connector>
+            <label>Person Responsible Provided</label>
+        </rules>
+    </decisions>
+    <assignments>
+        <description>Capture current Opportunity values for the agent confirmation display before any changes are assigned.</description>
+        <label>Capture Current Values</label>
+        <locationX>176</locationX>
+        <locationY>360</locationY>
+        <name>Capture_Current_Values</name>
+        <assignmentItems>
+            <assignToReference>CurrentStageName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_Opportunity.StageName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CurrentCloseDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_Opportunity.CloseDate</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CurrentNextStep</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_Opportunity.NextStep</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>UpdatedOpportunityName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_Opportunity.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_Close_Date_Is_Past</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Set the past-close-date warning output and continue to the update path.</description>
+        <label>Set Close Date Is Past</label>
+        <locationX>440</locationX>
+        <locationY>600</locationY>
+        <name>Set_Close_Date_Is_Past</name>
+        <assignmentItems>
+            <assignToReference>CloseDateIsPast</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_New_Stage_Provided</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assign the proposed stage to the update record variable.</description>
+        <label>Assign New Stage</label>
+        <locationX>440</locationX>
+        <locationY>840</locationY>
+        <name>Assign_New_Stage</name>
+        <assignmentItems>
+            <assignToReference>var_Opportunity.StageName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>NewStageName</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_New_Close_Date_Provided</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assign the proposed close date to the update record variable.</description>
+        <label>Assign New Close Date</label>
+        <locationX>440</locationX>
+        <locationY>1080</locationY>
+        <name>Assign_New_Close_Date</name>
+        <assignmentItems>
+            <assignToReference>var_Opportunity.CloseDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>NewCloseDate</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_New_Next_Step_Provided</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assign the proposed standard NextStep value to the update record variable.</description>
+        <label>Assign New Next Step</label>
+        <locationX>440</locationX>
+        <locationY>1320</locationY>
+        <name>Assign_New_Next_Step</name>
+        <assignmentItems>
+            <assignToReference>var_Opportunity.NextStep</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>NewNextStep</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_New_Next_Specific_Action_Provided</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assign the proposed custom next specific action to the update record variable.</description>
+        <label>Assign New Next Specific Action</label>
+        <locationX>440</locationX>
+        <locationY>1560</locationY>
+        <name>Assign_New_Next_Specific_Action</name>
+        <assignmentItems>
+            <assignToReference>var_Opportunity.Next_specific_action__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>NewNextSpecificAction</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_New_Date_Of_Next_Action_Provided</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assign the proposed date of next action to the update record variable.</description>
+        <label>Assign New Date Of Next Action</label>
+        <locationX>440</locationX>
+        <locationY>1800</locationY>
+        <name>Assign_New_Date_Of_Next_Action</name>
+        <assignmentItems>
+            <assignToReference>var_Opportunity.Date_of_next_specific_action__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>NewDateOfNextAction</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_New_Person_Responsible_Provided</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Assign the proposed responsible person to the update record variable.</description>
+        <label>Assign New Person Responsible</label>
+        <locationX>440</locationX>
+        <locationY>2040</locationY>
+        <name>Assign_New_Person_Responsible</name>
+        <assignmentItems>
+            <assignToReference>var_Opportunity.Person_responsible_for_next_action__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>NewPersonResponsible</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Update_Opportunity</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Set outputs when the Opportunity ID is missing or not accessible.</description>
+        <label>Set Fault - Opportunity Not Found</label>
+        <locationX>44</locationX>
+        <locationY>360</locationY>
+        <name>Set_Fault_Opportunity_Not_Found</name>
+        <assignmentItems>
+            <assignToReference>Success</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Opportunity record not found or not accessible. Verify the opportunity ID and your record access.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>Set success outputs after the single Opportunity update completes.</description>
+        <label>Set Success Outputs</label>
+        <locationX>176</locationX>
+        <locationY>2280</locationY>
+        <name>Set_Success_Outputs</name>
+        <assignmentItems>
+            <assignToReference>Success</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>UpdatedOpportunityName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_Opportunity.Name</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>Capture the update fault message without rethrowing. The agent receives the error and can ask the user to retry or escalate.</description>
+        <label>Set Fault - Update Failed</label>
+        <locationX>440</locationX>
+        <locationY>2280</locationY>
+        <name>Set_Fault_Update_Failed</name>
+        <assignmentItems>
+            <assignToReference>Success</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <recordUpdates>
+        <description>Update exactly one retrieved Opportunity record after assigning only the non-blank agent inputs to the SObject variable. No delete, no bulk DML.</description>
+        <label>Update Opportunity</label>
+        <locationX>176</locationX>
+        <locationY>2160</locationY>
+        <name>Update_Opportunity</name>
+        <connector>
+            <targetReference>Set_Success_Outputs</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Set_Fault_Update_Failed</targetReference>
+        </faultConnector>
+        <inputReference>var_Opportunity</inputReference>
+    </recordUpdates>
+    <variables>
+        <description>18-character Salesforce Record ID of the Opportunity to update.</description>
+        <name>OpportunityId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Optional new StageName value. Must match an active Opportunity stage value.</description>
+        <name>NewStageName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Optional new CloseDate value. If it is in the past, CloseDateIsPast is returned as true but the update is not blocked by the Flow.</description>
+        <name>NewCloseDate</name>
+        <dataType>Date</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Optional new value for standard Opportunity.NextStep.</description>
+        <name>NewNextStep</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Optional new value for Opportunity.Next_specific_action__c.</description>
+        <name>NewNextSpecificAction</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Optional new value for Opportunity.Date_of_next_specific_action__c.</description>
+        <name>NewDateOfNextAction</name>
+        <dataType>Date</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Optional new value for Opportunity.Person_responsible_for_next_action__c.</description>
+        <name>NewPersonResponsible</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>True if the Opportunity update completed successfully.</description>
+        <name>Success</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>True when NewCloseDate is populated and earlier than the current date. Agentforce must surface a warning in Confirm HITL.</description>
+        <name>CloseDateIsPast</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>Opportunity name returned for confirmation display.</description>
+        <name>UpdatedOpportunityName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>StageName before the update.</description>
+        <name>CurrentStageName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>CloseDate before the update.</description>
+        <name>CurrentCloseDate</name>
+        <dataType>Date</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>NextStep before the update.</description>
+        <name>CurrentNextStep</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>Error message returned when Success is false.</description>
+        <name>ErrorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>Opportunity record retrieved and updated by the Flow.</description>
+        <name>var_Opportunity</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Opportunity</objectType>
+    </variables>
+</Flow>

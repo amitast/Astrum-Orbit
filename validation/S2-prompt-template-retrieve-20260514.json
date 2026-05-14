@@ -1,0 +1,47 @@
+﻿{
+  "status": 0,
+  "result": {
+    "done": true,
+    "fileProperties": [
+      {
+        "createdById": "005d1000002tlefAAA",
+        "createdByName": "Amit Kumar",
+        "createdDate": "2026-05-14T09:03:35.000Z",
+        "fileName": "unpackaged/genAiPromptTemplates/AGENT_OpportunityStatusSummary.genAiPromptTemplate",
+        "fullName": "AGENT_OpportunityStatusSummary",
+        "id": "0hfUD000000h2JVYAY",
+        "lastModifiedById": "005d1000002tlefAAA",
+        "lastModifiedByName": "Amit Kumar",
+        "lastModifiedDate": "2026-05-14T09:03:36.000Z",
+        "manageableState": "unmanaged",
+        "type": "GenAiPromptTemplate"
+      },
+      {
+        "createdById": "005d1000002tlefAAA",
+        "createdByName": "Amit Kumar",
+        "createdDate": "2026-05-14T09:15:38.451Z",
+        "fileName": "unpackaged/package.xml",
+        "fullName": "unpackaged/package.xml",
+        "id": "",
+        "lastModifiedById": "005d1000002tlefAAA",
+        "lastModifiedByName": "Amit Kumar",
+        "lastModifiedDate": "2026-05-14T09:15:38.451Z",
+        "manageableState": "unmanaged",
+        "type": "Package"
+      }
+    ],
+    "id": "09SUD00000JBAty2AH",
+    "status": "Succeeded",
+    "success": true,
+    "messages": [],
+    "files": [
+      {
+        "fullName": "AGENT_OpportunityStatusSummary",
+        "type": "GenAiPromptTemplate",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPromptTemplates\\AGENT_OpportunityStatusSummary.genAiPromptTemplate-meta.xml"
+      }
+    ]
+  },
+  "warnings": []
+}

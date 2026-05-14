@@ -1,0 +1,5 @@
+{
+  "status": 1,
+  "result": "NOT_AVAILABLE",
+  "message": "Salesforce Scanner is not installed in this CLI. Command returned: scanner run is not a sf command."
+}
