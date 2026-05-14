@@ -1,0 +1,12 @@
+{
+  "status": 0,
+  "result": {
+    "orgId": "00DUD000007zF692AE",
+    "url": "REDACTED_FRONTDOOR_OTP_URL",
+    "username": "amit.kumar@astrumcro.com.astrumpar",
+    "note": "sf org open agent --url-only succeeded for Astrum_BD_Agent, but the returned URL contained a frontdoor OTP and was redacted immediately."
+  },
+  "warnings": [
+    "Sensitive frontdoor URL redacted. Do not store or share session-bearing org open URLs."
+  ]
+}

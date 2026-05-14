@@ -1,0 +1,20 @@
+﻿{
+  "status": 0,
+  "result": {
+    "records": [
+      {
+        "attributes": {
+          "type": "Organization",
+          "url": "/services/data/v66.0/sobjects/Organization/00DUD000007zF692AE"
+        },
+        "Id": "00DUD000007zF692AE",
+        "Name": "ASTRUM CRO, SL",
+        "IsSandbox": true,
+        "InstanceName": "SWE92S"
+      }
+    ],
+    "totalSize": 1,
+    "done": true
+  },
+  "warnings": []
+}
