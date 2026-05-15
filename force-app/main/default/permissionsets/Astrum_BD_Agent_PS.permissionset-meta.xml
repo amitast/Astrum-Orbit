@@ -230,6 +230,10 @@
     </flowAccesses>
     <flowAccesses>
         <enabled>true</enabled>
+        <flow>AGENT_CheckOpportunityUpdateRisk</flow>
+    </flowAccesses>
+    <flowAccesses>
+        <enabled>true</enabled>
         <flow>AGENT_UpdateOpportunityProgress</flow>
     </flowAccesses>
     <hasActivationRequired>false</hasActivationRequired>

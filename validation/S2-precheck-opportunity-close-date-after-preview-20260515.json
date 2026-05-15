@@ -1,0 +1,19 @@
+﻿{
+  "status": 0,
+  "result": {
+    "records": [
+      {
+        "attributes": {
+          "type": "Opportunity",
+          "url": "/services/data/v66.0/sobjects/Opportunity/006UD00000FzGaLYAV"
+        },
+        "Id": "006UD00000FzGaLYAV",
+        "Name": "Phase 2 - Global - Oncology - CO1",
+        "CloseDate": "2046-08-16"
+      }
+    ],
+    "totalSize": 1,
+    "done": true
+  },
+  "warnings": []
+}

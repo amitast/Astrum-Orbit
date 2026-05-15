@@ -1,0 +1,20 @@
+﻿{
+  "status": 0,
+  "result": {
+    "records": [
+      {
+        "attributes": {
+          "type": "FlowDefinition",
+          "url": "/services/data/v66.0/tooling/sobjects/FlowDefinition/300UD00000Rdv3lYAB"
+        },
+        "Id": "300UD00000Rdv3lYAB",
+        "DeveloperName": "AGENT_CheckOpportunityUpdateRisk",
+        "ActiveVersionId": "301UD00000WoDCaYAN",
+        "LatestVersionId": "301UD00000WoDCaYAN"
+      }
+    ],
+    "totalSize": 1,
+    "done": true
+  },
+  "warnings": []
+}

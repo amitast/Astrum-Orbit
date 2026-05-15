@@ -205,9 +205,36 @@ subagent opportunity_management:
             require_user_confirmation: True
             target: "apex://AGENT_CreateOpportunity"
 
+        check_opportunity_update_risk:
+            label: "Check Opportunity Update Risk"
+            description: "Read-only precheck for one Opportunity before Update Opportunity Progress Confirm HITL. Retrieves current stage, close date, next step, and Opportunity name, and returns CloseDateIsPast when the proposed close date is earlier than the current date. No DML occurs."
+            inputs:
+                OpportunityId: string
+                    description: "Salesforce Opportunity Id to check."
+                    is_required: True
+                ProposedCloseDate: date
+                    description: "Proposed close date to evaluate before confirmation."
+                    is_required: False
+            outputs:
+                CloseDateIsPast: boolean
+                    description: "True when ProposedCloseDate is populated and earlier than the current date."
+                CurrentStageName: string
+                    description: "Current Opportunity stage."
+                CurrentCloseDate: date
+                    description: "Current Opportunity close date."
+                CurrentNextStep: string
+                    description: "Current Opportunity next step."
+                OpportunityName: string
+                    description: "Opportunity name."
+                Success: boolean
+                    description: "Whether the Opportunity was found and the check completed."
+                ErrorMessage: string
+                    description: "Clear error message if the check cannot complete."
+            target: "flow://AGENT_CheckOpportunityUpdateRisk"
+
         update_opportunity_progress:
             label: "Update Opportunity Progress"
-            description: "Update one Opportunity's stage, close date, next step, next specific action, next action date, or responsible person after user confirmation. Current validation date is 2026-05-15. If NewCloseDate is earlier than 2026-05-15, the confirmation prompt must explicitly warn that the proposed close date is in the past."
+            description: "Update one Opportunity's stage, close date, next step, next specific action, next action date, or responsible person after user confirmation. Before using this action for stage or close-date changes, call Check Opportunity Update Risk. If CloseDateIsPast is true, the confirmation prompt must explicitly warn that the proposed close date is in the past."
             inputs:
                 OpportunityId: string
                     description: "Salesforce Opportunity Id to update."
@@ -325,9 +352,9 @@ subagent opportunity_management:
               Never delete an Opportunity. If the user asks to delete a deal, explain that deletion is outside scope and must be handled by a Salesforce administrator.
               Never use standard Probability or Probability__c. Use only Opp_Probability__c when discussing probability.
               Never pass D365_Opportunity_Notes__c, Description, migration notes, raw long text fields, or external web data into a summary.
-              For stage or close-date changes, use Update Opportunity Progress and require Confirm HITL before saving.
-              For this validation run, today's date is 2026-05-15.
-              If the proposed close date is earlier than today's date, explicitly warn the user that the proposed close date is in the past before asking for confirmation.
+              For stage or close-date changes, first use Check Opportunity Update Risk to retrieve current stage, close date, next step, and proposed close-date risk without writing data.
+              If Check Opportunity Update Risk returns CloseDateIsPast = true, explicitly warn the user that the proposed close date is in the past before asking for Update Opportunity Progress confirmation.
+              After the precheck and warning, use Update Opportunity Progress and require Confirm HITL before saving.
               For next-step-only changes, use Capture Next Steps and require Confirm HITL before saving.
               When stage is progressed, ask for next step information if the user has not provided it.
               When the user asks for a pipeline hygiene report, overdue deal list, missing data report, or cross-record quality check, route or redirect to Data Quality and Hygiene.
@@ -366,6 +393,9 @@ subagent opportunity_management:
                 with Amount=...
                 with ServiceFees=...
                 with NextStep=...
+            check_opportunity_update_risk: @actions.check_opportunity_update_risk
+                with OpportunityId=...
+                with ProposedCloseDate=...
             update_opportunity_progress: @actions.update_opportunity_progress
                 with OpportunityId=...
                 with NewStageName=...

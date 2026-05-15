@@ -1,0 +1,106 @@
+﻿{
+  "status": 0,
+  "result": {
+    "records": [
+      {
+        "attributes": {
+          "type": "SetupEntityAccess",
+          "url": "/services/data/v66.0/sobjects/SetupEntityAccess/0J0UD000004bGQ50AM"
+        },
+        "Id": "0J0UD000004bGQ50AM",
+        "Parent": {
+          "attributes": {
+            "type": "PermissionSet",
+            "url": "/services/data/v66.0/sobjects/PermissionSet/0PSUD00000107wz4AA"
+          },
+          "Name": "Astrum_BD_Agent_PS"
+        },
+        "SetupEntityId": "300UD00000QvVmUYAV",
+        "SetupEntityType": "FlowDefinition"
+      },
+      {
+        "attributes": {
+          "type": "SetupEntityAccess",
+          "url": "/services/data/v66.0/sobjects/SetupEntityAccess/0J0UD000004fgdh0AA"
+        },
+        "Id": "0J0UD000004fgdh0AA",
+        "Parent": {
+          "attributes": {
+            "type": "PermissionSet",
+            "url": "/services/data/v66.0/sobjects/PermissionSet/0PSUD00000107wz4AA"
+          },
+          "Name": "Astrum_BD_Agent_PS"
+        },
+        "SetupEntityId": "300UD00000R0z2MYAR",
+        "SetupEntityType": "FlowDefinition"
+      },
+      {
+        "attributes": {
+          "type": "SetupEntityAccess",
+          "url": "/services/data/v66.0/sobjects/SetupEntityAccess/0J0UD000004fgdi0AA"
+        },
+        "Id": "0J0UD000004fgdi0AA",
+        "Parent": {
+          "attributes": {
+            "type": "PermissionSet",
+            "url": "/services/data/v66.0/sobjects/PermissionSet/0PSUD00000107wz4AA"
+          },
+          "Name": "Astrum_BD_Agent_PS"
+        },
+        "SetupEntityId": "300UD00000R0z2LYAR",
+        "SetupEntityType": "FlowDefinition"
+      },
+      {
+        "attributes": {
+          "type": "SetupEntityAccess",
+          "url": "/services/data/v66.0/sobjects/SetupEntityAccess/0J0UD000004kkK50AI"
+        },
+        "Id": "0J0UD000004kkK50AI",
+        "Parent": {
+          "attributes": {
+            "type": "PermissionSet",
+            "url": "/services/data/v66.0/sobjects/PermissionSet/0PSUD00000107wz4AA"
+          },
+          "Name": "Astrum_BD_Agent_PS"
+        },
+        "SetupEntityId": "300UD00000RbHIVYA3",
+        "SetupEntityType": "FlowDefinition"
+      },
+      {
+        "attributes": {
+          "type": "SetupEntityAccess",
+          "url": "/services/data/v66.0/sobjects/SetupEntityAccess/0J0UD000004kkK60AI"
+        },
+        "Id": "0J0UD000004kkK60AI",
+        "Parent": {
+          "attributes": {
+            "type": "PermissionSet",
+            "url": "/services/data/v66.0/sobjects/PermissionSet/0PSUD00000107wz4AA"
+          },
+          "Name": "Astrum_BD_Agent_PS"
+        },
+        "SetupEntityId": "300UD00000RbHIUYA3",
+        "SetupEntityType": "FlowDefinition"
+      },
+      {
+        "attributes": {
+          "type": "SetupEntityAccess",
+          "url": "/services/data/v66.0/sobjects/SetupEntityAccess/0J0UD000004lLoH0AU"
+        },
+        "Id": "0J0UD000004lLoH0AU",
+        "Parent": {
+          "attributes": {
+            "type": "PermissionSet",
+            "url": "/services/data/v66.0/sobjects/PermissionSet/0PSUD00000107wz4AA"
+          },
+          "Name": "Astrum_BD_Agent_PS"
+        },
+        "SetupEntityId": "300UD00000Rdv3lYAB",
+        "SetupEntityType": "FlowDefinition"
+      }
+    ],
+    "totalSize": 6,
+    "done": true
+  },
+  "warnings": []
+}

@@ -415,14 +415,14 @@ Do not use this topic for account or contact management, cross-pipeline hygiene 
             <sortOrder>5</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
-            <description>For stage or close-date changes, use Update Opportunity Progress and require Confirm HITL before saving.</description>
+            <description>For stage or close-date changes, first call Check Opportunity Update Risk to retrieve current values and evaluate the proposed close date. Then use Update Opportunity Progress and require Confirm HITL before saving.</description>
             <developerName>confirm_progress_updates</developerName>
             <language>en_US</language>
             <masterLabel>Confirm progress updates</masterLabel>
             <sortOrder>6</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
-            <description>If the proposed close date is in the past and the Flow returns CloseDateIsPast = true, warn the user that the proposed close date has already passed and require explicit confirmation before proceeding.</description>
+            <description>If Check Opportunity Update Risk returns CloseDateIsPast = true, warn the user that the proposed close date has already passed before presenting the Update Opportunity Progress Confirm HITL prompt.</description>
             <developerName>warn_past_close_date</developerName>
             <language>en_US</language>
             <masterLabel>Warn past close date</masterLabel>
@@ -474,6 +474,9 @@ Do not use this topic for account or contact management, cross-pipeline hygiene 
             <functionName>Create_Opportunity</functionName>
         </localActionLinks>
         <localActionLinks>
+            <functionName>Check_Opportunity_Update_Risk</functionName>
+        </localActionLinks>
+        <localActionLinks>
             <functionName>Update_Opportunity_Progress</functionName>
         </localActionLinks>
         <localActionLinks>
@@ -519,8 +522,20 @@ Do not use this topic for account or contact management, cross-pipeline hygiene 
             <progressIndicatorMessage>Creating opportunity</progressIndicatorMessage>
         </localActions>
         <localActions>
+            <fullName>Check_Opportunity_Update_Risk</fullName>
+            <description>Read-only precheck for one Opportunity before Update Opportunity Progress Confirm HITL. Retrieves current stage, close date, next step, and Opportunity name, and returns CloseDateIsPast when the proposed close date is earlier than the current date. No DML, no screen, no delete, no bulk update.</description>
+            <developerName>Check_Opportunity_Update_Risk</developerName>
+            <invocationTarget>AGENT_CheckOpportunityUpdateRisk</invocationTarget>
+            <invocationTargetType>flow</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Check_Opportunity_Update_Risk</localDeveloperName>
+            <masterLabel>Check Opportunity Update Risk</masterLabel>
+            <progressIndicatorMessage>Checking opportunity update risk</progressIndicatorMessage>
+        </localActions>
+        <localActions>
             <fullName>Update_Opportunity_Progress</fullName>
-            <description>Update stage, close date, and next-step progress fields on one existing Opportunity. Requires explicit user confirmation before any save. If CloseDateIsPast is true, warn the user before confirming. Never use this action for bulk updates.</description>
+            <description>Update stage, close date, and next-step progress fields on one existing Opportunity. Requires explicit user confirmation before any save. Before using this action for stage or close-date changes, call Check Opportunity Update Risk. If that action returns CloseDateIsPast = true, warn the user before this confirmation prompt. Never use this action for bulk updates.</description>
             <developerName>Update_Opportunity_Progress</developerName>
             <invocationTarget>AGENT_UpdateOpportunityProgress</invocationTarget>
             <invocationTargetType>flow</invocationTargetType>

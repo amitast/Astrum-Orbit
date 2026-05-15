@@ -1,0 +1,229 @@
+﻿{
+  "status": 0,
+  "result": {
+    "checkOnly": false,
+    "completedDate": "2026-05-15T06:10:58.000Z",
+    "createdBy": "005d1000002tlef",
+    "createdByName": "Amit Kumar",
+    "createdDate": "2026-05-15T06:10:07.000Z",
+    "details": {
+      "componentSuccesses": [
+        {
+          "changed": true,
+          "componentType": "Flow",
+          "created": true,
+          "createdDate": "2026-05-15T06:10:56.000Z",
+          "deleted": false,
+          "fileName": "flows/AGENT_CheckOpportunityUpdateRisk.flow",
+          "fullName": "AGENT_CheckOpportunityUpdateRisk",
+          "id": "301UD00000WoDCaYAN",
+          "success": true
+        },
+        {
+          "changed": true,
+          "componentType": "PermissionSet",
+          "created": false,
+          "createdDate": "2026-05-15T06:10:57.000Z",
+          "deleted": false,
+          "fileName": "permissionsets/Astrum_BD_Agent_PS.permissionset",
+          "fullName": "Astrum_BD_Agent_PS",
+          "id": "0PSUD00000107wz4AA",
+          "success": true
+        },
+        {
+          "changed": true,
+          "componentType": "GenAiPlannerBundle",
+          "created": false,
+          "createdDate": "2026-05-15T06:10:57.000Z",
+          "deleted": false,
+          "fileName": "genAiPlannerBundles/Astrum_BD_Agent.genAiPlannerBundle",
+          "fullName": "Astrum_BD_Agent",
+          "id": "16jUD00000061hNYAQ",
+          "success": true
+        },
+        {
+          "changed": true,
+          "componentType": "",
+          "created": false,
+          "createdDate": "2026-05-15T06:10:57.000Z",
+          "deleted": false,
+          "fileName": "package.xml",
+          "fullName": "package.xml",
+          "success": true
+        }
+      ],
+      "runTestResult": {
+        "numFailures": 0,
+        "numTestsRun": 0,
+        "totalTime": 0,
+        "codeCoverage": [],
+        "codeCoverageWarnings": [],
+        "failures": [],
+        "flowCoverage": [],
+        "flowCoverageWarnings": [],
+        "successes": []
+      },
+      "componentFailures": []
+    },
+    "done": true,
+    "id": "0AfUD00000H4DT80AN",
+    "ignoreWarnings": false,
+    "lastModifiedDate": "2026-05-15T06:10:58.000Z",
+    "numberComponentErrors": 0,
+    "numberComponentsDeployed": 3,
+    "numberComponentsTotal": 3,
+    "numberFiles": "61",
+    "numberTestErrors": 0,
+    "numberTestsCompleted": 0,
+    "numberTestsTotal": 0,
+    "rollbackOnError": true,
+    "runTestsEnabled": false,
+    "startDate": "2026-05-15T06:10:21.000Z",
+    "status": "Succeeded",
+    "success": true,
+    "zipSize": 37432,
+    "files": [
+      {
+        "fullName": "AGENT_CheckOpportunityUpdateRisk",
+        "type": "Flow",
+        "state": "Created",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\flows\\AGENT_CheckOpportunityUpdateRisk.flow-meta.xml"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\Astrum_BD_Agent.genAiPlannerBundle"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\localActions\\Account_and_Contact_Management\\Create_Contact_with_Duplicate_Check\\input\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\localActions\\Account_and_Contact_Management\\Create_Contact_with_Duplicate_Check\\output\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\localActions\\Account_and_Contact_Management\\Generate_Account_Intelligence_Summary\\input\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\localActions\\Account_and_Contact_Management\\Generate_Account_Intelligence_Summary\\output\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\localActions\\Account_and_Contact_Management\\Generate_Account_Intelligence_Summary_179UD000000mHPx\\input\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\localActions\\Account_and_Contact_Management\\Generate_Account_Intelligence_Summary_179UD000000mHPx\\output\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\localActions\\Account_and_Contact_Management\\Get_Account_Details\\input\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\localActions\\Account_and_Contact_Management\\Get_Account_Details\\output\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\localActions\\Account_and_Contact_Management\\Get_Contact_Details\\input\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\localActions\\Account_and_Contact_Management\\Get_Contact_Details\\output\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\localActions\\Account_and_Contact_Management\\Search_Accounts\\input\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\localActions\\Account_and_Contact_Management\\Search_Accounts\\output\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\localActions\\Account_and_Contact_Management\\Search_Contacts\\input\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\localActions\\Account_and_Contact_Management\\Search_Contacts\\output\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\localActions\\Account_and_Contact_Management\\Update_Account_Field\\input\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\localActions\\Account_and_Contact_Management\\Update_Account_Field\\output\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\localActions\\Account_and_Contact_Management\\Update_Contact_Field\\input\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\localActions\\Account_and_Contact_Management\\Update_Contact_Field\\output\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\plannerActions\\AnswerQuestionsWithKnowledge_16jUD00000061hN\\input\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent",
+        "type": "GenAiPlannerBundle",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\genAiPlannerBundles\\Astrum_BD_Agent\\plannerActions\\AnswerQuestionsWithKnowledge_16jUD00000061hN\\output\\schema.json"
+      },
+      {
+        "fullName": "Astrum_BD_Agent_PS",
+        "type": "PermissionSet",
+        "state": "Changed",
+        "filePath": "C:\\Users\\Amit Asthana\\my-ai-project\\force-app\\main\\default\\permissionsets\\Astrum_BD_Agent_PS.permissionset-meta.xml"
+      }
+    ],
+    "zipFileCount": 24,
+    "deployUrl": "https://astrum--astrumpar.sandbox.my.salesforce.com/lightning/setup/DeployStatus/page?address=%2Fchangemgmt%2FmonitorDeploymentsDetails.apexp%3FasyncId%3D0AfUD00000H4DT80AN%26retURL%3D%252Fchangemgmt%252FmonitorDeployment.apexp"
+  },
+  "warnings": []
+}

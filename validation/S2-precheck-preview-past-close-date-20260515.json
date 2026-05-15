@@ -1,0 +1,21 @@
+﻿{
+  "status": 0,
+  "result": {
+    "messages": [
+      {
+        "type": "Inform",
+        "id": "3d03a339bc1940e98554716776449df0",
+        "metrics": {},
+        "feedbackId": "aa52dc2d-5cd1-42fe-b2a4-dcf2e060688e",
+        "planId": "aa52dc2d-5cd1-42fe-b2a4-dcf2e060688e",
+        "isContentSafe": true,
+        "message": "The current close date for \"Phase 2 - Global - Oncology - CO1\" is 16 August 2046. You requested to change it to 1 January 2026.\n\nWarning: The proposed close date is in the past compared to today (15 May 2026). This may impact reporting and pipeline accuracy.\n\nDo you want to proceed and update the close date to 1 January 2026? Please confirm before I save the change.",
+        "result": [],
+        "citedReferences": []
+      }
+    ],
+    "agentApiName": "Astrum_BD_Agent_S2_Runtime",
+    "sessionId": "0482e7b9-0dfe-4059-8a0f-2c14c618da6b"
+  },
+  "warnings": []
+}

@@ -1,0 +1,297 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>66.0</apiVersion>
+    <description>Agentforce autolaunched Flow for Subagent 2. Read-only precheck called before AGENT_UpdateOpportunityProgress Confirm HITL. Queries current Opportunity values and evaluates whether the proposed close date is in the past. No DML, no screens, no record-triggered bypass decision.</description>
+    <environments>Default</environments>
+    <interviewLabel>AGENT_CheckOpportunityUpdateRisk {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>AGENT_CheckOpportunityUpdateRisk</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <runInMode>DefaultMode</runInMode>
+    <start>
+        <locationX>176</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Get_Opportunity</targetReference>
+        </connector>
+    </start>
+    <status>Active</status>
+    <recordLookups>
+        <description>Retrieve the Opportunity record to check. Runs in user context and respects running user record access.</description>
+        <label>Get Opportunity</label>
+        <locationX>176</locationX>
+        <locationY>120</locationY>
+        <name>Get_Opportunity</name>
+        <assignNullValuesIfNoRecordsFound>true</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Check_Opportunity_Found</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>OpportunityId</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Opportunity</object>
+        <outputReference>var_Opportunity</outputReference>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <queriedFields>StageName</queriedFields>
+        <queriedFields>CloseDate</queriedFields>
+        <queriedFields>NextStep</queriedFields>
+        <storeOutputAutomatically>false</storeOutputAutomatically>
+    </recordLookups>
+    <decisions>
+        <description>Exit cleanly when the Opportunity ID does not resolve to an accessible record.</description>
+        <label>Check Opportunity Found</label>
+        <locationX>176</locationX>
+        <locationY>240</locationY>
+        <name>Check_Opportunity_Found</name>
+        <defaultConnector>
+            <targetReference>Set_Fault_Opportunity_Not_Found</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Opportunity Not Found</defaultConnectorLabel>
+        <rules>
+            <name>Opportunity_Found</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>var_Opportunity.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Capture_Current_Values</targetReference>
+            </connector>
+            <label>Opportunity Found</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <description>Evaluate whether the proposed close date is in the past. Does not block any update; output used by the agent to warn before Confirm HITL.</description>
+        <label>Check Close Date Is Past</label>
+        <locationX>176</locationX>
+        <locationY>480</locationY>
+        <name>Check_Close_Date_Is_Past</name>
+        <defaultConnector>
+            <targetReference>Set_Success</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Date OK or Blank</defaultConnectorLabel>
+        <rules>
+            <name>Close_Date_Is_Past</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>ProposedCloseDate</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>ProposedCloseDate</leftValueReference>
+                <operator>LessThan</operator>
+                <rightValue>
+                    <elementReference>$Flow.CurrentDate</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Set_Close_Date_Is_Past</targetReference>
+            </connector>
+            <label>Close Date Is Past</label>
+        </rules>
+    </decisions>
+    <assignments>
+        <description>Set outputs when the Opportunity ID is missing or not accessible.</description>
+        <label>Set Fault - Opportunity Not Found</label>
+        <locationX>44</locationX>
+        <locationY>360</locationY>
+        <name>Set_Fault_Opportunity_Not_Found</name>
+        <assignmentItems>
+            <assignToReference>Success</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>false</booleanValue>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>ErrorMessage</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <stringValue>Opportunity record not found or not accessible. Verify the opportunity ID and your record access.</stringValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <assignments>
+        <description>Copy current Opportunity field values to output variables before the date check.</description>
+        <label>Capture Current Values</label>
+        <locationX>176</locationX>
+        <locationY>360</locationY>
+        <name>Capture_Current_Values</name>
+        <assignmentItems>
+            <assignToReference>CurrentStageName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_Opportunity.StageName</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CurrentCloseDate</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_Opportunity.CloseDate</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>CurrentNextStep</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_Opportunity.NextStep</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>OpportunityName</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>var_Opportunity.Name</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Check_Close_Date_Is_Past</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Record that the proposed close date is in the past and continue to success.</description>
+        <label>Set Close Date Is Past</label>
+        <locationX>440</locationX>
+        <locationY>600</locationY>
+        <name>Set_Close_Date_Is_Past</name>
+        <assignmentItems>
+            <assignToReference>CloseDateIsPast</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Set_Success</targetReference>
+        </connector>
+    </assignments>
+    <assignments>
+        <description>Set success output after the check completes.</description>
+        <label>Set Success</label>
+        <locationX>176</locationX>
+        <locationY>720</locationY>
+        <name>Set_Success</name>
+        <assignmentItems>
+            <assignToReference>Success</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <booleanValue>true</booleanValue>
+            </value>
+        </assignmentItems>
+    </assignments>
+    <variables>
+        <description>18-character Salesforce Record ID of the Opportunity to check.</description>
+        <name>OpportunityId</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>Optional proposed close date submitted by the user. Used only to evaluate whether the date is in the past. No write occurs.</description>
+        <name>ProposedCloseDate</name>
+        <dataType>Date</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+    <variables>
+        <description>True when ProposedCloseDate is populated and is earlier than the current date. Agent must surface a warning before Confirm HITL.</description>
+        <name>CloseDateIsPast</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+        <value>
+            <booleanValue>false</booleanValue>
+        </value>
+    </variables>
+    <variables>
+        <description>StageName on the Opportunity at time of check.</description>
+        <name>CurrentStageName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>CloseDate on the Opportunity at time of check.</description>
+        <name>CurrentCloseDate</name>
+        <dataType>Date</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>NextStep on the Opportunity at time of check.</description>
+        <name>CurrentNextStep</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>Name of the Opportunity returned for agent display.</description>
+        <name>OpportunityName</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>True when the Opportunity was found and the check completed.</description>
+        <name>Success</name>
+        <dataType>Boolean</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>Error message when Success is false.</description>
+        <name>ErrorMessage</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
+        <description>Opportunity record retrieved for the check. Not exposed as output.</description>
+        <name>var_Opportunity</name>
+        <dataType>SObject</dataType>
+        <isCollection>false</isCollection>
+        <isInput>false</isInput>
+        <isOutput>false</isOutput>
+        <objectType>Opportunity</objectType>
+    </variables>
+</Flow>
