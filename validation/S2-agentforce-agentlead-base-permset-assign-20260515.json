@@ -1,0 +1,21 @@
+﻿{
+  "status": 0,
+  "result": {
+    "successes": [
+      {
+        "name": "sdr_digital_agent-s4ahbarhynuf@00dud000007zf69.ext",
+        "value": "AgentforceServiceAgentBase"
+      },
+      {
+        "name": "sdr_digital_agent-s4ahbarhynuf@00dud000007zf69.ext",
+        "value": "AgentforceServiceAgentUser"
+      },
+      {
+        "name": "sdr_digital_agent-s4ahbarhynuf@00dud000007zf69.ext",
+        "value": "EinsteinGPTPromptTemplateUser"
+      }
+    ],
+    "failures": []
+  },
+  "warnings": []
+}

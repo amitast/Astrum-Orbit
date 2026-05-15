@@ -1,0 +1,21 @@
+﻿{
+  "status": 0,
+  "result": {
+    "messages": [
+      {
+        "type": "Inform",
+        "id": "a1b727137ed44c988ae82f9a28984c22",
+        "metrics": {},
+        "feedbackId": "9959b7ae-e241-4374-bed8-0dec367f151b",
+        "planId": "9959b7ae-e241-4374-bed8-0dec367f151b",
+        "isContentSafe": true,
+        "message": "I found three Opportunities with \"Phase 2\" in the name:\n\nPhase 2 - Global - Oncology - CO1 (Account: Test Account 1, Stage: Bid Defense, Close Date: 2046-08-16, Owner: Tom Frearson)\nPhase 2 - Global - Oncology - CO2 (Account: Test Account 1, Stage: Proposal Sent, Close Date: 2026-03-06, Owner: Tom Frearson)\nPhase 2 - Global - Oncology - WO1 (Account: Test Account 1, Stage: Proposal Sent, Close Date: 2026-02-13, Owner: Tom Frearson)\n\nPlease specify which Opportunity you would like to view or update.",
+        "result": [],
+        "citedReferences": []
+      }
+    ],
+    "agentApiName": "Astrum_BD_Agent_S2_Runtime",
+    "sessionId": "3e36c861-b652-4fa3-bad5-d45164cb5618"
+  },
+  "warnings": []
+}

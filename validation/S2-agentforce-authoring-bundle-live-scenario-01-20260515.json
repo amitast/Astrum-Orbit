@@ -1,0 +1,21 @@
+﻿{
+  "status": 0,
+  "result": {
+    "messages": [
+      {
+        "type": "Inform",
+        "id": "cd1ba458f23d477f9d01dca756ba8e14",
+        "metrics": {},
+        "feedbackId": "0e23e261-a3e7-44f4-8f28-b770d22cb050",
+        "planId": "0e23e261-a3e7-44f4-8f28-b770d22cb050",
+        "isContentSafe": true,
+        "message": "Here is the current status of the Opportunity \"Phase 2 - Global - Oncology - CO1\" for Test Account 1:\n\nStage: Bid Defense\nClose Date: 2046-08-16\nForecast Category: Pipeline\nService Fees: 50,000\nBusiness Category: Phase I-NIS\nTherapeutic Area: Radiology\nStudy Phase Type: Phase I\nBusiness Type: Change Order\n\nThere is no visible next step currently recorded for this Opportunity.\n\nWould you like to add a next step or update any details for this Opportunity?",
+        "result": [],
+        "citedReferences": []
+      }
+    ],
+    "agentApiName": "Astrum_BD_Agent_S2_Runtime",
+    "sessionId": "3e36c861-b652-4fa3-bad5-d45164cb5618"
+  },
+  "warnings": []
+}

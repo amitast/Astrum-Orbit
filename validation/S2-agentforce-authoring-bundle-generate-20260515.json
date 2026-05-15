@@ -1,0 +1,9 @@
+﻿{
+  "status": 0,
+  "result": {
+    "agentPath": "force-app\\main\\default\\aiAuthoringBundles\\Astrum_BD_Agent_S2_Runtime\\Astrum_BD_Agent_S2_Runtime.agent",
+    "metaXmlPath": "force-app\\main\\default\\aiAuthoringBundles\\Astrum_BD_Agent_S2_Runtime\\Astrum_BD_Agent_S2_Runtime.bundle-meta.xml",
+    "outputDir": "force-app\\main\\default\\aiAuthoringBundles\\Astrum_BD_Agent_S2_Runtime"
+  },
+  "warnings": []
+}

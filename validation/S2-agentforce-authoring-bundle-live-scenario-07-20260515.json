@@ -1,0 +1,21 @@
+﻿{
+  "status": 0,
+  "result": {
+    "messages": [
+      {
+        "type": "Inform",
+        "id": "ba877ab0d0074e34a8391ab2ad4261b0",
+        "metrics": {},
+        "feedbackId": "b42393a0-7588-439f-8207-f01de966dd35",
+        "planId": "b42393a0-7588-439f-8207-f01de966dd35",
+        "isContentSafe": true,
+        "message": "This request is handled by the Data Quality and Hygiene process, not Opportunity Management. No Opportunity action was run. If you need to take action on a specific Opportunity or want help interpreting pipeline hygiene results, let me know how I can assist further.",
+        "result": [],
+        "citedReferences": []
+      }
+    ],
+    "agentApiName": "Astrum_BD_Agent_S2_Runtime",
+    "sessionId": "3e36c861-b652-4fa3-bad5-d45164cb5618"
+  },
+  "warnings": []
+}

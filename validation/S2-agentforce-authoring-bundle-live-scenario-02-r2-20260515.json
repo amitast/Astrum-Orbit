@@ -1,0 +1,21 @@
+﻿{
+  "status": 0,
+  "result": {
+    "messages": [
+      {
+        "type": "Inform",
+        "id": "859cc5c2472c4ef1ae5f6543ccdd1b75",
+        "metrics": {},
+        "feedbackId": "d4ce5544-fc96-41d2-8061-210b6e855d09",
+        "planId": "d4ce5544-fc96-41d2-8061-210b6e855d09",
+        "isContentSafe": true,
+        "message": "I found 6 opportunities for \"Test Account 1\":\n\nPhase 2 - Global - Oncology - CO1 (Stage: Bid Defense, Close Date: 2046-08-16, Code: 12)\nPhase 2 - Global - Oncology - CO2 (Stage: Proposal Sent, Close Date: 2026-03-06, Code: 12)\nPhase 3 - Global - Oncology - Proposal (Stage: Proposal Sent, Close Date: 2026-02-13, Code: 7)\nPhase 2 - Global - Oncology - WO1 (Stage: Proposal Sent, Close Date: 2026-02-13, Code: 6)\nPhase 4 - Global - Oncology (Stage: Proposal Sent, Close Date: 2026-02-13, Code: 8)\nTest Account 1- (Stage: Pre-Identification, Close Date: 2026-03-31)\n\nPlease specify which Opportunity you want to view or update.",
+        "result": [],
+        "citedReferences": []
+      }
+    ],
+    "agentApiName": "Astrum_BD_Agent_S2_Runtime",
+    "sessionId": "3938d341-edbc-490f-9651-6f31fc4a00a9"
+  },
+  "warnings": []
+}

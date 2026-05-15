@@ -1,0 +1,21 @@
+﻿{
+  "status": 0,
+  "result": {
+    "messages": [
+      {
+        "type": "Inform",
+        "id": "43e6e44ca423453da5b1cc4f60650229",
+        "metrics": {},
+        "feedbackId": "ca018048-89cc-46b1-aab5-ce1a22bb199b",
+        "planId": "ca018048-89cc-46b1-aab5-ce1a22bb199b",
+        "isContentSafe": true,
+        "message": "You want to add the next step \"schedule sponsor follow-up next Friday\" to the Opportunity \"Phase 2 - Global - Oncology - CO1.\" Please confirm you want to proceed with this update before I make any changes.",
+        "result": [],
+        "citedReferences": []
+      }
+    ],
+    "agentApiName": "Astrum_BD_Agent_S2_Runtime",
+    "sessionId": "3e36c861-b652-4fa3-bad5-d45164cb5618"
+  },
+  "warnings": []
+}

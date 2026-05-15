@@ -121,6 +121,24 @@ Salesforce describe marked these fields as not field-permissionable in this org,
 
 Runtime configuration evidence is recorded in `validation/S2-agentforce-sandbox-configuration-20260514.md`.
 
+## 2026-05-15 Runtime UAT Addendum
+
+Codex used Salesforce Agentforce DX's supported authoring-bundle preview path to work around the hidden/null Bot User field on the published sandbox agent. Live-action preview started successfully for sandbox harness `Astrum_BD_Agent_S2_Runtime`, using Agent Lead as `default_agent_user`.
+
+Detailed evidence and scenario results are recorded in:
+
+- `validation/S2-opportunity-management-runtime-uat-20260515.md`
+
+Summary:
+
+| Result | Count | Notes |
+|---|---:|---|
+| PASS | 8 | Live-action UAT passed for details, search, next-step confirmation, delete refusal, S3 redirect, S1 redirect, status summary, and multiple-match candidate selection. |
+| PARTIAL | 1 | Stage update scenario held Confirm HITL and did not write, but did not reliably display current values in the confirmation prompt. |
+| FAIL | 1 | Past close-date scenario held Confirm HITL but did not explicitly warn that `2026-01-01` was in the past before asking for confirmation. |
+
+Recommended remediation: add a no-write precheck action before `AGENT_UpdateOpportunityProgress` so past close-date warnings are deterministic before Confirm HITL.
+
 ## Open Validation Items
 
 | Item | Status | Owner |

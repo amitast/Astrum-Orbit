@@ -1,0 +1,21 @@
+﻿{
+  "status": 0,
+  "result": {
+    "messages": [
+      {
+        "type": "Inform",
+        "id": "e24a212fcbf44b20afbd9b2a4c9b65a6",
+        "metrics": {},
+        "feedbackId": "4d26a808-fb09-4cc9-9a48-fe0b954a5370",
+        "planId": "4d26a808-fb09-4cc9-9a48-fe0b954a5370",
+        "isContentSafe": true,
+        "message": "You want to move \"Phase 2 - Global - Oncology - CO1\" to the \"Proposal Sent\" stage and set the next step as \"send final proposal follow-up.\" \n\nDo you confirm you want to update this opportunity as described?",
+        "result": [],
+        "citedReferences": []
+      }
+    ],
+    "agentApiName": "Astrum_BD_Agent_S2_Runtime",
+    "sessionId": "3938d341-edbc-490f-9651-6f31fc4a00a9"
+  },
+  "warnings": []
+}

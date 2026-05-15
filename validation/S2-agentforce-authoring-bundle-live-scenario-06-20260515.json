@@ -1,0 +1,21 @@
+﻿{
+  "status": 0,
+  "result": {
+    "messages": [
+      {
+        "type": "Inform",
+        "id": "e9cc3e95cb1748809b4aba1352e816af",
+        "metrics": {},
+        "feedbackId": "5cbd746c-3007-45fe-a0ed-bf02c9875ebf",
+        "planId": "5cbd746c-3007-45fe-a0ed-bf02c9875ebf",
+        "isContentSafe": true,
+        "message": "I cannot delete Opportunities. If you need to update or close the Opportunity \"Phase 2 - Global - Oncology - CO1,\" I can help with those actions. Would you like to update its stage, details, or mark it as closed instead?",
+        "result": [],
+        "citedReferences": []
+      }
+    ],
+    "agentApiName": "Astrum_BD_Agent_S2_Runtime",
+    "sessionId": "3e36c861-b652-4fa3-bad5-d45164cb5618"
+  },
+  "warnings": []
+}

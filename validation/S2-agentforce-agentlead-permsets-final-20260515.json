@@ -1,0 +1,56 @@
+﻿{
+  "status": 0,
+  "result": {
+    "records": [
+      {
+        "attributes": {
+          "type": "PermissionSetAssignment",
+          "url": "/services/data/v66.0/sobjects/PermissionSetAssignment/0PaUD00000JawCH0AZ"
+        },
+        "AssigneeId": "005UD00000OkslyYAB",
+        "Assignee": {
+          "attributes": {
+            "type": "User",
+            "url": "/services/data/v66.0/sobjects/User/005UD00000OkslyYAB"
+          },
+          "Username": "sdr_digital_agent-s4ahbarhynuf@00dud000007zf69.ext"
+        },
+        "PermissionSetId": "0PSUD00000107wz4AA",
+        "PermissionSet": {
+          "attributes": {
+            "type": "PermissionSet",
+            "url": "/services/data/v66.0/sobjects/PermissionSet/0PSUD00000107wz4AA"
+          },
+          "Name": "Astrum_BD_Agent_PS",
+          "Label": "Astrum BD Agent"
+        }
+      },
+      {
+        "attributes": {
+          "type": "PermissionSetAssignment",
+          "url": "/services/data/v66.0/sobjects/PermissionSetAssignment/0PaUD00000HoRkr0AF"
+        },
+        "AssigneeId": "005UD00000OkslyYAB",
+        "Assignee": {
+          "attributes": {
+            "type": "User",
+            "url": "/services/data/v66.0/sobjects/User/005UD00000OkslyYAB"
+          },
+          "Username": "sdr_digital_agent-s4ahbarhynuf@00dud000007zf69.ext"
+        },
+        "PermissionSetId": "0PSd1000002D688GAC",
+        "PermissionSet": {
+          "attributes": {
+            "type": "PermissionSet",
+            "url": "/services/data/v66.0/sobjects/PermissionSet/0PSd1000002D688GAC"
+          },
+          "Name": "X00ed1000002EHPgAAO",
+          "Label": "00ed1000002EHPgAAO"
+        }
+      }
+    ],
+    "totalSize": 2,
+    "done": true
+  },
+  "warnings": []
+}

@@ -1,0 +1,21 @@
+﻿{
+  "status": 0,
+  "result": {
+    "messages": [
+      {
+        "type": "Inform",
+        "id": "103356469e894c91b4f8f307398da08d",
+        "metrics": {},
+        "feedbackId": "baf41049-01a1-4f4d-b13b-af96ae846a90",
+        "planId": "baf41049-01a1-4f4d-b13b-af96ae846a90",
+        "isContentSafe": true,
+        "message": "This request belongs to Account and Contact Management, not Opportunity Management. No Opportunity action was run. If you need help with Opportunity details or actions, let me know how I can assist.",
+        "result": [],
+        "citedReferences": []
+      }
+    ],
+    "agentApiName": "Astrum_BD_Agent_S2_Runtime",
+    "sessionId": "3e36c861-b652-4fa3-bad5-d45164cb5618"
+  },
+  "warnings": []
+}

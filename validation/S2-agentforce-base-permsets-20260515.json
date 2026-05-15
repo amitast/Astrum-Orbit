@@ -1,0 +1,40 @@
+﻿{
+  "status": 0,
+  "result": {
+    "records": [
+      {
+        "attributes": {
+          "type": "PermissionSet",
+          "url": "/services/data/v66.0/sobjects/PermissionSet/0PSd1000002D6BKGA0"
+        },
+        "Id": "0PSd1000002D6BKGA0",
+        "Name": "AgentforceServiceAgentBase",
+        "Label": "Agentforce Service Agent Object Access",
+        "IsOwnedByProfile": false
+      },
+      {
+        "attributes": {
+          "type": "PermissionSet",
+          "url": "/services/data/v66.0/sobjects/PermissionSet/0PSd1000002D6BNGA0"
+        },
+        "Id": "0PSd1000002D6BNGA0",
+        "Name": "AgentforceServiceAgentUser",
+        "Label": "Agentforce Service Agent User",
+        "IsOwnedByProfile": false
+      },
+      {
+        "attributes": {
+          "type": "PermissionSet",
+          "url": "/services/data/v66.0/sobjects/PermissionSet/0PSd1000002D6BeGAK"
+        },
+        "Id": "0PSd1000002D6BeGAK",
+        "Name": "EinsteinGPTPromptTemplateUser",
+        "Label": "Prompt Template User",
+        "IsOwnedByProfile": false
+      }
+    ],
+    "totalSize": 3,
+    "done": true
+  },
+  "warnings": []
+}
