@@ -12,7 +12,7 @@
     },
     "ResultsSummary" : {
       "title" : "Results Summary",
-      "description" : "Markdown table of matching Opportunity records with no recent action. Present this directly to the user.",
+      "description" : "Bullet-point list of matching Opportunity records with no recent action. Present this directly to the user.",
       "lightning:type" : "lightning__textType",
       "lightning:isPII" : false,
       "copilotAction:isDisplayable" : true,

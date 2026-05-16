@@ -75,33 +75,28 @@ public with sharing class AGENT_FindRecentOpportunities {
             return 'No matching Opportunities were found.';
         }
 
-        List<String> lines = new List<String>{
-            '| Opportunity | Account | Stage | Close Date | Opp Probability | Code | Created | Last Client Interaction | Next Step | Owner | Id |',
-            '|---|---|---|---|---|---|---|---|---|---|---|'
-        };
+        List<String> lines = new List<String>();
         for (Opportunity opp : opportunities) {
-            lines.add('| ' + cell(opp.Name)
-                + ' | ' + cell(opp.Account == null ? null : opp.Account.Name)
-                + ' | ' + cell(opp.StageName)
-                + ' | ' + cell(opp.CloseDate)
-                + ' | ' + cell(opp.Opp_Probability__c)
-                + ' | ' + cell(opp.Opportunity_Code__c)
-                + ' | ' + cell(dateOnly(opp.CreatedDate))
-                + ' | ' + cell(opp.Last_client_interaction_date__c)
-                + ' | ' + cell(opp.NextStep)
-                + ' | ' + cell(opp.Owner == null ? null : opp.Owner.Name)
-                + ' | ' + cell(opp.Id)
-                + ' |');
+            lines.add('- Opportunity: ' + value(opp.Name)
+                + '\n  - Account: ' + value(opp.Account == null ? null : opp.Account.Name)
+                + '\n  - Stage: ' + value(opp.StageName)
+                + '\n  - Close Date: ' + value(opp.CloseDate)
+                + '\n  - Opp Probability: ' + value(opp.Opp_Probability__c)
+                + '\n  - Code: ' + value(opp.Opportunity_Code__c)
+                + '\n  - Created: ' + value(dateOnly(opp.CreatedDate))
+                + '\n  - Last Client Interaction: ' + value(opp.Last_client_interaction_date__c)
+                + '\n  - Next Step: ' + value(opp.NextStep)
+                + '\n  - Owner: ' + value(opp.Owner == null ? null : opp.Owner.Name)
+                + '\n  - Id: ' + value(opp.Id));
         }
         return String.join(lines, '\n');
     }
 
-    private static String cell(Object value) {
+    private static String value(Object value) {
         if (value == null) {
             return '';
         }
         return String.valueOf(value)
-            .replace('|', '\\|')
             .replace('\r', ' ')
             .replace('\n', ' ');
     }
