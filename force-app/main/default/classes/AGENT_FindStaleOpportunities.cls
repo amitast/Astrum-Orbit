@@ -77,25 +77,39 @@ public with sharing class AGENT_FindStaleOpportunities {
             return 'No matching Opportunities were found.';
         }
 
-        List<String> lines = new List<String>();
+        List<String> lines = new List<String>{
+            '| Opportunity | Account | Stage | Close Date | Opp Probability | Code | Created | Last Client Interaction | Next Step | Owner | Id |',
+            '|---|---|---|---|---|---|---|---|---|---|---|'
+        };
         for (Opportunity opp : opportunities) {
-            lines.add('- ' + opp.Name
-                + '; Account: ' + blank(opp.Account == null ? null : opp.Account.Name)
-                + '; Stage: ' + blank(opp.StageName)
-                + '; Close Date: ' + blank(opp.CloseDate)
-                + '; Opp Probability: ' + blank(opp.Opp_Probability__c)
-                + '; Opportunity Code: ' + blank(opp.Opportunity_Code__c)
-                + '; Created Date: ' + blank(opp.CreatedDate)
-                + '; Last Client Interaction: ' + blank(opp.Last_client_interaction_date__c)
-                + '; Next Step: ' + blank(opp.NextStep)
-                + '; Owner: ' + blank(opp.Owner == null ? null : opp.Owner.Name)
-                + '; Id: ' + opp.Id);
+            lines.add('| ' + cell(opp.Name)
+                + ' | ' + cell(opp.Account == null ? null : opp.Account.Name)
+                + ' | ' + cell(opp.StageName)
+                + ' | ' + cell(opp.CloseDate)
+                + ' | ' + cell(opp.Opp_Probability__c)
+                + ' | ' + cell(opp.Opportunity_Code__c)
+                + ' | ' + cell(dateOnly(opp.CreatedDate))
+                + ' | ' + cell(opp.Last_client_interaction_date__c)
+                + ' | ' + cell(opp.NextStep)
+                + ' | ' + cell(opp.Owner == null ? null : opp.Owner.Name)
+                + ' | ' + cell(opp.Id)
+                + ' |');
         }
         return String.join(lines, '\n');
     }
 
-    private static String blank(Object value) {
-        return value == null ? '' : String.valueOf(value);
+    private static String cell(Object value) {
+        if (value == null) {
+            return '';
+        }
+        return String.valueOf(value)
+            .replace('|', '\\|')
+            .replace('\r', ' ')
+            .replace('\n', ' ');
+    }
+
+    private static String dateOnly(Datetime value) {
+        return value == null ? null : value.format('yyyy-MM-dd');
     }
 
     public class NoActionRequest {

@@ -12,7 +12,7 @@
     },
     "ResultsSummary" : {
       "title" : "Results Summary",
-      "description" : "Formatted summary of matching Opportunity records with no recent action. Present this directly to the user.",
+      "description" : "Markdown table of matching Opportunity records with no recent action. Present this directly to the user.",
       "lightning:type" : "lightning__textType",
       "lightning:isPII" : false,
       "copilotAction:isDisplayable" : true,
@@ -24,7 +24,7 @@
       "description" : "Number of Opportunity records returned by the no-recent-action search.",
       "lightning:type" : "lightning__numberType",
       "lightning:isPII" : false,
-      "copilotAction:isDisplayable" : true,
+      "copilotAction:isDisplayable" : false,
       "copilotAction:isUsedByPlanner" : true,
       "copilotAction:useHydratedPrompt" : false
     },

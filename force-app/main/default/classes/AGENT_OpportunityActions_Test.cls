@@ -168,6 +168,7 @@ private class AGENT_OpportunityActions_Test {
         System.assertEquals(1, results.size(), 'One invocable result should be returned.');
         System.assert(results[0].OpportunityCount >= 1, 'Dedicated no-action action should return stale Opportunities.');
         System.assert(results[0].ResultsSummary.contains(opp.Name), 'Results should include the stale seed Opportunity.');
+        System.assert(results[0].ResultsSummary.contains('| Opportunity |'), 'Results should be formatted as a Markdown table.');
         System.assert(results[0].QueryDescription.contains('30'), 'Query description should include the requested days.');
     }
 
@@ -187,6 +188,7 @@ private class AGENT_OpportunityActions_Test {
         System.assertEquals(1, results.size(), 'One invocable result should be returned.');
         System.assert(results[0].OpportunityCount >= 1, 'Dedicated recently-created action should return recent Opportunities.');
         System.assert(results[0].ResultsSummary.contains(opp.Name), 'Results should include the newly created seed Opportunity.');
+        System.assert(results[0].ResultsSummary.contains('| Opportunity |'), 'Results should be formatted as a Markdown table.');
         System.assert(results[0].QueryDescription.contains('5'), 'Query description should include the requested days.');
     }
 
