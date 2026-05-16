@@ -367,8 +367,26 @@ Do not use this subagent for managing opportunities, updating deal stages, captu
             <masterLabel>Summarise Eli Lilly opportunity</masterLabel>
             <utterance>Summarise the current status of the Eli Lilly opportunity.</utterance>
         </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>show_opportunities_no_action_last_30_days</developerName>
+            <language>en_US</language>
+            <masterLabel>Show opportunities no action last 30 days</masterLabel>
+            <utterance>Show me opportunities with no action in last 30 days.</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>search_opportunities_no_action_recently</developerName>
+            <language>en_US</language>
+            <masterLabel>Search opportunities no action recently</masterLabel>
+            <utterance>Search for opportunities with no action recently.</utterance>
+        </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>show_opportunities_created_last_7_days</developerName>
+            <language>en_US</language>
+            <masterLabel>Show opportunities created last 7 days</masterLabel>
+            <utterance>Show me opportunities created in last 7 days.</utterance>
+        </aiPluginUtterances>
         <canEscalate>false</canEscalate>
-        <description>Handles requests to look up, search, create, update, and summarise individual Salesforce Opportunity records. Use this topic when the user asks about a specific deal, opportunity stage, close date, forecast category, service fees, probability, next step, next specific action, or opportunity status summary.
+        <description>Handles requests to look up, search, create, update, and summarise Salesforce Opportunity records. Use this topic when the user asks about a specific deal, opportunity stage, close date, forecast category, service fees, probability, next step, next specific action, opportunity status summary, Opportunities created recently, or Opportunities with no recent client action.
 
 Do not use this topic for account or contact management, cross-pipeline hygiene reports, bulk Opportunity updates, deletion requests, pipeline forecasting views, or external-channel actions. This topic acts on one Opportunity record at a time and every write action must require user confirmation before saving.</description>
         <developerName>Opportunity_Management</developerName>
@@ -443,25 +461,32 @@ Do not use this topic for account or contact management, cross-pipeline hygiene 
             <sortOrder>9</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
-            <description>When the user asks for a pipeline hygiene report, overdue deal list, missing data report, or cross-record quality check, route or redirect to Data Quality and Hygiene.</description>
+            <description>When the user asks to list Opportunities with no action in the last N days, no action recently, or created in the last N days, use Search Opportunities. For no action recently without a number, pass NoActionInLastDays = 30. For created recently without a number, pass CreatedInLastDays = 7. Do not treat these read-only Opportunity list requests as bulk updates.</description>
+            <developerName>opportunity_recency_search</developerName>
+            <language>en_US</language>
+            <masterLabel>Opportunity recency search</masterLabel>
+            <sortOrder>10</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>When the user asks for a broader pipeline hygiene report, overdue deal list, missing data report, or cross-record quality check beyond the supported Search Opportunities filters, route or redirect to Data Quality and Hygiene.</description>
             <developerName>data_quality_boundary_opportunity</developerName>
             <language>en_US</language>
             <masterLabel>Data quality boundary Opportunity</masterLabel>
-            <sortOrder>10</sortOrder>
+            <sortOrder>11</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
             <description>When the user asks for account or contact details, route or redirect to Account and Contact Management.</description>
             <developerName>account_contact_boundary_opportunity</developerName>
             <language>en_US</language>
             <masterLabel>Account contact boundary Opportunity</masterLabel>
-            <sortOrder>11</sortOrder>
+            <sortOrder>12</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
             <description>When generating an Opportunity Status Summary, use only retrieved Salesforce Opportunity and related Account data. Omit blank fields instead of saying unknown.</description>
             <developerName>summary_grounding_only</developerName>
             <language>en_US</language>
             <masterLabel>Summary grounding only</masterLabel>
-            <sortOrder>12</sortOrder>
+            <sortOrder>13</sortOrder>
         </genAiPluginInstructions>
         <language>en_US</language>
         <localActionLinks>
@@ -499,7 +524,7 @@ Do not use this topic for account or contact management, cross-pipeline hygiene 
         </localActions>
         <localActions>
             <fullName>Search_Opportunities</fullName>
-            <description>Search for Opportunity records by opportunity name, account name, stage, owner name, or Opportunity Code. Returns up to 10 candidates with account, stage, close date, Opp_Probability__c, Opportunity Code, owner, and record ID. Use when the user provides a partial opportunity or account name and needs candidates.</description>
+            <description>Search for Opportunity records by opportunity name, account name, stage, owner name, Opportunity Code, created date recency, or stale last-client-action recency. Returns up to 10 candidates with account, stage, close date, Opp_Probability__c, Opportunity Code, created date, last client interaction, next step, owner, and record ID. Use when the user provides a partial opportunity or account name and needs candidates, asks for Opportunities with no action in the last N days, asks for Opportunities with no action recently, or asks for Opportunities created in the last N days.</description>
             <developerName>Search_Opportunities</developerName>
             <invocationTarget>AGENT_SearchOpportunities</invocationTarget>
             <invocationTargetType>apex</invocationTargetType>

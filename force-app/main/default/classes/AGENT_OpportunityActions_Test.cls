@@ -117,6 +117,40 @@ private class AGENT_OpportunityActions_Test {
     }
 
     @IsTest
+    static void searchOpportunitiesSupportsNoRecentActionFilter() {
+        Opportunity opp = createSeedOpportunity('No Recent Action');
+        opp.Last_client_interaction_date__c = Date.today().addDays(-45);
+        update opp;
+
+        AGENT_SearchOpportunities.SearchRequest request = new AGENT_SearchOpportunities.SearchRequest();
+        request.NoActionInLastDays = 30;
+
+        List<AGENT_SearchOpportunities.SearchResult> results =
+            AGENT_SearchOpportunities.searchOpportunities(new List<AGENT_SearchOpportunities.SearchRequest>{ request });
+
+        System.assertEquals(1, results.size(), 'One invocable result should be returned.');
+        System.assert(results[0].OpportunityCount >= 1, 'No-recent-action search should return stale Opportunities.');
+        System.assert(results[0].ResultsSummary.contains(opp.Name), 'Search summary should include the stale seed Opportunity.');
+        System.assert(results[0].ResultsSummary.contains('Last Client Interaction'), 'Search summary should include last interaction context.');
+    }
+
+    @IsTest
+    static void searchOpportunitiesSupportsCreatedInLastDaysFilter() {
+        Opportunity opp = createSeedOpportunity('Created Recently');
+
+        AGENT_SearchOpportunities.SearchRequest request = new AGENT_SearchOpportunities.SearchRequest();
+        request.CreatedInLastDays = 7;
+
+        List<AGENT_SearchOpportunities.SearchResult> results =
+            AGENT_SearchOpportunities.searchOpportunities(new List<AGENT_SearchOpportunities.SearchRequest>{ request });
+
+        System.assertEquals(1, results.size(), 'One invocable result should be returned.');
+        System.assert(results[0].OpportunityCount >= 1, 'Created-recently search should return recent Opportunities.');
+        System.assert(results[0].ResultsSummary.contains(opp.Name), 'Search summary should include the newly created seed Opportunity.');
+        System.assert(results[0].ResultsSummary.contains('Created Date'), 'Search summary should include created date context.');
+    }
+
+    @IsTest
     static void statusSummaryOmitProhibitedLongTextFields() {
         Opportunity opp = createSeedOpportunity('Summary');
 
