@@ -1,0 +1,42 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "QueryDescription" : {
+      "title" : "Query Description",
+      "description" : "Plain English description of the no-recent-action Opportunity search that was run.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "ResultsSummary" : {
+      "title" : "Results Summary",
+      "description" : "Formatted summary of matching Opportunity records with no recent action. Present this directly to the user.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "OpportunityCount" : {
+      "title" : "Opportunity Count",
+      "description" : "Number of Opportunity records returned by the no-recent-action search.",
+      "lightning:type" : "lightning__numberType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    },
+    "ErrorMessage" : {
+      "title" : "Error Message",
+      "description" : "Error message if the no-recent-action Opportunity search could not be executed. Empty when no error occurred.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isDisplayable" : true,
+      "copilotAction:isUsedByPlanner" : true,
+      "copilotAction:useHydratedPrompt" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}

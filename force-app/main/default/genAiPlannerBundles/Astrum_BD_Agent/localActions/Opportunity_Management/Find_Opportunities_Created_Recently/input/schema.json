@@ -1,0 +1,34 @@
+{
+  "unevaluatedProperties" : false,
+  "properties" : {
+    "Days" : {
+      "title" : "Days",
+      "description" : "Number of days from the user's request. For example, pass 5 for 'created in last 5 days'. Leave blank for 'created recently' so the action defaults to 7 days.",
+      "lightning:type" : "lightning__numberType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "AccountName" : {
+      "title" : "Account Name",
+      "description" : "Optional account name filter if the user asks for recently created Opportunities for a specific account.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "StageName" : {
+      "title" : "Stage Name",
+      "description" : "Optional Opportunity stage filter if the user asks for recently created Opportunities in a specific stage.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    },
+    "OwnerName" : {
+      "title" : "Owner Name",
+      "description" : "Optional Opportunity owner name filter if the user asks for recently created Opportunities owned by a specific person.",
+      "lightning:type" : "lightning__textType",
+      "lightning:isPII" : false,
+      "copilotAction:isUserInput" : false
+    }
+  },
+  "lightning:type" : "lightning__objectType"
+}
