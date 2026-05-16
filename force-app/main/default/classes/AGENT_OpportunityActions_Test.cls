@@ -151,6 +151,46 @@ private class AGENT_OpportunityActions_Test {
     }
 
     @IsTest
+    static void findNoRecentActionOpportunitiesReturnsStaleRecords() {
+        Opportunity opp = createSeedOpportunity('Dedicated No Action');
+        opp.Last_client_interaction_date__c = Date.today().addDays(-45);
+        update opp;
+
+        AGENT_FindStaleOpportunities.NoActionRequest request =
+            new AGENT_FindStaleOpportunities.NoActionRequest();
+        request.Days = 30;
+
+        List<AGENT_FindStaleOpportunities.NoActionResult> results =
+            AGENT_FindStaleOpportunities.findNoRecentAction(
+                new List<AGENT_FindStaleOpportunities.NoActionRequest>{ request }
+            );
+
+        System.assertEquals(1, results.size(), 'One invocable result should be returned.');
+        System.assert(results[0].OpportunityCount >= 1, 'Dedicated no-action action should return stale Opportunities.');
+        System.assert(results[0].ResultsSummary.contains(opp.Name), 'Results should include the stale seed Opportunity.');
+        System.assert(results[0].QueryDescription.contains('30'), 'Query description should include the requested days.');
+    }
+
+    @IsTest
+    static void findRecentlyCreatedOpportunitiesReturnsRecentRecords() {
+        Opportunity opp = createSeedOpportunity('Dedicated Created Recently');
+
+        AGENT_FindRecentOpportunities.RecencyRequest request =
+            new AGENT_FindRecentOpportunities.RecencyRequest();
+        request.Days = 5;
+
+        List<AGENT_FindRecentOpportunities.RecencyResult> results =
+            AGENT_FindRecentOpportunities.findRecentlyCreated(
+                new List<AGENT_FindRecentOpportunities.RecencyRequest>{ request }
+            );
+
+        System.assertEquals(1, results.size(), 'One invocable result should be returned.');
+        System.assert(results[0].OpportunityCount >= 1, 'Dedicated recently-created action should return recent Opportunities.');
+        System.assert(results[0].ResultsSummary.contains(opp.Name), 'Results should include the newly created seed Opportunity.');
+        System.assert(results[0].QueryDescription.contains('5'), 'Query description should include the requested days.');
+    }
+
+    @IsTest
     static void statusSummaryOmitProhibitedLongTextFields() {
         Opportunity opp = createSeedOpportunity('Summary');
 

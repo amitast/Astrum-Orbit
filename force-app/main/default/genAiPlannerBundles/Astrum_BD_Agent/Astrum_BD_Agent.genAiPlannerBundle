@@ -385,6 +385,12 @@ Do not use this subagent for managing opportunities, updating deal stages, captu
             <masterLabel>Show opportunities created last 7 days</masterLabel>
             <utterance>Show me opportunities created in last 7 days.</utterance>
         </aiPluginUtterances>
+        <aiPluginUtterances>
+            <developerName>search_opportunities_created_last_5_days</developerName>
+            <language>en_US</language>
+            <masterLabel>Search opportunities created last 5 days</masterLabel>
+            <utterance>Search for opportunities created in last 5 days.</utterance>
+        </aiPluginUtterances>
         <canEscalate>false</canEscalate>
         <description>Handles requests to look up, search, create, update, and summarise Salesforce Opportunity records. Use this topic when the user asks about a specific deal, opportunity stage, close date, forecast category, service fees, probability, next step, next specific action, opportunity status summary, Opportunities created recently, or Opportunities with no recent client action.
 
@@ -461,32 +467,39 @@ Do not use this topic for account or contact management, cross-pipeline hygiene 
             <sortOrder>9</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
-            <description>When the user asks to list Opportunities with no action in the last N days, no action recently, or created in the last N days, use Search Opportunities. For no action recently without a number, pass NoActionInLastDays = 30. For created recently without a number, pass CreatedInLastDays = 7. Do not treat these read-only Opportunity list requests as bulk updates.</description>
+            <description>When the user asks to list Opportunities with no action in the last N days, no action recently, stale activity, or no recent client interaction, always invoke Find Opportunities With No Recent Action. Pass the number of days from the user's request as Days. If the user says no action recently without a number, leave Days blank so the action uses 30 days. Do not answer from memory and do not send the user to a dashboard.</description>
             <developerName>opportunity_recency_search</developerName>
             <language>en_US</language>
-            <masterLabel>Opportunity recency search</masterLabel>
+            <masterLabel>Opportunity no action search</masterLabel>
             <sortOrder>10</sortOrder>
+        </genAiPluginInstructions>
+        <genAiPluginInstructions>
+            <description>When the user asks to list Opportunities created in the last N days or created recently, always invoke Find Opportunities Created Recently. Pass the number of days from the user's request as Days. If the user says created recently without a number, leave Days blank so the action uses 7 days. Do not answer from memory and do not send the user to a dashboard.</description>
+            <developerName>opportunity_created_recently_search</developerName>
+            <language>en_US</language>
+            <masterLabel>Opportunity created recently search</masterLabel>
+            <sortOrder>11</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
             <description>When the user asks for a broader pipeline hygiene report, overdue deal list, missing data report, or cross-record quality check beyond the supported Search Opportunities filters, route or redirect to Data Quality and Hygiene.</description>
             <developerName>data_quality_boundary_opportunity</developerName>
             <language>en_US</language>
             <masterLabel>Data quality boundary Opportunity</masterLabel>
-            <sortOrder>11</sortOrder>
+            <sortOrder>12</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
             <description>When the user asks for account or contact details, route or redirect to Account and Contact Management.</description>
             <developerName>account_contact_boundary_opportunity</developerName>
             <language>en_US</language>
             <masterLabel>Account contact boundary Opportunity</masterLabel>
-            <sortOrder>12</sortOrder>
+            <sortOrder>13</sortOrder>
         </genAiPluginInstructions>
         <genAiPluginInstructions>
             <description>When generating an Opportunity Status Summary, use only retrieved Salesforce Opportunity and related Account data. Omit blank fields instead of saying unknown.</description>
             <developerName>summary_grounding_only</developerName>
             <language>en_US</language>
             <masterLabel>Summary grounding only</masterLabel>
-            <sortOrder>13</sortOrder>
+            <sortOrder>14</sortOrder>
         </genAiPluginInstructions>
         <language>en_US</language>
         <localActionLinks>
@@ -494,6 +507,12 @@ Do not use this topic for account or contact management, cross-pipeline hygiene 
         </localActionLinks>
         <localActionLinks>
             <functionName>Search_Opportunities</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Find_Opportunities_With_No_Recent_Action</functionName>
+        </localActionLinks>
+        <localActionLinks>
+            <functionName>Find_Opportunities_Created_Recently</functionName>
         </localActionLinks>
         <localActionLinks>
             <functionName>Create_Opportunity</functionName>
@@ -533,6 +552,30 @@ Do not use this topic for account or contact management, cross-pipeline hygiene 
             <localDeveloperName>Search_Opportunities</localDeveloperName>
             <masterLabel>Search Opportunities</masterLabel>
             <progressIndicatorMessage>Searching opportunities</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Find_Opportunities_With_No_Recent_Action</fullName>
+            <description>Find Opportunities With No Recent Action. Read-only action. Always use when the user asks for Opportunities with no action in the last N days, no action recently, stale activity, or no recent client interaction. Pass Days from the user's wording, for example 30 for "last 30 days"; leave blank for "recently" so the action defaults to 30 days. Returns up to 10 Opportunities with account, stage, close date, Opp_Probability__c, created date, last client interaction, next step, owner, and record ID.</description>
+            <developerName>Find_Opportunities_With_No_Recent_Action</developerName>
+            <invocationTarget>AGENT_FindStaleOpportunities</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Find_Opportunities_With_No_Recent_Action</localDeveloperName>
+            <masterLabel>Find Opportunities With No Recent Action</masterLabel>
+            <progressIndicatorMessage>Finding opportunities with no recent action</progressIndicatorMessage>
+        </localActions>
+        <localActions>
+            <fullName>Find_Opportunities_Created_Recently</fullName>
+            <description>Find Opportunities Created Recently. Read-only action. Always use when the user asks for Opportunities created in the last N days or created recently. Pass Days from the user's wording, for example 5 for "last 5 days"; leave blank for "recently" so the action defaults to 7 days. Returns up to 10 Opportunities with account, stage, close date, Opp_Probability__c, created date, last client interaction, next step, owner, and record ID.</description>
+            <developerName>Find_Opportunities_Created_Recently</developerName>
+            <invocationTarget>AGENT_FindRecentOpportunities</invocationTarget>
+            <invocationTargetType>apex</invocationTargetType>
+            <isConfirmationRequired>false</isConfirmationRequired>
+            <isIncludeInProgressIndicator>true</isIncludeInProgressIndicator>
+            <localDeveloperName>Find_Opportunities_Created_Recently</localDeveloperName>
+            <masterLabel>Find Opportunities Created Recently</masterLabel>
+            <progressIndicatorMessage>Finding recently created opportunities</progressIndicatorMessage>
         </localActions>
         <localActions>
             <fullName>Create_Opportunity</fullName>
@@ -597,7 +640,7 @@ Do not use this topic for account or contact management, cross-pipeline hygiene 
         <localDeveloperName>Opportunity_Management</localDeveloperName>
         <masterLabel>Opportunity Management</masterLabel>
         <pluginType>Topic</pluginType>
-        <scope>Handles requests to look up, search, create, update, and summarise individual Salesforce Opportunity records. Use this topic when the user asks about a specific deal, opportunity stage, close date, forecast category, service fees, probability, next step, next specific action, or opportunity status summary. Do not use this topic for account or contact management, cross-pipeline hygiene reports, bulk Opportunity updates, deletion requests, pipeline forecasting views, or external-channel actions.</scope>
+        <scope>Handles requests to look up, search, create, update, and summarise Salesforce Opportunity records. Use this topic when the user asks about a specific deal, opportunity stage, close date, forecast category, service fees, probability, next step, next specific action, opportunity status summary, Opportunities created recently, or Opportunities with no recent client action. Do not use this topic for account or contact management, broad pipeline hygiene reports, bulk Opportunity updates, deletion requests, pipeline forecasting views, or external-channel actions.</scope>
     </localTopics>
     <masterLabel>Astrum BD Agent</masterLabel>
     <plannerActions>
